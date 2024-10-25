@@ -4,12 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -46,14 +48,17 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	//COMO 
 	
-	private JPanel pComo;
+	private JPanel pComo, pFEnvio, pRecog, pEntrega, pRecYEnt, pEntrega2, pRecog2;
 	
-	private JLabel txtFEnvio, txtRecog, txtCasoRecog, txtEntrega, aceptarCond;
-	
-	private JTextField campoDescrip, campoTarj, campoFTarj, campoCVV, campoDni;
+	private JLabel txtFEnvio, txtRecog; 
 	
 	private JDateChooser dateChooser;
 	
+	private JRadioButton radPtoRecog, radDomic, radEstandar, radSuper, radPremium;
+	
+	private JComboBox<String> comboRecog;
+	
+	private ButtonGroup tipoEnvioGrupo, recogidaGrupo;
 	
 	//PAGO 
 	
@@ -75,6 +80,7 @@ public class VentanaHacerEnvio extends JFrame{
 		btnVolver = new JButton("<-");
 		
 		pQue = new JPanel(new GridLayout(4, 1));
+		pComo = new JPanel();
 		
 		pNorte = new JPanel(new GridLayout(1,2));
 		pNorte2 = new JPanel();
@@ -204,11 +210,92 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	txtInfo.setBorder(new EmptyBorder(0, 210, 0, 0));
 	
+	
+	
+	
+	
+	
+	
+	
+	
 	//TAB COMO
 	
+	txtFEnvio = new JLabel("Fecha de recogida:");
+	txtRecog = new JLabel("Recogida:");
+	
+	radPtoRecog = new JRadioButton("Punto de recogida");
+	radDomic = new JRadioButton("Usar mi direccion");
+	
+	radEstandar = new JRadioButton("Estandar\n (En 8/12 dias)");
+	radSuper = new JRadioButton("Superior\n (En 6/10 dias)");
+	radPremium = new JRadioButton("Premium\n (En 2 dias)");
+	
+	comboRecog = new JComboBox<String>();
+	comboRecog.setEnabled(false);
+	
+	tipoEnvioGrupo = new ButtonGroup();
+	recogidaGrupo = new ButtonGroup();
+	
+	pFEnvio = new JPanel();
+	pRecog = new JPanel();
+	pEntrega = new JPanel();
+	pRecYEnt = new JPanel();
+	pEntrega2 = new JPanel(new GridLayout(3,1));
+	pRecog2 = new JPanel(new GridLayout(3,1));
+	
+	
+	dateChooser = new JDateChooser();
+	dateChooser.setDateFormatString("dd/MM/yyyy");
+	
+	recogidaGrupo.add(radPtoRecog);
+	recogidaGrupo.add(radDomic);
+	
+	tipoEnvioGrupo.add(radEstandar);
+	tipoEnvioGrupo.add(radPremium);
+	tipoEnvioGrupo.add(radSuper);
+	
+	pFEnvio.add(txtFEnvio);
+	pFEnvio.add(dateChooser);
+	
+	pRecog2.add(radPtoRecog);
+	pRecog2.add(comboRecog);
+	pRecog2.add(radDomic);
+	
+
+	pEntrega2.add(radEstandar);
+	pEntrega2.add(radSuper);
+	pEntrega2.add(radPremium);
+
+	pEntrega.add(pEntrega2);
+	
+	
+	pRecog.add(txtRecog);
+	pRecog.add(pRecog2);
+	
+	pRecYEnt.add(pRecog);
+	pRecYEnt.add(pEntrega);
+	
+	pComo.add(pFEnvio);
+	pComo.add(pRecYEnt);
+
+	add(pComo);
+	
+	
+	pComo.setBackground(Color.ORANGE);
+	pFEnvio.setBackground(Color.BLUE);
+	pRecog.setBackground(Color.PINK);
+	pEntrega.setBackground(Color.YELLOW);
+	pRecYEnt.setBackground(Color.MAGENTA);
+	pEntrega2.setBackground(Color.GREEN);
+	pRecog2.setBackground(Color.RED);
 	
 	//TAB PAGO
 	//TAB REVISION
+	
+	
+	
+	
+	
 	
 	
 	
