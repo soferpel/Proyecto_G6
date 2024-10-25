@@ -3,7 +3,6 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -13,13 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
-
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
+import com.toedter.calendar.JDateChooser;
 
 
 public class VentanaHacerEnvio extends JFrame{
@@ -52,6 +47,12 @@ public class VentanaHacerEnvio extends JFrame{
 	//COMO 
 	
 	private JPanel pComo;
+	
+	private JLabel txtFEnvio, txtRecog, txtCasoRecog, txtEntrega, aceptarCond;
+	
+	private JTextField campoDescrip, campoTarj, campoFTarj, campoCVV, campoDni;
+	
+	private JDateChooser dateChooser;
 	
 	
 	//PAGO 
