@@ -109,6 +109,8 @@ public class VentanaHacerEnvio extends JFrame{
 		pBtnAnterior = new JPanel();
 		pBtnSiguiente = new JPanel();
 		
+		pNorte2.setBorder(new EmptyBorder(0,0,0,150));
+		txtCrearEnvio.setBorder(new EmptyBorder(0,40,0,0));
 		
 	//TAB DONDE
 	
