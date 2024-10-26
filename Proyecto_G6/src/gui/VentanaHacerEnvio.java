@@ -3,7 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-
+import java.awt.Font;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -29,10 +29,13 @@ public class VentanaHacerEnvio extends JFrame{
 	private JLabel txtCrearEnvio;
 	private JPanel  pNorte, pNorte2, pNorte3,
 					pSur, pBtnAnterior, pBtnSiguiente;
+	private Font fontGrande = new Font("Arial", Font.PLAIN, 15);
+	
 	
 	//DONDE
 	
 	private JPanel pDonde;
+	
 	
 	//QUE
 	
@@ -46,11 +49,12 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	private JComboBox<String> comboEmbalaje;
 	
+	
 	//COMO 
 	
-	private JPanel pComo, pFEnvio, pRecog, pEntrega, pRecYEnt, pEntrega2, pRecog2;
+	private JPanel pComo, pTxtRecog, pFRecog, pEntrega, pRecYEnt, pRecog2;
 	
-	private JLabel txtFEnvio, txtRecog; 
+	private JLabel txtFEnvio, txtRecog, txtPrecioEnvio; 
 	
 	private JDateChooser dateChooser;
 	
@@ -60,14 +64,28 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	private ButtonGroup tipoEnvioGrupo, recogidaGrupo;
 	
+	
 	//PAGO 
 	
-	private JPanel pPago;
+	private JPanel pPago, pNTarjeta, pFCad, pCVV, pDNI, pFactura, pMetodos, pTarjeta;
 	
+	private JLabel txtNTarjeta, txtFCad, txtCVV, txtDNI;
+	
+	private JTextField campoNTarjeta, campoCVV, campoDNI;
+	
+	private JRadioButton radTarjeta, radContra;
+	
+	private ButtonGroup pagoGrupo;
+	
+	private JCheckBox checkFactura;
+	
+	private JDateChooser datechooserTarj;
 	
 	//REVISION
 	
 	private JPanel pRev;
+	
+	
 	
 	public VentanaHacerEnvio() {
 		
@@ -81,6 +99,7 @@ public class VentanaHacerEnvio extends JFrame{
 		
 		pQue = new JPanel(new GridLayout(4, 1));
 		pComo = new JPanel();
+		pPago = new JPanel();
 		
 		pNorte = new JPanel(new GridLayout(1,2));
 		pNorte2 = new JPanel();
@@ -91,17 +110,6 @@ public class VentanaHacerEnvio extends JFrame{
 		pBtnSiguiente = new JPanel();
 		
 		
-	//COMO 
-	//PAGO 
-	//REVISION
-	
-	
-	
-	
-	
-	
-	
-	
 	//TAB DONDE
 	
 	//TAB QUE
@@ -122,16 +130,11 @@ public class VentanaHacerEnvio extends JFrame{
 	campoPeso = new JTextField(10);
 	campoDescripcion = new JTextField(10);
 	
-	
-	
 	checkFragil = new JCheckBox("¿Frágil?");
 	
 	comboEmbalaje = new JComboBox<String>();
 	comboEmbalaje.addItem("Necesita embalaje");
 	comboEmbalaje.addItem("No necesita embalaje");
-	
-	
-	
 	
 	
 	pEmbalaje = new JPanel();
@@ -165,8 +168,6 @@ public class VentanaHacerEnvio extends JFrame{
 	pAltLarAncPes.add(pLargo);
 	pAltLarAncPes.add(pPeso);
 
-	
-	
 	pValor.add(txtValor);
 	pValor.add(campoValor);
 	
@@ -211,37 +212,32 @@ public class VentanaHacerEnvio extends JFrame{
 	txtInfo.setBorder(new EmptyBorder(0, 210, 0, 0));
 	
 	
-	
-	
-	
-	
-	
+
 	
 	
 	//TAB COMO
 	
-	txtFEnvio = new JLabel("Fecha de recogida:");
 	txtRecog = new JLabel("Recogida:");
-	
+	txtFEnvio = new JLabel("Fecha de recogida:");
+	txtPrecioEnvio = new JLabel();
+
 	radPtoRecog = new JRadioButton("Punto de recogida");
-	radDomic = new JRadioButton("Usar mi direccion");
+	radDomic = new JRadioButton("A domicilio");
 	
 	radEstandar = new JRadioButton("Estandar\n (En 8/12 dias)");
 	radSuper = new JRadioButton("Superior\n (En 6/10 dias)");
 	radPremium = new JRadioButton("Premium\n (En 2 dias)");
 	
 	comboRecog = new JComboBox<String>();
-	comboRecog.setEnabled(false);
 	
 	tipoEnvioGrupo = new ButtonGroup();
 	recogidaGrupo = new ButtonGroup();
 	
-	pFEnvio = new JPanel();
-	pRecog = new JPanel();
-	pEntrega = new JPanel();
-	pRecYEnt = new JPanel();
-	pEntrega2 = new JPanel(new GridLayout(3,1));
-	pRecog2 = new JPanel(new GridLayout(3,1));
+	pTxtRecog = new JPanel();
+	pFRecog = new JPanel();
+	pRecYEnt = new JPanel(new GridLayout(1,2, 100, 50));
+	pEntrega = new JPanel(new GridLayout(4,1,0,10));
+	pRecog2 = new JPanel(new GridLayout(4,1,0,10));
 	
 	
 	dateChooser = new JDateChooser();
@@ -254,42 +250,116 @@ public class VentanaHacerEnvio extends JFrame{
 	tipoEnvioGrupo.add(radPremium);
 	tipoEnvioGrupo.add(radSuper);
 	
-	pFEnvio.add(txtFEnvio);
-	pFEnvio.add(dateChooser);
+	pTxtRecog.add(txtRecog);
 	
+	pFRecog.add(txtFEnvio);
+	pFRecog.add(dateChooser);
+	
+	pEntrega.add(radEstandar);
+	pEntrega.add(radSuper);
+	pEntrega.add(radPremium);
+	pEntrega.add(txtPrecioEnvio);
+	
+	pRecog2.add(radDomic);
+	pRecog2.add(pFRecog);
 	pRecog2.add(radPtoRecog);
 	pRecog2.add(comboRecog);
-	pRecog2.add(radDomic);
-	
 
-	pEntrega2.add(radEstandar);
-	pEntrega2.add(radSuper);
-	pEntrega2.add(radPremium);
-
-	pEntrega.add(pEntrega2);
 	
-	
-	pRecog.add(txtRecog);
-	pRecog.add(pRecog2);
-	
-	pRecYEnt.add(pRecog);
+	pRecYEnt.add(pRecog2);
 	pRecYEnt.add(pEntrega);
 	
-	pComo.add(pFEnvio);
+	pComo.add(pTxtRecog);
 	pComo.add(pRecYEnt);
-
+	
 	add(pComo);
 	
 	
-	pComo.setBackground(Color.ORANGE);
-	pFEnvio.setBackground(Color.BLUE);
-	pRecog.setBackground(Color.PINK);
-	pEntrega.setBackground(Color.YELLOW);
-	pRecYEnt.setBackground(Color.MAGENTA);
-	pEntrega2.setBackground(Color.GREEN);
-	pRecog2.setBackground(Color.RED);
+	pFRecog.setBorder(new EmptyBorder(0,40,0,0));
+	comboRecog.setBorder(new EmptyBorder(0,40,0,0));
 	
+	pTxtRecog.setBorder(new EmptyBorder(0,0,150,0));
+	pRecYEnt.setBorder(new EmptyBorder(50,0,0,50));
+	
+    txtRecog.setFont(fontGrande);
+
+    
+    
+    
+    
+    
 	//TAB PAGO
+    
+    txtNTarjeta = new JLabel("Nº Tarjeta:");
+	txtFCad = new JLabel("Fecha Caducidad:");
+	txtCVV = new JLabel("CVV:");
+	txtDNI = new JLabel("DNI:");
+		
+	campoNTarjeta = new JTextField(16);
+	campoCVV = new JTextField(5);
+	campoDNI = new JTextField(5);
+
+	checkFactura = new JCheckBox("¿Factura?");
+	
+	radTarjeta = new JRadioButton("Tarjeta");
+	radContra = new JRadioButton("Contrareembolso");
+	
+	pagoGrupo = new ButtonGroup();	
+	
+	pagoGrupo.add(radTarjeta);
+	pagoGrupo.add(radContra);
+	
+	datechooserTarj = new JDateChooser();
+	datechooserTarj.setDateFormatString("dd/MM/yyyy");
+	
+	pNTarjeta = new JPanel();
+	pFCad = new JPanel();
+	pCVV = new JPanel();
+	pDNI = new JPanel();
+	pTarjeta = new JPanel();
+	pFactura = new JPanel();
+	pMetodos = new JPanel(new GridLayout(3,1));
+
+	pNTarjeta.add(txtNTarjeta);
+	pNTarjeta.add(campoNTarjeta);
+	
+	pFCad.add(txtFCad);
+	pFCad.add(datechooserTarj);
+	
+	pCVV.add(txtCVV);
+	pCVV.add(campoCVV);
+	
+	pTarjeta.add(pNTarjeta);
+	pTarjeta.add(pFCad);
+	pTarjeta.add(pCVV);
+	
+	pMetodos.add(radTarjeta);
+	pMetodos.add(pTarjeta);
+	pMetodos.add(radContra);
+	
+	pDNI.add(txtDNI);
+	pDNI.add(campoDNI);
+	
+	pFactura.add(checkFactura);
+	pFactura.add(pDNI);
+	
+	pPago.add(pMetodos);
+	pPago.add(pFactura);
+	
+	add(pPago);
+	
+	
+	pMetodos.setBorder(new EmptyBorder(40,0,0,0));
+	pTarjeta.setBorder(new EmptyBorder(0,40,0,0));
+	pDNI.setBorder(new EmptyBorder(0,30,0,10));
+	pFactura.setBorder(new EmptyBorder(10,0,0,0));
+	
+	
+	
+	
+	
+
+	
 	//TAB REVISION
 	
 	
