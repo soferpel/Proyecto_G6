@@ -83,8 +83,13 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	//REVISION
 	
-	private JPanel pRev;
+	private JPanel pRev, pRevEnvio, pMedidas, pTYC, pText, pDesde, pHasta, pTipo, pPagos, pRevPeso, pRevAlto, pRevLargo, pRevAncho;
+
+	private JLabel txtEnDesde, txtEnHasta, txtPago, txtEnvios, txtRevLargo, txtRevAncho, txtRevAlto, txtRevPeso, aceptarCond;
 	
+	private JTextField campoEnDesde, campoEnHasta, campoPago , campoEnvios, campoRevLargo, campoRevAncho, campoRevAlto, campoRevPeso;
+
+	private JCheckBox checkTerminos;
 	
 	
 	public VentanaHacerEnvio() {
@@ -100,6 +105,7 @@ public class VentanaHacerEnvio extends JFrame{
 		pQue = new JPanel(new GridLayout(4, 1));
 		pComo = new JPanel();
 		pPago = new JPanel();
+		pRev = new JPanel(); 
 		
 		pNorte = new JPanel(new GridLayout(1,2));
 		pNorte2 = new JPanel();
@@ -357,27 +363,113 @@ public class VentanaHacerEnvio extends JFrame{
 	pFactura.setBorder(new EmptyBorder(10,0,0,0));
 	
 	
-	
-	
-	
 
 	
 	//TAB REVISION
 	
 	
+	txtEnDesde = new JLabel("Desde:");
+	txtEnHasta = new JLabel("Hasta:");
+	txtPago = new JLabel("Pago:");
+	txtEnvios = new JLabel("Tipo Envio:");
+	txtRevLargo = new JLabel("Largo:");
+	txtRevAncho = new JLabel("Ancho:");
+	txtRevAlto = new JLabel("Alto:");
+	txtRevPeso = new JLabel("Peso:");
+	aceptarCond = new JLabel("<html><u>Aceptas terminos y condiciones de uso</u></html>");
+
+	 
+	campoEnDesde = new JTextField(10);
+	campoEnHasta = new JTextField(10);
+	campoPago = new JTextField(8);
+	campoRevLargo = new JTextField(5);
+	campoRevAncho = new JTextField(5);
+	campoRevAlto = new JTextField(5);
+	campoRevPeso = new JTextField(5);
+	campoEnvios = new JTextField(10);
+	
+ 
+	checkTerminos = new JCheckBox();
+	checkTerminos.setEnabled(false);
+	
+	pRev = new JPanel();
+	pRevEnvio = new JPanel(new GridLayout(2,2));
+	pDesde = new JPanel();
+	pHasta = new JPanel();
+	pTipo = new JPanel();
+	pPagos = new JPanel();
+	pMedidas = new JPanel(new GridLayout(2,2));
+	pTYC = new JPanel();
+	pRevPeso = new JPanel();
+	pRevAlto = new JPanel();
+	pRevLargo = new JPanel(); 
+	pRevAncho = new JPanel();
+	pText = new JPanel();
+	
+	 
+	pDesde.add(txtEnDesde);
+	pDesde.add(campoEnDesde);
+	pHasta.add(txtEnHasta);
+	pHasta.add(campoEnHasta);
+	
+	pTipo.add(txtEnvios);
+	pTipo.add(campoEnvios);
+	pPagos.add(txtPago);
+	pPagos.add(campoPago);
+	
+	pRevEnvio.add(pDesde);
+	pRevEnvio.add(pHasta);
+	pRevEnvio.add(pTipo);
+	pRevEnvio.add(pPagos);
+
+	pRevPeso.add(txtRevPeso);
+	pRevPeso.add(campoRevPeso);
+	pRevAlto.add(txtRevAlto);
+	pRevAlto.add(campoRevAlto);
+	pRevAncho.add(txtRevAncho);
+	pRevAncho.add(campoRevAncho);
+	pRevLargo.add(txtRevLargo);
+	pRevLargo.add(campoRevLargo);	
+	 
+	pMedidas.add(pRevPeso);
+	pMedidas.add(pRevAlto);
+	pMedidas.add(pRevAncho);
+	pMedidas.add(pRevLargo);
+
+	
+	pText.add(checkTerminos);
+	pText.add(aceptarCond);
+	
+	pTYC.add(pText);
+	 
+	pRev.add(pRevEnvio);
+	pRev.add(pMedidas);
+	pRev.add(pTYC);
+	 
+	add(pRev);
 	
 	
 	
+	pRev.setBorder(new EmptyBorder(10, 50, 10, 50));
+
+	pMedidas.setBorder(new EmptyBorder(0,40,0,40));
 	
+	pRevEnvio.setBorder(new EmptyBorder(10,40,30,40));
 	
+	pText.setBorder(new EmptyBorder(10,40,40,40));
+		
+	pDesde.setBorder(new EmptyBorder(0,25,0,0));
+	pHasta.setBorder(new EmptyBorder(0,0,0,20));
+	pTipo.setBorder(new EmptyBorder(0,0,0,0));
+	pPagos.setBorder(new EmptyBorder(0,0,0,30));
 	
+	pRevPeso.setBorder(new EmptyBorder(0,20,0,0));
+	pRevAlto.setBorder(new EmptyBorder(0,0,0,20));
+	pRevAncho.setBorder(new EmptyBorder(0,10,0,0));
+	pRevLargo.setBorder(new EmptyBorder(0,0,0,30));
 	
-	
-	
-	
-	
-	
-	
+
+
 	
 	tabEnvios.addTab("DONDE", pDonde);
 	tabEnvios.addTab("QUE", pQue);
