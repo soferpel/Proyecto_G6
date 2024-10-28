@@ -54,8 +54,8 @@ public class VentanaModificarDatos extends JPanel{
 			pTelefono = new JPanel();
 			pCorreo = new JPanel();
 			pPregSeg = new JPanel();
-			pBotones = new JPanel(); // Panel para los botones
-	        pTYC = new JPanel(); // Panel para términos y condiciones
+			pBotones = new JPanel(); 
+	        pTYC = new JPanel(); 
 			
 			txtNom = new JLabel("    Nombre:");
 			txtApel = new JLabel("     Apellido:");
