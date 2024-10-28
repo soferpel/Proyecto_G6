@@ -388,6 +388,15 @@ public class VentanaHacerEnvio extends JFrame{
 	campoRevPeso = new JTextField(5);
 	campoEnvios = new JTextField(10);
 	
+	campoEnDesde.setEditable(false);
+	campoEnHasta.setEditable(false);
+	campoPago.setEditable(false);
+	campoRevLargo.setEditable(false);
+	campoRevAncho.setEditable(false);
+	campoRevAlto.setEditable(false);
+	campoRevPeso.setEditable(false);
+	campoEnvios.setEditable(false);
+	
  
 	checkTerminos = new JCheckBox();
 	checkTerminos.setEnabled(false);
