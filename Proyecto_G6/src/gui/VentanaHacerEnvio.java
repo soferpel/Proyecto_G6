@@ -399,7 +399,7 @@ public class VentanaHacerEnvio extends JFrame{
 	
  
 	checkTerminos = new JCheckBox();
-	checkTerminos.setEnabled(false);
+	checkTerminos.setEnabled(true);
 	
 	pRev = new JPanel();
 	pRevEnvio = new JPanel(new GridLayout(2,2));
