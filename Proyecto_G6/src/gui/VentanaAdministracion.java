@@ -36,7 +36,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class VentanaAdministracion extends JFrame {
 	
-	private JPanel pNorte, pCentro, pBtnVolver;
+	private JPanel pNorte, pNorte2, pCentro, pBtnVolver;
 	private JLabel txtMisEnvios, txtEnviosRealizados, txtRelleno;
 	private JButton btnVolver;
 	private DefaultTableModel modeloTabla;
@@ -50,16 +50,16 @@ public class VentanaAdministracion extends JFrame {
 		pNorte = new JPanel(new GridLayout(1, 5));
 		pCentro = new JPanel(new GridLayout(2, 1));
 		pBtnVolver = new JPanel();
-			
+		pNorte2 = new JPanel();
+		pNorte = new JPanel();
+
+		pNorte2.setBorder(new EmptyBorder(0,0,0,400));
 			
 		txtMisEnvios = new JLabel("Administración");
 		txtEnviosRealizados = new JLabel("Envios realizados");
 		txtRelleno = new JLabel(" ");
 			
-			
-			
 		btnVolver = new JButton("<--");
-			
 			
 			
 		/**CREACION JTABLE*/
@@ -91,11 +91,15 @@ public class VentanaAdministracion extends JFrame {
 	    pCentro.add(Scroll);
 			
 	    pCentro.setBorder(new EmptyBorder(30, 20, 0, 20));
+	    
+	    pNorte2.add(btnVolver);
+		
+	  	pNorte.add(pNorte2);
 
 	    add(pNorte, BorderLayout.NORTH);
 	    add(pCentro, BorderLayout.CENTER);
 			
-	
+	  
 	    setTitle("Administración");
 	    setBounds(300, 200, 600, 400);
 	    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
