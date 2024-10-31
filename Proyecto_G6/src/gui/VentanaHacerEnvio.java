@@ -108,7 +108,8 @@ public class VentanaHacerEnvio extends JFrame{
 		
 		txtCrearEnvio = new JLabel("CREAR ENVÍO:");
 		
-		btnVolver = new JButton("<-");
+		ImageIcon imgVolver = new ImageIcon(getClass().getResource("/Images/volver.png"));
+		btnVolver = new JButton(imgVolver);
 		
 		pQue = new JPanel(new GridLayout(4, 1));
 		pComo = new JPanel();
