@@ -96,6 +96,12 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	public VentanaHacerEnvio() {
 		
+		ImageIcon logo = new ImageIcon(getClass().getResource("/Images/logoPngNegro.png"));
+		JLabel labelImagenLogo = new JLabel(logo);
+		labelImagenLogo.setPreferredSize(new Dimension(350, logo.getIconHeight()));
+		
+		labelImagenLogo.setBorder(new EmptyBorder(0,250,0,0));
+		
 		tabEnvios = new JTabbedPane();
         btnAnterior = new JButton("Anterior");
         btnSiguiente = new JButton("Siguiente");
@@ -485,6 +491,11 @@ public class VentanaHacerEnvio extends JFrame{
 
 
 	
+	
+	
+	
+	
+	
 	tabEnvios.addTab("DONDE", pDonde);
 	tabEnvios.addTab("QUE", pQue);
 	tabEnvios.addTab("COMO", pComo);
@@ -493,15 +504,9 @@ public class VentanaHacerEnvio extends JFrame{
 	tabEnvios.setEnabled(true);
 	
 	
-	
-	
-	ImageIcon logo = new ImageIcon(getClass().getResource("/Images/logoPngNegro.png"));
-	JLabel labelImagenLogo = new JLabel(logo);
-	labelImagenLogo.setPreferredSize(new Dimension(logo.getIconWidth(), logo.getIconHeight()));
-	
 	pNorte2.add(btnVolver);
 	pNorte2.add(txtCrearEnvio);
-	pNorte2.add(labelImagenLogo);
+	pNorte3.add(labelImagenLogo);
 	pNorte.add(pNorte2);
 	pNorte.add(pNorte3);
 	pBtnAnterior.add(btnAnterior);
@@ -511,6 +516,9 @@ public class VentanaHacerEnvio extends JFrame{
 	add(pNorte, BorderLayout.NORTH);
 	add(tabEnvios, BorderLayout.CENTER);
 	add(pSur, BorderLayout.SOUTH);
+	
+
+	
 	
 	setTitle("Hacer envío");
 	setBounds(300, 200, 800, 400);
