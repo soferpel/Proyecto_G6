@@ -193,22 +193,24 @@ public class VentanaHacerEnvio extends JFrame{
 	pQue.add(txtInfo);
 	
 	add(pQue);
-	
-	/*
+
+
 	pEmbalaje.setBackground(Color.BLUE);
 	pQue.setBackground(Color.YELLOW);
 	pAlto.setBackground(Color.PINK);
 	pDescr.setBackground(Color.GREEN);
-	pEmbalaje.setBackground(Color.LIGHT_GRAY);
 	pValor.setBackground(Color.RED);
 	pNQue.setBackground(Color.CYAN);
 	pCQue.setBackground(Color.MAGENTA);
-	*/
+
 	
 	pQue.setBorder(new EmptyBorder(10, 50, 10, 50));
 	
 	pCQue.setBorder(new EmptyBorder(10,0,0,50));
 	pNQue.setBorder(new EmptyBorder(10,0,0,0));
+	
+	pEmbalaje.setBorder(new EmptyBorder(0,0,0,70));
+	pDescr.setBorder(new EmptyBorder(0,0,0,30));
 	
 	pAlto.setBorder(new EmptyBorder(0,30,0,0));
 	pAncho.setBorder(new EmptyBorder(0,0,0,40));
@@ -227,7 +229,7 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	txtRecog = new JLabel("Recogida:");
 	txtFEnvio = new JLabel("Fecha de recogida:");
-	txtPrecioEnvio = new JLabel();
+	txtPrecioEnvio = new JLabel("0.0€");
 
 	radPtoRecog = new JRadioButton("Punto de recogida");
 	radDomic = new JRadioButton("A domicilio");
@@ -288,6 +290,9 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	pTxtRecog.setBorder(new EmptyBorder(0,0,150,0));
 	pRecYEnt.setBorder(new EmptyBorder(50,0,0,50));
+	
+	txtPrecioEnvio.setBorder(new EmptyBorder(0,120,0,0));
+	
 	
     txtRecog.setFont(fontGrande);
 
@@ -356,7 +361,6 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	add(pPago);
 	
-	
 	pMetodos.setBorder(new EmptyBorder(40,0,0,0));
 	pTarjeta.setBorder(new EmptyBorder(0,40,0,0));
 	pDNI.setBorder(new EmptyBorder(0,30,0,10));
@@ -366,7 +370,6 @@ public class VentanaHacerEnvio extends JFrame{
 
 	
 	//TAB REVISION
-	
 	
 	txtEnDesde = new JLabel("Desde:");
 	txtEnHasta = new JLabel("Hasta:");
