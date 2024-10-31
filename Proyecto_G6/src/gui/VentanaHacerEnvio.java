@@ -2,9 +2,11 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Font;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -491,8 +493,15 @@ public class VentanaHacerEnvio extends JFrame{
 	tabEnvios.setEnabled(true);
 	
 	
+	
+	
+	ImageIcon logo = new ImageIcon(getClass().getResource("/Images/logoPngNegro.png"));
+	JLabel labelImagenLogo = new JLabel(logo);
+	labelImagenLogo.setPreferredSize(new Dimension(logo.getIconWidth(), logo.getIconHeight()));
+	
 	pNorte2.add(btnVolver);
 	pNorte2.add(txtCrearEnvio);
+	pNorte2.add(labelImagenLogo);
 	pNorte.add(pNorte2);
 	pNorte.add(pNorte3);
 	pBtnAnterior.add(btnAnterior);
