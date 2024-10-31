@@ -194,7 +194,7 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	add(pQue);
 
-
+/*
 	pEmbalaje.setBackground(Color.BLUE);
 	pQue.setBackground(Color.YELLOW);
 	pAlto.setBackground(Color.PINK);
@@ -202,7 +202,7 @@ public class VentanaHacerEnvio extends JFrame{
 	pValor.setBackground(Color.RED);
 	pNQue.setBackground(Color.CYAN);
 	pCQue.setBackground(Color.MAGENTA);
-
+*/
 	
 	pQue.setBorder(new EmptyBorder(10, 50, 10, 50));
 	
