@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Font;
 import javax.swing.ButtonGroup;
@@ -36,7 +37,11 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	//DONDE
 	
-	private JPanel pDonde;
+	private JPanel pDonde, panelDesde, panelHasta;
+	
+	private JTextField dNombre, dDireccion, dCorreo, dTelefono;
+	
+	private JTextField hNombre, hDireccion, hCorreo, hTelefono;
 	
 	
 	//QUE
@@ -106,7 +111,7 @@ public class VentanaHacerEnvio extends JFrame{
         btnAnterior = new JButton("Anterior");
         btnSiguiente = new JButton("Siguiente");
 		
-		txtCrearEnvio = new JLabel("CREAR ENVÍO:");
+		txtCrearEnvio = new JLabel("CREAR ENVÃ�O:");
 		
 		ImageIcon imgVolver = new ImageIcon(getClass().getResource("/Images/volver.png"));
 		btnVolver = new JButton(imgVolver);
@@ -128,7 +133,66 @@ public class VentanaHacerEnvio extends JFrame{
 		txtCrearEnvio.setBorder(new EmptyBorder(0,40,0,0));
 		
 	//TAB DONDE
+		
+		pDonde = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
+		pDonde.setBorder(new EmptyBorder(20, 40, 20, 40));
+		pDesde = new JPanel(new GridLayout(4, 1));
+		pHasta = new JPanel(new GridLayout(4, 1));
+		pDesde.setBorder(new EmptyBorder(10, 10, 10, 10));
+		pHasta.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+		
+		JLabel lblDesde = new JLabel("DESDE:");
+		JLabel lblDesdeNombre = new JLabel("Nombre:");
+	    dNombre = new JTextField(10);
+	    JLabel lblDesdeDireccion = new JLabel("Dirección:");
+	    dDireccion = new JTextField(10);
+	    JLabel lblDesdeCorreo = new JLabel("Correo:");
+	    dCorreo = new JTextField(10);
+	    JLabel lblDesdeTelefono = new JLabel("Teléfono:");
+	    dTelefono = new JTextField(10);
+	    
+	    pDesde = new JPanel(new GridLayout(5, 2, 10, 10)); 
+	    pDesde.setBorder(new EmptyBorder(10, 20, 10, 20));
+	    pDesde.add(lblDesde); 
+	    pDesde.add(new JLabel());
+	    pDesde.add(lblDesdeNombre);
+	    pDesde.add(dNombre);
+	    pDesde.add(lblDesdeDireccion);
+	    pDesde.add(dDireccion);
+	    pDesde.add(lblDesdeCorreo);
+	    pDesde.add(dCorreo);
+	    pDesde.add(lblDesdeTelefono);
+	    pDesde.add(dTelefono);
 	
+	    JLabel lblHasta = new JLabel("HASTA:");
+	    JLabel lblHastaNombre = new JLabel("Nombre:");
+	    hNombre = new JTextField(10);
+	    JLabel lblHastaDireccion = new JLabel("Dirección:");
+	    hDireccion = new JTextField(10);
+	    JLabel lblHastaCorreo = new JLabel("Correo:");
+	    hCorreo = new JTextField(10);
+	    JLabel lblHastaTelefono = new JLabel("Teléfono:");
+	    hTelefono = new JTextField(10);
+
+	    pHasta = new JPanel(new GridLayout(5, 2, 10, 10));
+	    pHasta.setBorder(new EmptyBorder(10, 20, 10, 20));
+	    pHasta.add(lblHasta); 
+	    pHasta.add(new JLabel()); 
+	    pHasta.add(lblHastaNombre);
+	    pHasta.add(hNombre);
+	    pHasta.add(lblHastaDireccion);
+	    pHasta.add(hDireccion);
+	    pHasta.add(lblHastaCorreo);
+	    pHasta.add(hCorreo);
+	    pHasta.add(lblHastaTelefono);
+	    pHasta.add(hTelefono);
+
+	    pDonde.add(pDesde, BorderLayout.WEST);  
+	    pDonde.add(pHasta, BorderLayout.EAST);  
+
+	    tabEnvios.addTab("DONDE", pDonde);
+	    
 	//TAB QUE
 	
 	txtEmbalado = new JLabel("Embalaje: ");
@@ -138,7 +202,7 @@ public class VentanaHacerEnvio extends JFrame{
 	txtAlto = new JLabel("Alto: ");
 	txtPeso = new JLabel("Peso: ");
 	txtValor = new JLabel("Valor del paquete: ");
-	txtInfo = new JLabel("El nº de referencia se asigna automáticamente.");
+	txtInfo = new JLabel("El nÂº de referencia se asigna automÃ¡ticamente.");
 	
 	campoLargo = new JTextField(10);
 	campoAncho = new JTextField(10);
@@ -147,7 +211,7 @@ public class VentanaHacerEnvio extends JFrame{
 	campoPeso = new JTextField(10);
 	campoDescripcion = new JTextField(10);
 	
-	checkFragil = new JCheckBox("¿Frágil?");
+	checkFragil = new JCheckBox("Â¿FrÃ¡gil?");
 	
 	comboEmbalaje = new JComboBox<String>();
 	comboEmbalaje.addItem("Necesita embalaje");
@@ -238,7 +302,7 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	txtRecog = new JLabel("Recogida:");
 	txtFEnvio = new JLabel("Fecha de recogida:");
-	txtPrecioEnvio = new JLabel("0.0€");
+	txtPrecioEnvio = new JLabel("0.0â‚¬");
 
 	radPtoRecog = new JRadioButton("Punto de recogida");
 	radDomic = new JRadioButton("A domicilio");
@@ -312,7 +376,7 @@ public class VentanaHacerEnvio extends JFrame{
     
 	//TAB PAGO
     
-    txtNTarjeta = new JLabel("Nº Tarjeta:");
+    txtNTarjeta = new JLabel("NÂº Tarjeta:");
 	txtFCad = new JLabel("Fecha Caducidad:");
 	txtCVV = new JLabel("CVV:");
 	txtDNI = new JLabel("DNI:");
@@ -321,7 +385,7 @@ public class VentanaHacerEnvio extends JFrame{
 	campoCVV = new JTextField(5);
 	campoDNI = new JTextField(5);
 
-	checkFactura = new JCheckBox("¿Factura?");
+	checkFactura = new JCheckBox("Â¿Factura?");
 	
 	radTarjeta = new JRadioButton("Tarjeta");
 	radContra = new JRadioButton("Contrareembolso");
@@ -501,7 +565,7 @@ public class VentanaHacerEnvio extends JFrame{
 	tabEnvios.addTab("QUE", pQue);
 	tabEnvios.addTab("COMO", pComo);
 	tabEnvios.addTab("PAGO", pPago);
-	tabEnvios.addTab("REVISIÓN", pRev);
+	tabEnvios.addTab("REVISIÃ“N", pRev);
 	tabEnvios.setEnabled(true);
 	
 	
@@ -521,7 +585,7 @@ public class VentanaHacerEnvio extends JFrame{
 
 	
 	
-	setTitle("Hacer envío");
+	setTitle("Hacer envÃ­o");
 	setBounds(300, 200, 800, 400);
 	setVisible(true);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
