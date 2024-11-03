@@ -37,7 +37,7 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	//DONDE
 	
-	private JPanel pDonde, panelDesde, panelHasta;
+	private JPanel pDonde;
 	
 	private JTextField dNombre, dDireccion, dCorreo, dTelefono;
 	
@@ -101,99 +101,101 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	public VentanaHacerEnvio() {
 		
-		ImageIcon logo = new ImageIcon(getClass().getResource("/Images/logoPngNegro.png"));
-		JLabel labelImagenLogo = new JLabel(logo);
-		labelImagenLogo.setPreferredSize(new Dimension(350, logo.getIconHeight()));
-		
-		labelImagenLogo.setBorder(new EmptyBorder(0,250,0,0));
-		
-		tabEnvios = new JTabbedPane();
-        btnAnterior = new JButton("Anterior");
-        btnSiguiente = new JButton("Siguiente");
-		
-		txtCrearEnvio = new JLabel("CREAR ENVÃ�O:");
-		
-		ImageIcon imgVolver = new ImageIcon(getClass().getResource("/Images/volver.png"));
-		btnVolver = new JButton(imgVolver);
-		
-		pQue = new JPanel(new GridLayout(4, 1));
-		pComo = new JPanel();
-		pPago = new JPanel();
-		pRev = new JPanel(); 
-		
-		pNorte = new JPanel(new GridLayout(1,2));
-		pNorte2 = new JPanel();
-		pNorte3 = new JPanel();
-
-		pSur = new JPanel(new GridLayout(1,2));
-		pBtnAnterior = new JPanel();
-		pBtnSiguiente = new JPanel();
-		
-		pNorte2.setBorder(new EmptyBorder(0,0,0,150));
-		txtCrearEnvio.setBorder(new EmptyBorder(0,40,0,0));
-		
-	//TAB DONDE
-		
-		pDonde = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
-		pDonde.setBorder(new EmptyBorder(20, 40, 20, 40));
-		pDesde = new JPanel(new GridLayout(4, 1));
-		pHasta = new JPanel(new GridLayout(4, 1));
-		pDesde.setBorder(new EmptyBorder(10, 10, 10, 10));
-		pHasta.setBorder(new EmptyBorder(10, 10, 10, 10));
-
-		
-		JLabel lblDesde = new JLabel("DESDE:");
-		JLabel lblDesdeNombre = new JLabel("Nombre:");
-	    dNombre = new JTextField(10);
-	    JLabel lblDesdeDireccion = new JLabel("Dirección:");
-	    dDireccion = new JTextField(10);
-	    JLabel lblDesdeCorreo = new JLabel("Correo:");
-	    dCorreo = new JTextField(10);
-	    JLabel lblDesdeTelefono = new JLabel("Teléfono:");
-	    dTelefono = new JTextField(10);
-	    
-	    pDesde = new JPanel(new GridLayout(5, 2, 10, 10)); 
-	    pDesde.setBorder(new EmptyBorder(10, 20, 10, 20));
-	    pDesde.add(lblDesde); 
-	    pDesde.add(new JLabel());
-	    pDesde.add(lblDesdeNombre);
-	    pDesde.add(dNombre);
-	    pDesde.add(lblDesdeDireccion);
-	    pDesde.add(dDireccion);
-	    pDesde.add(lblDesdeCorreo);
-	    pDesde.add(dCorreo);
-	    pDesde.add(lblDesdeTelefono);
-	    pDesde.add(dTelefono);
+	ImageIcon logo = new ImageIcon(getClass().getResource("/Images/logoPngNegro.png"));
+	JLabel labelImagenLogo = new JLabel(logo);
+	labelImagenLogo.setPreferredSize(new Dimension(350, logo.getIconHeight()));
 	
-	    JLabel lblHasta = new JLabel("HASTA:");
-	    JLabel lblHastaNombre = new JLabel("Nombre:");
-	    hNombre = new JTextField(10);
-	    JLabel lblHastaDireccion = new JLabel("Dirección:");
-	    hDireccion = new JTextField(10);
-	    JLabel lblHastaCorreo = new JLabel("Correo:");
-	    hCorreo = new JTextField(10);
-	    JLabel lblHastaTelefono = new JLabel("Teléfono:");
-	    hTelefono = new JTextField(10);
+	labelImagenLogo.setBorder(new EmptyBorder(0,250,0,0));
+	
+	tabEnvios = new JTabbedPane();
+    btnAnterior = new JButton("Anterior");
+    btnSiguiente = new JButton("Siguiente");
+	
+	txtCrearEnvio = new JLabel("CREAR ENVÍO:");
+	
+	ImageIcon imgVolver = new ImageIcon(getClass().getResource("/Images/volver.png"));
+	btnVolver = new JButton(imgVolver);
+	
+	pQue = new JPanel(new GridLayout(4, 1));
+	pComo = new JPanel();
+	pPago = new JPanel();
+	pRev = new JPanel(); 
+	
+	pNorte = new JPanel(new GridLayout(1,2));
+	pNorte2 = new JPanel();
+	pNorte3 = new JPanel();
 
-	    pHasta = new JPanel(new GridLayout(5, 2, 10, 10));
-	    pHasta.setBorder(new EmptyBorder(10, 20, 10, 20));
-	    pHasta.add(lblHasta); 
-	    pHasta.add(new JLabel()); 
-	    pHasta.add(lblHastaNombre);
-	    pHasta.add(hNombre);
-	    pHasta.add(lblHastaDireccion);
-	    pHasta.add(hDireccion);
-	    pHasta.add(lblHastaCorreo);
-	    pHasta.add(hCorreo);
-	    pHasta.add(lblHastaTelefono);
-	    pHasta.add(hTelefono);
+	pSur = new JPanel(new GridLayout(1,2));
+	pBtnAnterior = new JPanel();
+	pBtnSiguiente = new JPanel();
+	
+	pNorte2.setBorder(new EmptyBorder(0,0,0,150));
+	txtCrearEnvio.setBorder(new EmptyBorder(0,40,0,0));
+	
+//TAB DONDE
+	
+	pDonde = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
+	pDonde.setBorder(new EmptyBorder(20, 40, 20, 40));
+	pDesde = new JPanel(new GridLayout(4, 1));
+	pHasta = new JPanel(new GridLayout(4, 1));
+	pDesde.setBorder(new EmptyBorder(10, 10, 10, 10));
+	pHasta.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-	    pDonde.add(pDesde, BorderLayout.WEST);  
-	    pDonde.add(pHasta, BorderLayout.EAST);  
+	
+	JLabel lblDesde = new JLabel("DESDE:");
+	JLabel lblDesdeNombre = new JLabel("Nombre:");
+    dNombre = new JTextField(10);
+    JLabel lblDesdeDireccion = new JLabel("Dirección:");
+    dDireccion = new JTextField(10);
+    JLabel lblDesdeCorreo = new JLabel("Correo:");
+    dCorreo = new JTextField(10);
+    JLabel lblDesdeTelefono = new JLabel("Teléfono:");
+    dTelefono = new JTextField(10);
+    
+    pDesde = new JPanel(new GridLayout(5, 2, 10, 10)); 
+    pDesde.setBorder(new EmptyBorder(10, 20, 10, 20));
+    pDesde.add(lblDesde); 
+    pDesde.add(new JLabel());
+    pDesde.add(lblDesdeNombre);
+    pDesde.add(dNombre);
+    pDesde.add(lblDesdeDireccion);
+    pDesde.add(dDireccion);
+    pDesde.add(lblDesdeCorreo);
+    pDesde.add(dCorreo);
+    pDesde.add(lblDesdeTelefono);
+    pDesde.add(dTelefono);
 
-	    tabEnvios.addTab("DONDE", pDonde);
+    JLabel lblHasta = new JLabel("HASTA:");
+    JLabel lblHastaNombre = new JLabel("Nombre:");
+    hNombre = new JTextField(10);
+    JLabel lblHastaDireccion = new JLabel("Dirección:");
+    hDireccion = new JTextField(10);
+    JLabel lblHastaCorreo = new JLabel("Correo:");
+    hCorreo = new JTextField(10);
+    JLabel lblHastaTelefono = new JLabel("Teléfono:");
+    hTelefono = new JTextField(10);
+
+    pHasta = new JPanel(new GridLayout(5, 2, 10, 10));
+    pHasta.setBorder(new EmptyBorder(10, 20, 10, 20));
+    pHasta.add(lblHasta); 
+    pHasta.add(new JLabel()); 
+    pHasta.add(lblHastaNombre);
+    pHasta.add(hNombre);
+    pHasta.add(lblHastaDireccion);
+    pHasta.add(hDireccion);
+    pHasta.add(lblHastaCorreo);
+    pHasta.add(hCorreo);
+    pHasta.add(lblHastaTelefono);
+    pHasta.add(hTelefono);
+
+    pDonde.add(pDesde, BorderLayout.WEST);  
+    pDonde.add(pHasta, BorderLayout.EAST);  
+
+    tabEnvios.addTab("DONDE", pDonde);
+    
 	    
-	//TAB QUE
+	    
+//TAB QUE
 	
 	txtEmbalado = new JLabel("Embalaje: ");
 	txtDescripcion = new JLabel("Descripcion: ");
@@ -202,7 +204,7 @@ public class VentanaHacerEnvio extends JFrame{
 	txtAlto = new JLabel("Alto: ");
 	txtPeso = new JLabel("Peso: ");
 	txtValor = new JLabel("Valor del paquete: ");
-	txtInfo = new JLabel("El nÂº de referencia se asigna automÃ¡ticamente.");
+	txtInfo = new JLabel("El nº de referencia se asigna automáticamente.");
 	
 	campoLargo = new JTextField(10);
 	campoAncho = new JTextField(10);
@@ -211,7 +213,7 @@ public class VentanaHacerEnvio extends JFrame{
 	campoPeso = new JTextField(10);
 	campoDescripcion = new JTextField(10);
 	
-	checkFragil = new JCheckBox("Â¿FrÃ¡gil?");
+	checkFragil = new JCheckBox("¿Frágil?");
 	
 	comboEmbalaje = new JComboBox<String>();
 	comboEmbalaje.addItem("Necesita embalaje");
@@ -298,11 +300,11 @@ public class VentanaHacerEnvio extends JFrame{
 
 	
 	
-	//TAB COMO
+//TAB COMO
 	
 	txtRecog = new JLabel("Recogida:");
 	txtFEnvio = new JLabel("Fecha de recogida:");
-	txtPrecioEnvio = new JLabel("0.0â‚¬");
+	txtPrecioEnvio = new JLabel("0.0");
 
 	radPtoRecog = new JRadioButton("Punto de recogida");
 	radDomic = new JRadioButton("A domicilio");
@@ -374,9 +376,9 @@ public class VentanaHacerEnvio extends JFrame{
     
     
     
-	//TAB PAGO
+//TAB PAGO
     
-    txtNTarjeta = new JLabel("NÂº Tarjeta:");
+    txtNTarjeta = new JLabel("Nº Tarjeta:");
 	txtFCad = new JLabel("Fecha Caducidad:");
 	txtCVV = new JLabel("CVV:");
 	txtDNI = new JLabel("DNI:");
@@ -385,7 +387,7 @@ public class VentanaHacerEnvio extends JFrame{
 	campoCVV = new JTextField(5);
 	campoDNI = new JTextField(5);
 
-	checkFactura = new JCheckBox("Â¿Factura?");
+	checkFactura = new JCheckBox("¿Factura?");
 	
 	radTarjeta = new JRadioButton("Tarjeta");
 	radContra = new JRadioButton("Contrareembolso");
@@ -442,7 +444,7 @@ public class VentanaHacerEnvio extends JFrame{
 	
 
 	
-	//TAB REVISION
+//TAB REVISION
 	
 	txtEnDesde = new JLabel("Desde:");
 	txtEnHasta = new JLabel("Hasta:");
@@ -565,7 +567,7 @@ public class VentanaHacerEnvio extends JFrame{
 	tabEnvios.addTab("QUE", pQue);
 	tabEnvios.addTab("COMO", pComo);
 	tabEnvios.addTab("PAGO", pPago);
-	tabEnvios.addTab("REVISIÃ“N", pRev);
+	tabEnvios.addTab("REVISIÓN", pRev);
 	tabEnvios.setEnabled(true);
 	
 	
@@ -585,7 +587,7 @@ public class VentanaHacerEnvio extends JFrame{
 
 	
 	
-	setTitle("Hacer envÃ­o");
+	setTitle("Hacer envío");
 	setBounds(300, 200, 800, 400);
 	setVisible(true);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
