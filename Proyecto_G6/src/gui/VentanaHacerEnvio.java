@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
@@ -593,5 +594,10 @@ public class VentanaHacerEnvio extends JFrame{
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
+	
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(() -> new VentanaHacerEnvio());
+		
+	}
 	
 }
