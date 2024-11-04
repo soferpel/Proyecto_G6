@@ -1,7 +1,9 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,32 +38,35 @@ import javax.swing.table.DefaultTableModel;
 
 public class VentanaAdministracion extends JFrame {
 	
-	private JPanel pNorte, pNorte2, pCentro, pBtnVolver;
+	private JPanel pNorte, pCentro;
 	private JLabel txtMisEnvios, txtEnviosRealizados, txtRelleno;
 	private JButton btnVolver;
 	private DefaultTableModel modeloTabla;
 	private JTable tablaEnvios;
 	private JScrollPane Scroll;
+	private Font fontTexto = new Font("Tahoma", Font.PLAIN, 13 );
 		
 	   
 	public VentanaAdministracion() {
 
 		
-		pNorte = new JPanel(new GridLayout(1, 5));
 		pCentro = new JPanel(new GridLayout(2, 1));
-		pBtnVolver = new JPanel();
-		pNorte2 = new JPanel();
 		pNorte = new JPanel();
 
-		pNorte2.setBorder(new EmptyBorder(0,0,0,400));
+		pNorte.setBorder(new EmptyBorder(0,0,0,400));
+		
+		ImageIcon imgVolver = new ImageIcon(getClass().getResource("/Images/volver.png"));
+		btnVolver = new JButton(imgVolver);
+		
 			
 		txtMisEnvios = new JLabel("Administración");
 		txtEnviosRealizados = new JLabel("Envios realizados");
 		txtRelleno = new JLabel(" ");
 			
-		btnVolver = new JButton("<--");
-			
-			
+		txtMisEnvios.setFont(fontTexto);
+		txtEnviosRealizados.setFont(fontTexto);
+		
+		
 		/**CREACION JTABLE*/
 		String[] nombreColumnas = {"Nº referencia", "Fecha", "Precio", "Descripción", "Estado", "Fecha prevista"};
 		modeloTabla = new DefaultTableModel(null, nombreColumnas);
@@ -84,18 +89,13 @@ public class VentanaAdministracion extends JFrame {
 			
 	    tablePanel.add(Scroll, BorderLayout.CENTER);
 
-	    pBtnVolver.add(btnVolver);
-	    pNorte.add(pBtnVolver);
+	    pNorte.add(btnVolver);
 	    pNorte.add(txtMisEnvios);
 			
 	    pCentro.add(Scroll);
 			
 	    pCentro.setBorder(new EmptyBorder(30, 20, 0, 20));
 	    
-	    pNorte2.add(btnVolver);
-		
-	  	pNorte.add(pNorte2);
-
 	    add(pNorte, BorderLayout.NORTH);
 	    add(pCentro, BorderLayout.CENTER);
 			

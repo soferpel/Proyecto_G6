@@ -6,6 +6,8 @@ import gui.VentanaHacerEnvio;
 
 
 public class Main {
+	
+	//main provisional
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> new VentanaHacerEnvio());
 		

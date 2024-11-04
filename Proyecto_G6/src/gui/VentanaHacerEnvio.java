@@ -39,7 +39,7 @@ public class VentanaHacerEnvio extends JFrame{
 	private JPanel  pNorte, pNorte2, pNorte3,
 					pSur, pBtnAnterior, pBtnSiguiente;
 	private Font fontGrande = new Font("Arial", Font.PLAIN, 15);
-	private Font fontComfortaa = new Font("Tahoma", Font.PLAIN, 15 );
+	private Font fontTexto = new Font("Tahoma", Font.PLAIN, 15 );
     
 	
 	
@@ -214,14 +214,14 @@ public class VentanaHacerEnvio extends JFrame{
 	txtValor = new JLabel("Valor del paquete: ");
 	txtInfo = new JLabel("El nº de referencia se asigna automáticamente.");
 	
-	txtEmbalado.setFont(fontComfortaa);
-	txtDescripcion.setFont(fontComfortaa);
-	txtLargo.setFont(fontComfortaa);
-	txtAncho.setFont(fontComfortaa);
-	txtAlto.setFont(fontComfortaa);
-	txtPeso.setFont(fontComfortaa);
-	txtValor.setFont(fontComfortaa);
-	txtInfo.setFont(fontComfortaa);
+	txtEmbalado.setFont(fontTexto);
+	txtDescripcion.setFont(fontTexto);
+	txtLargo.setFont(fontTexto);
+	txtAncho.setFont(fontTexto);
+	txtAlto.setFont(fontTexto);
+	txtPeso.setFont(fontTexto);
+	txtValor.setFont(fontTexto);
+	txtInfo.setFont(fontTexto);
 	
 	campoLargo = new JTextField(10);
 	campoAncho = new JTextField(10);
@@ -323,9 +323,9 @@ public class VentanaHacerEnvio extends JFrame{
 	txtFEnvio = new JLabel("Fecha de recogida:");
 	txtPrecioEnvio = new JLabel("0.0");
 
-	txtRecog.setFont(fontComfortaa);
-	txtFEnvio.setFont(fontComfortaa);
-	txtPrecioEnvio.setFont(fontComfortaa);
+	txtRecog.setFont(fontTexto);
+	txtFEnvio.setFont(fontTexto);
+	txtPrecioEnvio.setFont(fontTexto);
 
 	radPtoRecog = new JRadioButton("Punto de recogida");
 	radDomic = new JRadioButton("A domicilio");
