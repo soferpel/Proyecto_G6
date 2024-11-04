@@ -45,6 +45,7 @@ public class VentanaAdministracion extends JFrame {
 	private JTable tablaEnvios;
 	private JScrollPane Scroll;
 	private Font fontTexto = new Font("Tahoma", Font.PLAIN, 13 );
+	private Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 20);
 		
 	   
 	public VentanaAdministracion() {
@@ -53,18 +54,20 @@ public class VentanaAdministracion extends JFrame {
 		pCentro = new JPanel(new GridLayout(2, 1));
 		pNorte = new JPanel();
 
-		pNorte.setBorder(new EmptyBorder(0,0,0,400));
+		pNorte.setBorder(new EmptyBorder(10,0,0,180));
 		
 		ImageIcon imgVolver = new ImageIcon(getClass().getResource("/Images/volver.png"));
 		btnVolver = new JButton(imgVolver);
 		
 			
-		txtMisEnvios = new JLabel("Administración");
+		txtMisEnvios = new JLabel("ADMINISTRACIÓN");
 		txtEnviosRealizados = new JLabel("Envios realizados");
 		txtRelleno = new JLabel(" ");
 			
-		txtMisEnvios.setFont(fontTexto);
+		txtMisEnvios.setFont(fontTextoTitulo);
 		txtEnviosRealizados.setFont(fontTexto);
+		
+		txtMisEnvios.setBorder(new EmptyBorder(10,125,0,0));
 		
 		
 		/**CREACION JTABLE*/

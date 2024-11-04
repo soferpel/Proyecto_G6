@@ -10,34 +10,29 @@ import com.toedter.calendar.JDateChooser;
 
 public class VentanaFacturacion extends JFrame {
 
+	
     public VentanaFacturacion() {
-        setTitle("Facturación");
-        setSize(800, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+
 
         JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));
         JPanel panelSuperior = new JPanel(new BorderLayout());
 
         // btnVolver
         ImageIcon imageVolverO = new ImageIcon(getClass().getResource("/Images/volver.png"));
-        ImageIcon imageVolverE = new ImageIcon(
-        		imageVolverO.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH)
-        );
+        ImageIcon imageVolverE = new ImageIcon(imageVolverO.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
+        
         
         JButton btnVolver = new JButton(imageVolverE);
         JPanel panelVolver = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        panelVolver.setPreferredSize(new Dimension(40, 40));
         panelVolver.setBorder(new EmptyBorder(10, 10, 10, 10));
         panelVolver.add(btnVolver);
         
         
-        btnVolver.setPreferredSize(new Dimension(20, 20));
         panelSuperior.add(panelVolver, BorderLayout.WEST);
 
         //titulo
         JLabel lblTitulo = new JLabel("FACTURACIÓN", JLabel.CENTER);
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
+        lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 20));
         panelSuperior.add(lblTitulo, BorderLayout.CENTER);
         
         //logo
@@ -111,6 +106,13 @@ public class VentanaFacturacion extends JFrame {
         panelPrincipal.add(panelBoton, BorderLayout.SOUTH);
 
         add(panelPrincipal);
+        
+        
+        
+        setTitle("Facturación");
+        setSize(800, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
     }
 
     public static void main(String[] args) {

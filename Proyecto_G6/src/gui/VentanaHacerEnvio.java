@@ -38,8 +38,7 @@ public class VentanaHacerEnvio extends JFrame{
 	private JLabel txtCrearEnvio;
 	private JPanel  pNorte, pNorte2, pNorte3,
 					pSur, pBtnAnterior, pBtnSiguiente;
-	private Font fontGrande = new Font("Arial", Font.PLAIN, 15);
-	private Font fontTexto = new Font("Tahoma", Font.PLAIN, 15 );
+	private Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 20);
     
 	
 	
@@ -120,6 +119,8 @@ public class VentanaHacerEnvio extends JFrame{
     btnSiguiente = new JButton("Siguiente");
 	
 	txtCrearEnvio = new JLabel("CREAR ENVÍO:");
+	txtCrearEnvio.setFont(fontTextoTitulo);
+	
 	
 	ImageIcon imgVolver = new ImageIcon(getClass().getResource("/Images/volver.png"));
 	btnVolver = new JButton(imgVolver);
@@ -137,8 +138,8 @@ public class VentanaHacerEnvio extends JFrame{
 	pBtnAnterior = new JPanel();
 	pBtnSiguiente = new JPanel();
 	
-	pNorte2.setBorder(new EmptyBorder(0,0,0,150));
-	txtCrearEnvio.setBorder(new EmptyBorder(0,40,0,0));
+	pNorte2.setBorder(new EmptyBorder(10,0,0,100));
+	txtCrearEnvio.setBorder(new EmptyBorder(5,50,0,0));
 	
 //TAB DONDE
 	
@@ -214,14 +215,6 @@ public class VentanaHacerEnvio extends JFrame{
 	txtValor = new JLabel("Valor del paquete: ");
 	txtInfo = new JLabel("El nº de referencia se asigna automáticamente.");
 	
-	txtEmbalado.setFont(fontTexto);
-	txtDescripcion.setFont(fontTexto);
-	txtLargo.setFont(fontTexto);
-	txtAncho.setFont(fontTexto);
-	txtAlto.setFont(fontTexto);
-	txtPeso.setFont(fontTexto);
-	txtValor.setFont(fontTexto);
-	txtInfo.setFont(fontTexto);
 	
 	campoLargo = new JTextField(10);
 	campoAncho = new JTextField(10);
@@ -323,9 +316,6 @@ public class VentanaHacerEnvio extends JFrame{
 	txtFEnvio = new JLabel("Fecha de recogida:");
 	txtPrecioEnvio = new JLabel("0.0");
 
-	txtRecog.setFont(fontTexto);
-	txtFEnvio.setFont(fontTexto);
-	txtPrecioEnvio.setFont(fontTexto);
 
 	radPtoRecog = new JRadioButton("Punto de recogida");
 	radDomic = new JRadioButton("A domicilio");
@@ -390,7 +380,7 @@ public class VentanaHacerEnvio extends JFrame{
 	txtPrecioEnvio.setBorder(new EmptyBorder(0,120,0,0));
 	
 	
-    txtRecog.setFont(fontGrande);
+    txtRecog.setBorder(new EmptyBorder(10,0,0,0));
 
     
     
@@ -605,11 +595,10 @@ public class VentanaHacerEnvio extends JFrame{
 	add(tabEnvios, BorderLayout.CENTER);
 	add(pSur, BorderLayout.SOUTH);
 	
-
 	
 	
 	setTitle("Hacer envío");
-	setBounds(300, 200, 800, 400);
+	setBounds(300, 200, 800, 425);
 	setVisible(true);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
