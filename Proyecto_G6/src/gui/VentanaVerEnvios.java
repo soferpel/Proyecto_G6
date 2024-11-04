@@ -59,12 +59,10 @@ public class VentanaVerEnvios  extends JFrame {
         JButton btnVolver = new JButton(imageVolverE);
         
         JPanel panelVolver = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        panelVolver.setPreferredSize(new Dimension(40, 40));
         panelVolver.setBorder(new EmptyBorder(10, 10, 10, 10));
         panelVolver.add(btnVolver);
         
         
-        btnVolver.setPreferredSize(new Dimension(20, 20));
 
        
         
