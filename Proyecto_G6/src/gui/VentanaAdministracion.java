@@ -35,7 +35,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-
+//
 public class VentanaAdministracion extends JFrame {
 	
 	private JPanel pNorte, pCentro;
