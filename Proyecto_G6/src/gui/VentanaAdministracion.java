@@ -49,7 +49,7 @@ public class VentanaAdministracion extends JFrame {
 		
 	   
 	public VentanaAdministracion() {
-
+//
 		
 		pCentro = new JPanel(new GridLayout(2, 1));
 		pNorte = new JPanel();
