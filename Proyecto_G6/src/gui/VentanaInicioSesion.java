@@ -71,8 +71,8 @@ public class VentanaInicioSesion extends JFrame{
         panelDatos.add(txtContra);
 
         mostrarContra = new JButton();
-        ImageIcon ojoVer = new ImageIcon(getClass().getResource("/Imagenes/ojoVer.jpeg"));
-        ImageIcon ojoOcultar = new ImageIcon(getClass().getResource("/Imagenes/ojoOcultar.jpg"));
+        ImageIcon ojoVer = new ImageIcon(getClass().getResource("/Images/ojoVer.jpeg"));
+        ImageIcon ojoOcultar = new ImageIcon(getClass().getResource("/Images/ojoOcultar.jpg"));
         Image scaledOjoVer = ojoVer.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
         Image scaledOjoOcultar = ojoOcultar.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
         mostrarContra.setIcon(new ImageIcon(scaledOjoVer));
