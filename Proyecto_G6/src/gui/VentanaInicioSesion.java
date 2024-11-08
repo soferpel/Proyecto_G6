@@ -24,6 +24,7 @@ public class VentanaInicioSesion extends JFrame{
 	private JButton bRegistrarse, bIniSesion, mostrarContra;
 	private JLabel lblCorreo, lblContra;
 	private JTextField txtCorreo, txtContra;
+	private Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 30);
 
 	public VentanaInicioSesion(){
 		setResizable(false);
@@ -45,7 +46,7 @@ public class VentanaInicioSesion extends JFrame{
 
         
         JLabel lblTitulo = new JLabel("INICIO SESIÓN", SwingConstants.CENTER);
-        lblTitulo.setFont(new Font("Arial", Font.BOLD,30));
+        lblTitulo.setFont(fontTextoTitulo);
         lblTitulo.setBounds(0, 10, 778, 40); // Centrado en la parte superior de la ventana
         add(lblTitulo);
         add(panelNorte);
@@ -71,12 +72,12 @@ public class VentanaInicioSesion extends JFrame{
         txtContra.setBounds(150, 80, 250, 25);
         panelDatos.add(txtContra);
 
+        
         mostrarContra = new JButton();
-        ImageIcon ojoVer = new ImageIcon(getClass().getResource("/Images/ojoVer.jpeg"));
-        ImageIcon ojoOcultar = new ImageIcon(getClass().getResource("/Images/ojoOcultar.jpg"));
-        Image scaledOjoVer = ojoVer.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-        Image scaledOjoOcultar = ojoOcultar.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-        mostrarContra.setIcon(new ImageIcon(scaledOjoVer));
+        ImageIcon ojoVer = new ImageIcon(getClass().getResource("/Images/ojoAbierto.png"));
+        ImageIcon ojoOcultar = new ImageIcon(getClass().getResource("/Images/ojoCerrado.png"));
+
+        mostrarContra.setIcon(ojoVer);
         mostrarContra.setBounds(410, 80, 50, 25);
         panelDatos.add(mostrarContra);
 
@@ -85,10 +86,10 @@ public class VentanaInicioSesion extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 if (txtContra.getEchoChar() == '*') {
                     txtContra.setEchoChar((char) 0); 
-                    mostrarContra.setIcon(new ImageIcon(scaledOjoOcultar)); 
+                    mostrarContra.setIcon(ojoOcultar); 
                 } else {
                     txtContra.setEchoChar('*');
-                    mostrarContra.setIcon(new ImageIcon(scaledOjoVer)); 
+                    mostrarContra.setIcon(ojoVer); 
                 }
             }
         });
