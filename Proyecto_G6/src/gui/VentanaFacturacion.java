@@ -123,7 +123,7 @@ public class VentanaFacturacion extends JFrame {
         
         
         setTitle("Facturación");
-        setSize(800, 400);
+        setSize(700, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
