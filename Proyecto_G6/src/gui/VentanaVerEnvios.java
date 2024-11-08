@@ -41,6 +41,11 @@ public class VentanaVerEnvios  extends JFrame {
 
 		JTable tablaEnvios = new JTable(tabla) {
 			
+		/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 		@Override
 		public boolean isCellEditable(int row, int column) {
 			return column == 6;

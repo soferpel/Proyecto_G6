@@ -25,6 +25,8 @@ import javax.swing.border.EmptyBorder;
 public class VentanaPantallaPrincipal extends JFrame{
 	
 	private JLabel imgVerEnvios, imgFacturacion, imgHacerEnvio;
+	private Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 25);
+	
 	
 	  public VentanaPantallaPrincipal() {
 		setSize(800, 600);
@@ -35,7 +37,7 @@ public class VentanaPantallaPrincipal extends JFrame{
         // Panel Norte
         JPanel pNorte = new JPanel(new BorderLayout());
         JLabel lblBienvenida = new JLabel("¡¡BIENVENID@!!", SwingConstants.CENTER);
-        lblBienvenida.setFont(new Font("Arial", Font.BOLD, 24));
+        lblBienvenida.setFont(fontTextoTitulo);
         pNorte.add(lblBienvenida, BorderLayout.CENTER);
 
         JPanel pBotonesNorte = new JPanel();
@@ -99,8 +101,9 @@ public class VentanaPantallaPrincipal extends JFrame{
         // Panel Titulo
         JPanel pTitulo = new JPanel();
         JLabel lblCrearPresupuesto = new JLabel("CREAR PRESUPUESTO:");
-        lblCrearPresupuesto.setFont(new Font("Arial", Font.BOLD, 16));
+        lblCrearPresupuesto.setFont(new Font("Tahoma", Font.BOLD, 16));
         pTitulo.add(lblCrearPresupuesto);
+        pTitulo.setBorder(new EmptyBorder(0,70,0,0));
         pDerecha.add(pTitulo, BorderLayout.NORTH);
 
         // Panel de Medidas
@@ -149,9 +152,9 @@ public class VentanaPantallaPrincipal extends JFrame{
 
         // Botón Crear
         JButton btnCrear = new JButton("CREAR");
-        JPanel pBoton = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel pBoton = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pBoton.add(btnCrear);
-        pBoton.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 10));
+        pBoton.setBorder(new EmptyBorder(0,100,0,0));
         pDerecha.add(pBoton, BorderLayout.SOUTH);
 
         add(pDerecha, BorderLayout.CENTER);
