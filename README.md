@@ -65,7 +65,7 @@ La idea principal de este proyecto es la gestión de una empresa de paquetería,
 
 - [[Natalia González](https://github.com/nataliaaa12)]
 
-- [[Sofía Fernández,](https://github.com/soferpel)]
+- [[Sofía Fernández](https://github.com/soferpel)]
 
 - [[Samantha Muñoz](https://github.com/samaantha6)]
 
