@@ -37,6 +37,7 @@ public class VentanaRegistro extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500, 600);
         setBounds(100, 100,  778, 455);
+        setVisible(true);
         
        // pNorte = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pNorte = new JPanel(new BorderLayout());
@@ -161,24 +162,21 @@ public class VentanaRegistro extends JFrame{
 		btnRegistro.setAlignmentX(Component.CENTER_ALIGNMENT);
         pSur.setLayout(new BoxLayout(pSur, BoxLayout.Y_AXIS));
 		
+        setVisible(true);
 
         //EVENTOS
+        
         btnFlecha.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				VentanaInicioSesion ventanaInicioSesion = new VentanaInicioSesion();
-				ventanaInicioSesion.setVisible(true);
-			}
-		});
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		SwingUtilities.invokeLater(() -> new VentanaInicioSesion());
+    			dispose();			
+
+        	}
+        });
         
-        
-        setVisible(true);
 	}
 	
-	public static void main(String[] args) {
-        SwingUtilities.invokeLater(VentanaRegistro::new);
-    }
-	
+
 }
 

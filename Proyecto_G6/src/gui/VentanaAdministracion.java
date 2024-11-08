@@ -107,6 +107,7 @@ public class VentanaAdministracion extends JFrame {
 	    setBounds(300, 200, 600, 400);
 	    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        setVisible(true);
         
 	}
 

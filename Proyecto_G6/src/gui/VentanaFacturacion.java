@@ -28,6 +28,7 @@ public class VentanaFacturacion extends JFrame {
         panelVolver.add(btnVolver);
         
         
+        
         panelSuperior.add(panelVolver, BorderLayout.WEST);
 
         //titulo
@@ -102,6 +103,18 @@ public class VentanaFacturacion extends JFrame {
                 JOptionPane.showMessageDialog(null, "Factura exportada en PDF");
             }
         });
+        
+        
+        
+        btnVolver.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal());
+				dispose();
+			}
+		});
+        
         panelBoton.add(btnExportarPDF);
         panelPrincipal.add(panelBoton, BorderLayout.SOUTH);
 
@@ -113,14 +126,7 @@ public class VentanaFacturacion extends JFrame {
         setSize(800, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setVisible(true);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new VentanaFacturacion().setVisible(true);
-            }
-        });
-    }
 }

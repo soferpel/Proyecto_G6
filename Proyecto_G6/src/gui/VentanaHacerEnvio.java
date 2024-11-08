@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
@@ -18,6 +20,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
@@ -34,12 +37,13 @@ public class VentanaHacerEnvio extends JFrame{
 	private static final long serialVersionUID = 1L;
 
 	private JTabbedPane tabEnvios;
-	private JButton btnVolver, btnAnterior, btnSiguiente;
+	private JButton btnVolver, btnAnterior, btnSiguiente, btnFinalizar;
 	private JLabel txtCrearEnvio;
-	private JPanel  pNorte, pNorte2, pNorte3,
-					pSur, pBtnAnterior, pBtnSiguiente;
+	private JPanel  pNorte, pNorte2, pNorte3,pSur,
+					pOeste, pEste, pBtnAnterior, pBtnSiguiente;
 	private Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 20);
-    
+	private double precioBase, precioFinal;
+	private int indiceActual = 0;
 	
 	
 	//DONDE
@@ -108,6 +112,8 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	public VentanaHacerEnvio() {
 		
+
+		
 	ImageIcon logo = new ImageIcon(getClass().getResource("/Images/logoPngNegro.png"));
 	JLabel labelImagenLogo = new JLabel(logo);
 	labelImagenLogo.setPreferredSize(new Dimension(350, logo.getIconHeight()));
@@ -115,10 +121,19 @@ public class VentanaHacerEnvio extends JFrame{
 	labelImagenLogo.setBorder(new EmptyBorder(0,250,0,0));
 	
 	tabEnvios = new JTabbedPane();
-    btnAnterior = new JButton("Anterior");
-    btnSiguiente = new JButton("Siguiente");
 	
-	txtCrearEnvio = new JLabel("CREAR ENVÍO:");
+	
+	ImageIcon imgAnterior = new ImageIcon(getClass().getResource("/Images/flecha_ant.png"));
+    btnAnterior = new JButton(imgAnterior);
+    ImageIcon imgSiguiente = new ImageIcon(getClass().getResource("/Images/flecha_sig.png"));
+    btnSiguiente = new JButton(imgSiguiente);
+	btnFinalizar = new JButton("FINALIZAR");
+	btnFinalizar.setEnabled(false);
+	
+    btnAnterior.setEnabled(false);
+    
+    
+    txtCrearEnvio = new JLabel("CREAR ENVÍO:");
 	txtCrearEnvio.setFont(fontTextoTitulo);
 	
 	
@@ -134,9 +149,11 @@ public class VentanaHacerEnvio extends JFrame{
 	pNorte2 = new JPanel();
 	pNorte3 = new JPanel();
 
-	pSur = new JPanel(new GridLayout(1,2));
+	pOeste = new JPanel();
+	pEste = new JPanel();
 	pBtnAnterior = new JPanel();
 	pBtnSiguiente = new JPanel();
+	pSur = new JPanel();
 	
 	pNorte2.setBorder(new EmptyBorder(10,0,0,100));
 	txtCrearEnvio.setBorder(new EmptyBorder(5,50,0,0));
@@ -382,7 +399,8 @@ public class VentanaHacerEnvio extends JFrame{
 	
     txtRecog.setBorder(new EmptyBorder(10,0,0,0));
 
-    
+    comboRecog.setEnabled(false);
+    dateChooser.setEnabled(false);
     
     
     
@@ -452,8 +470,11 @@ public class VentanaHacerEnvio extends JFrame{
 	pDNI.setBorder(new EmptyBorder(0,30,0,10));
 	pFactura.setBorder(new EmptyBorder(10,0,0,0));
 	
+	campoNTarjeta.setEditable(false);
+	campoCVV.setEditable(false);
+	campoDNI.setEditable(false);
+	dateChooser.setEnabled(false);
 	
-
 	
 //TAB REVISION
 	
@@ -579,7 +600,7 @@ public class VentanaHacerEnvio extends JFrame{
 	tabEnvios.addTab("COMO", pComo);
 	tabEnvios.addTab("PAGO", pPago);
 	tabEnvios.addTab("REVISIÓN", pRev);
-	tabEnvios.setEnabled(true);
+	tabEnvios.setEnabled(false);
 	
 	
 	pNorte2.add(btnVolver);
@@ -589,24 +610,239 @@ public class VentanaHacerEnvio extends JFrame{
 	pNorte.add(pNorte3);
 	pBtnAnterior.add(btnAnterior);
 	pBtnSiguiente.add(btnSiguiente);
-	pSur.add(pBtnAnterior);
-	pSur.add(pBtnSiguiente);
+	pSur.add(btnFinalizar);
+	pOeste.add(pBtnAnterior);
+	pEste.add(pBtnSiguiente);
 	add(pNorte, BorderLayout.NORTH);
 	add(tabEnvios, BorderLayout.CENTER);
+	add(pOeste, BorderLayout.WEST);
+	add(pEste, BorderLayout.EAST);
 	add(pSur, BorderLayout.SOUTH);
 	
 	
 	
 	setTitle("Hacer envío");
-	setBounds(300, 200, 800, 425);
+	setBounds(300, 200, 900, 425);
 	setVisible(true);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	}
 	
 	
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> new VentanaHacerEnvio());
+	
+	//EVENTOS
+	//botones 
+	btnVolver.addActionListener(new ActionListener() {
 		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal());
+			dispose();
+		}
+	});
+	
+
+	btnSiguiente.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int pestañaActual = tabEnvios.getSelectedIndex();
+			
+			cambiarPestana(1);
+            btnAnterior.setEnabled(true);
+            
+            
+            if (pestañaActual == 2) {
+            	String altoPrecio1 = campoAlto.getText();
+        		String anchoPrecio1 = campoAncho.getText();
+        		String largoPrecio1 = campoLargo.getText();
+        		
+        		if (!altoPrecio1.isEmpty() && !anchoPrecio1.isEmpty() && !largoPrecio1.isEmpty()) {
+        			
+        		} else {
+        			//JOptionPane.showMessageDialog(null, "Debe rellenar los campos ALTO ANCHO Y LARGO", "Error", JOptionPane.ERROR_MESSAGE);
+        			//cambiarPestana(-1);
+        		}        		
+			} else {
+			}
+            
+            if (pestañaActual == 3) {
+				btnSiguiente.setEnabled(false);
+				btnFinalizar.setEnabled(true);
+			} else {
+				btnFinalizar.setEnabled(false);
+				
+			}
+            
+            
+
+		}
+	});
+
+
+	btnAnterior.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			cambiarPestana(-1);
+			btnSiguiente.setEnabled(true);
+			int pestañaActual = tabEnvios.getSelectedIndex();
+			if (pestañaActual ==0) {
+				btnAnterior.setEnabled(false);
+			} else {
+				btnFinalizar.setEnabled(false);
+			}
+			
+		}
+	});
+	
+	btnFinalizar.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JOptionPane.showMessageDialog(null, "Pedido Realizado", "Finalizar pedido", JOptionPane.INFORMATION_MESSAGE);
+			SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal());
+			dispose();
+			}
+		});
+	
+	
+	
+	
+	//botones como
+	
+	radPtoRecog.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			comboRecog.setEnabled(true);
+			dateChooser.setEnabled(false);
+		}
+	});
+	
+	radDomic.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			comboRecog.setEnabled(false);
+			dateChooser.setEnabled(true);
+		}
+	});
+	
+	
+	
+	
+	
+	
+	radEstandar.addActionListener(new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			try {
+				precioFinal = precioBase;
+				precioFinal += 2.99;
+				txtPrecioEnvio.setText(precioFinal + "€");
+				
+			} catch (NumberFormatException e2) {
+				txtPrecioEnvio.setText("Error");
+			}
+		}
+	});
+	
+	radSuper.addActionListener(new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			try {
+				
+				precioFinal = precioBase;			    			    				    	
+				precioFinal += 3.99;
+				txtPrecioEnvio.setText(precioFinal + "€");
+				
+			} catch (NumberFormatException e2) {
+				txtPrecioEnvio.setText("Error");
+			}
+		}
+	});
+	
+	radPremium.addActionListener(new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			try {
+				precioFinal = precioBase;
+				precioFinal += 7.99;
+				txtPrecioEnvio.setText(precioFinal + "€");
+				
+			} catch (NumberFormatException e2) {
+				txtPrecioEnvio.setText("Error");}
+		}
+	});
+
+	
+	//botones pago
+	
+	radTarjeta.addActionListener(new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			campoNTarjeta.setEditable(true);
+			datechooserTarj.setEnabled(true);
+			campoCVV.setEditable(true);
+			
+		}
+	});
+	
+	radContra.addActionListener(new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			campoNTarjeta.setEditable(false);
+			datechooserTarj.setEnabled(false);
+			campoCVV.setEditable(false);
+			
+		}
+	});
+	
+	
+	
+	
+	
+	
 	}
 	
+	
+    private void cambiarPestana(int incremento) {
+        int nuevoIndice = indiceActual + incremento;
+        if (nuevoIndice >= 0 && nuevoIndice < tabEnvios.getTabCount()) {
+            tabEnvios.setSelectedIndex(nuevoIndice);
+            indiceActual = nuevoIndice;
+        }
+        
+    }
+    
+	private static int PrecioBaseAlto(int medida) {
+        if (medida <= 15) {
+            return 2;
+        } else if (medida <= 30) {
+            return 4;
+        } else {
+            return 10;
+        }
+    }
+	
+	private static int PrecioBaseAncho(int medida) {
+        if (medida <= 15) {
+            return 3;
+        } else if (medida <= 30) {
+            return 5;
+        } else {
+            return 7;
+        }
+    }
+	
+	private static int PrecioBaseLargo(int medida) {
+        if (medida <= 15) {
+            return 2;
+        } else if (medida <= 30) {
+            return 3;
+        } else {
+            return 11;
+        }
+    }
+	
+		
 }

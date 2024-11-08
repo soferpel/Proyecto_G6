@@ -32,6 +32,7 @@ public class VentanaInicioSesion extends JFrame{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100,  778, 455);
 		setLayout(new BorderLayout());
+		setVisible(true);
 		
 		JPanel panelDatos = new JPanel();
         panelDatos.setLayout(null);
@@ -110,37 +111,34 @@ public class VentanaInicioSesion extends JFrame{
 
         
         //EVENTOS
-        bRegistrarse.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//VentanaRegistro ventanaRegistro = new VentanaRegistro();
-				//ventanaRegistro.setVisible(true);
-			}
-		});
         panelDatos.add(bRegistrarse);
 
         bIniSesion = new JButton("INICIAR SESIÓN");
         bIniSesion.setBounds(320, 160, 150, 30);
-        bIniSesion.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+
         panelDatos.add(bIniSesion);
 		
 
 		setVisible(true);
 		
 
+		bRegistrarse.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(() -> new VentanaRegistro());
+				dispose();			
+			}
+		});
+		
+		bIniSesion.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal());
+				dispose();			
+			}
+		});
 		
 	}
-	public static void main(String[] args) {
-        SwingUtilities.invokeLater(VentanaInicioSesion::new);
-    }
 	
 }
 

@@ -32,6 +32,7 @@ public class VentanaVerEnvios  extends JFrame {
 		setSize(900, 500);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+		setVisible(true);
 		
 		String[] nombreColumnas = {"NÂº referencia", "Fecha", "Precio", "DescripciÃ³n", "Estado", "Fecha prevista", "Editar"};
 		DefaultTableModel tabla = new DefaultTableModel(null, nombreColumnas);
@@ -57,8 +58,8 @@ public class VentanaVerEnvios  extends JFrame {
 			
 	    tablePanel.add(scrollPane, BorderLayout.CENTER);
 	    
-	    tabla.addRow(new Object[] {"REF-1001", "2024-11-01", "50.00", "Envío de libros", "Pendiente", "2024-12-01", ""});
-	    tabla.addRow(new Object[]{"REF-1002", "2024-11-02", "75.00", "Envío de ropa", "En tránsito", "2024-12-03", ""});
+	    tabla.addRow(new Object[] {"REF-1001", "2024-11-01", "50.00", "Envï¿½o de libros", "Pendiente", "2024-12-01", ""});
+	    tabla.addRow(new Object[]{"REF-1002", "2024-11-02", "75.00", "Envï¿½o de ropa", "En trï¿½nsito", "2024-12-03", ""});
         
         
         ImageIcon imageVolverO = new ImageIcon(getClass().getResource("/Images/volver.png"));
@@ -146,7 +147,7 @@ public class VentanaVerEnvios  extends JFrame {
             btnModificar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    tablaEnvios.editCellAt(row, 0); // Habilita la edición de la fila completa
+                    tablaEnvios.editCellAt(row, 0); // Habilita la ediciï¿½n de la fila completa
                     tablaEnvios.setRowSelectionInterval(row, row); // Selecciona la fila actual
                     stopCellEditing();
                 }

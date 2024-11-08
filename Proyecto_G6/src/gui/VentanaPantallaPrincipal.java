@@ -38,8 +38,14 @@ public class VentanaPantallaPrincipal extends JFrame{
         lblBienvenida.setFont(new Font("Arial", Font.BOLD, 24));
         pNorte.add(lblBienvenida, BorderLayout.CENTER);
 
+        JPanel pBotonesNorte = new JPanel();
         JButton btnCerrarSesion = new JButton("CERRAR SESIÓN");
-        pNorte.add(btnCerrarSesion, BorderLayout.EAST);
+        
+        ImageIcon imgModif_usu = new ImageIcon(getClass().getResource("/Images/modif_usu.png"));
+        JButton btnModificarDatos = new JButton(imgModif_usu);
+        pBotonesNorte.add(btnModificarDatos);
+        pBotonesNorte.add(btnCerrarSesion);
+        pNorte.add(pBotonesNorte, BorderLayout.EAST);
 
         pNorte.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         add(pNorte, BorderLayout.NORTH);
@@ -155,8 +161,8 @@ public class VentanaPantallaPrincipal extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaHacerEnvio hacerEnvio = new VentanaHacerEnvio();
-				hacerEnvio.setVisible(true);
+				SwingUtilities.invokeLater(() -> new VentanaHacerEnvio());
+				dispose();
 			}
 		});
         
@@ -164,8 +170,8 @@ public class VentanaPantallaPrincipal extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaVerEnvios verEnvios = new VentanaVerEnvios();
-				verEnvios.setVisible(true);
+				SwingUtilities.invokeLater(() -> new VentanaVerEnvios());
+				dispose();
 				
 			}
 		});
@@ -174,8 +180,9 @@ public class VentanaPantallaPrincipal extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaFacturacion facturaccion = new VentanaFacturacion();
-				facturaccion.setVisible(true);
+				
+				SwingUtilities.invokeLater(() -> new VentanaFacturacion());
+				dispose();
 				
 			}
 		});
@@ -184,9 +191,19 @@ public class VentanaPantallaPrincipal extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaHacerEnvio hacerEnvio = new VentanaHacerEnvio();
-				hacerEnvio.setVisible(true);
 				
+				SwingUtilities.invokeLater(() -> new VentanaHacerEnvio());
+				dispose();
+				
+			}
+		});
+        
+        btnModificarDatos.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(() -> new VentanaModificarDatos());
+				dispose();
 			}
 		});
         
@@ -207,11 +224,6 @@ public class VentanaPantallaPrincipal extends JFrame{
    
 
 }
-
-	public static void main(String[] args) {
-	        SwingUtilities.invokeLater(VentanaPantallaPrincipal::new);
-	    }
-	
 	
 }
 
