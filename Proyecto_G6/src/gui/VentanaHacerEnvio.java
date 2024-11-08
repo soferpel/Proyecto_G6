@@ -13,11 +13,13 @@ import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
@@ -476,7 +479,6 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	campoNTarjeta.setEditable(false);
 	campoCVV.setEditable(false);
-	campoDNI.setEditable(false);
 	dateChooser.setEnabled(false);
 	
 	
@@ -633,6 +635,37 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	
 	//EVENTOS
+	
+	agregarKeyBindingParaEnter(campoDescripcion);
+	agregarKeyBindingParaEnter(campoLargo);
+	agregarKeyBindingParaEnter(campoAncho);
+	agregarKeyBindingParaEnter(campoAlto);
+	agregarKeyBindingParaEnter(campoPeso);
+	agregarKeyBindingParaEnter(campoValor);
+	
+	agregarKeyBindingParaEnter(dNombre);
+	agregarKeyBindingParaEnter(dDireccion);
+	agregarKeyBindingParaEnter(dCorreo);
+	agregarKeyBindingParaEnter(dTelefono);
+	
+	agregarKeyBindingParaEnter(hNombre);
+	agregarKeyBindingParaEnter(hDireccion);
+	agregarKeyBindingParaEnter(hCorreo);
+	agregarKeyBindingParaEnter(hTelefono);
+	
+	agregarKeyBindingParaEnter(campoNTarjeta);
+	agregarKeyBindingParaEnter(campoCVV);
+	agregarKeyBindingParaEnter(campoDNI);
+	
+	agregarKeyBindingParaEnter(campoEnDesde);
+	agregarKeyBindingParaEnter(campoEnHasta);
+	agregarKeyBindingParaEnter(campoPago);
+	agregarKeyBindingParaEnter(campoEnvios);
+	agregarKeyBindingParaEnter(campoRevLargo);
+	agregarKeyBindingParaEnter(campoRevAncho);
+	agregarKeyBindingParaEnter(campoRevAlto);
+	agregarKeyBindingParaEnter(campoRevPeso);
+	
 	//botones 
 	btnVolver.addActionListener(new ActionListener() {
 		
@@ -846,6 +879,16 @@ public class VentanaHacerEnvio extends JFrame{
         } else {
             return 11;
         }
+    }
+	
+    private static void agregarKeyBindingParaEnter(JTextField textField) {
+        textField.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("ENTER"), "moverFoco");
+        textField.getActionMap().put("moverFoco", new AbstractAction() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                textField.transferFocus(); 
+            }
+        });
     }
 	
 		
