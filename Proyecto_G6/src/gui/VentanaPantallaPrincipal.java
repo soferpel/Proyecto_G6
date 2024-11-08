@@ -221,7 +221,8 @@ public class VentanaPantallaPrincipal extends JFrame{
         
         
         setVisible(true);
-   
+		setResizable(false);
+
 
 }
 	

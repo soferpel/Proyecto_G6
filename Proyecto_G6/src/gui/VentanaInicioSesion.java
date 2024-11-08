@@ -30,7 +30,7 @@ public class VentanaInicioSesion extends JFrame{
 		setSize(400, 300);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100,  778, 455);
+		setBounds(100, 100,  778, 350);
 		setLayout(new BorderLayout());
 		setVisible(true);
 		

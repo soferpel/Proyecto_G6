@@ -631,6 +631,8 @@ public class VentanaHacerEnvio extends JFrame{
 	setBounds(300, 200, 900, 425);
 	setVisible(true);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	setResizable(false);
+
 	
 	
 	

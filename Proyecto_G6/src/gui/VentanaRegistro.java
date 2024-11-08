@@ -38,6 +38,8 @@ public class VentanaRegistro extends JFrame{
         setSize(500, 600);
         setBounds(100, 100,  778, 455);
         setVisible(true);
+		setResizable(false);
+
         
        // pNorte = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pNorte = new JPanel(new BorderLayout());

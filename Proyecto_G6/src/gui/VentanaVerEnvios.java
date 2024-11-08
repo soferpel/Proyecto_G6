@@ -33,6 +33,8 @@ public class VentanaVerEnvios  extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
+		setResizable(false);
+
 		
 		String[] nombreColumnas = {"Nº referencia", "Fecha", "Precio", "Descripción", "Estado", "Fecha prevista", "Editar"};
 		DefaultTableModel tabla = new DefaultTableModel(null, nombreColumnas);

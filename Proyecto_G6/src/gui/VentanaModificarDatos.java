@@ -203,6 +203,8 @@ public VentanaModificarDatos() {
 	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	setLocationRelativeTo(null);
 	setVisible(true);
+	setResizable(false);
+
 
 	}
        
