@@ -9,6 +9,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -18,7 +20,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -30,7 +34,7 @@ public class VentanaRegistro extends JFrame{
 	private JPanel pCentro,pSur,pCentroIzquierda,pCentroDerecha,pNorte;
 	private JLabel lblNom,lblApe, lblCorreo,lblTel,lblContra,lblRepeContra,lblSegu,lblResp;
 	private JTextField txtNom,txtApe,txttel,txtCorreo,txtContra,txtRepeContra,txtResp, txtSegu;
-	private JButton btnRegistro,btnMostrarContra,btnMostrarRepeContra,btnFlecha;
+	private JButton btnRegistro,btnMostrarContra,btnMostrarRepeContra,btnFlecha, mostrarContra, mostrarRepeContra;
 	
 	public VentanaRegistro () {
 		setTitle("Formulario de Registro");
@@ -43,13 +47,13 @@ public class VentanaRegistro extends JFrame{
         
        // pNorte = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pNorte = new JPanel(new BorderLayout());
-        pNorte.setBackground(Color.WHITE);
+        //pNorte.setBackground(Color.WHITE);
         
         pCentro = new JPanel(new GridLayout(4,4));
-        pCentro.setBackground(Color.WHITE);
+       // pCentro.setBackground(Color.WHITE);
         pSur = new JPanel();
         pSur.setLayout(new BoxLayout(pSur, BoxLayout.Y_AXIS));
-        pSur.setBackground(Color.WHITE);
+        //pSur.setBackground(Color.WHITE);
         pCentro.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         getContentPane().add(pNorte, BorderLayout.NORTH);
 		getContentPane().add(pCentro, BorderLayout.CENTER);
@@ -81,9 +85,9 @@ public class VentanaRegistro extends JFrame{
 		txtCorreo.setBounds(150, 30, 250, 25);
 		txttel = new JTextField();
 		txttel.setBounds(150, 30, 250, 25);
-		txtContra = new JTextField();
+		txtContra = new JPasswordField();
 		txtContra.setBounds(150, 30, 250, 25);
-		txtRepeContra = new JTextField();
+		txtRepeContra = new JPasswordField();
 		txtRepeContra.setBounds(150, 30, 250, 25);
 		txtResp = new JTextField();
 		txtResp.setBounds(150, 30, 250, 25);
@@ -111,7 +115,7 @@ public class VentanaRegistro extends JFrame{
         
         // Título
         JLabel lblTitulo = new JLabel("REGISTRO", JLabel.CENTER);
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 24)); 
+        lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 30)); 
        // lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT); 
         pNorte.add(lblTitulo, BorderLayout.CENTER);
         
@@ -124,10 +128,10 @@ public class VentanaRegistro extends JFrame{
         pCentro.add(txtCorreo);
         pCentro.add(lblTel);
         pCentro.add(txttel);
-        pCentro.add(lblContra);
-        pCentro.add(txtContra);
-        pCentro.add(lblRepeContra);
-        pCentro.add(txtRepeContra);
+        //pCentro.add(lblContra);
+        //pCentro.add(txtContra);
+        //pCentro.add(lblRepeContra);
+        //pCentro.add(txtRepeContra);
         pCentro.add(lblSegu);
         pCentro.add(comboPreguntas);
         pCentro.add(lblResp);
@@ -159,10 +163,63 @@ public class VentanaRegistro extends JFrame{
         pSur.add(aceptarTerminos);
 		btnRegistro = new JButton("REGISTRRSE");
 		pSur.add(btnRegistro);
-		pSur.setBackground(Color.WHITE);
+		//aceptarTerminos.setBackground(Color.WHITE);
+		//pSur.setBackground(Color.WHITE);
 		//btnRegistro.setHorizontalAlignment(SwingConstants.CENTER);
 		btnRegistro.setAlignmentX(Component.CENTER_ALIGNMENT);
         pSur.setLayout(new BoxLayout(pSur, BoxLayout.Y_AXIS));
+        
+        //OJOS
+        mostrarRepeContra = new JButton();
+        mostrarContra = new JButton();
+        
+        ImageIcon ojoVer = new ImageIcon(getClass().getResource("/Images/ojoAbierto.png"));
+        ImageIcon ojoOcultar = new ImageIcon(getClass().getResource("/Images/ojoCerrado.png"));
+
+        mostrarContra.setIcon(ojoVer);
+        mostrarRepeContra.setIcon(ojoVer);
+        
+        mostrarContra.setBounds(410, 80, 50, 25);
+        mostrarContra.setBounds(410, 80, 50, 25);
+        
+        pCentro.add(lblContra);
+        JPanel panelContra = new JPanel(new BorderLayout());
+        panelContra.add(txtContra, BorderLayout.CENTER);
+        panelContra.add(mostrarContra, BorderLayout.EAST);
+        pCentro.add(panelContra);
+
+        pCentro.add(lblRepeContra);
+        JPanel panelRepeContra = new JPanel(new BorderLayout());
+        panelRepeContra.add(txtRepeContra, BorderLayout.CENTER);
+        panelRepeContra.add(mostrarRepeContra, BorderLayout.EAST);
+        pCentro.add(panelRepeContra);
+
+        mostrarContra.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (((JPasswordField) txtContra).getEchoChar() == '*') {
+                    ((JPasswordField) txtContra).setEchoChar((char) 0);
+                    mostrarContra.setIcon(ojoOcultar);
+                } else {
+                    ((JPasswordField) txtContra).setEchoChar('*');
+                    mostrarContra.setIcon(ojoVer);
+                }
+                
+            }
+        });
+        
+        mostrarRepeContra.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (((JPasswordField) txtRepeContra).getEchoChar() == '*') {
+                    ((JPasswordField) txtRepeContra).setEchoChar((char) 0); 
+                    mostrarRepeContra.setIcon(ojoOcultar); 
+                } else {
+                    ((JPasswordField) txtRepeContra).setEchoChar('*');
+                    mostrarRepeContra.setIcon(ojoVer); 
+                }
+            }
+        });
 		
         setVisible(true);
 
@@ -177,8 +234,34 @@ public class VentanaRegistro extends JFrame{
         	}
         });
         
-	}
+        btnRegistro.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(VentanaRegistro.this, "Te has registrado correctamente", "Registro", JOptionPane.INFORMATION_MESSAGE );
+				SwingUtilities.invokeLater(() -> new VentanaInicioSesion());
+    			dispose();
+				
+			}
+		});
+        
+        btnRegistro.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                	JOptionPane.showMessageDialog(VentanaRegistro.this, "Te has registrado correctamente", "Registro", JOptionPane.INFORMATION_MESSAGE );
+    				SwingUtilities.invokeLater(() -> new VentanaInicioSesion());
+        			dispose();
+                }
+            }
+        });
+
+       
+      getRootPane().setDefaultButton(btnRegistro);
+        
+        
 	
+	}
 
 }
 

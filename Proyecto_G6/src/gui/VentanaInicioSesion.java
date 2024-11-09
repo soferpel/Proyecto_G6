@@ -2,10 +2,13 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,7 +27,6 @@ public class VentanaInicioSesion extends JFrame{
 	private JButton bRegistrarse, bIniSesion, mostrarContra;
 	private JLabel lblCorreo, lblContra;
 	private JTextField txtCorreo, txtContra;
-	private Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 30);
 
 	public VentanaInicioSesion(){
 		setResizable(false);
@@ -41,16 +43,21 @@ public class VentanaInicioSesion extends JFrame{
         add(panelDatos);
         
         JPanel panelNorte = new JPanel();
-        panelNorte.setLayout(null);
+        panelNorte.setLayout(new BorderLayout());	
         add(panelNorte, BorderLayout.NORTH);
-
+        
+        //Logo		Si lo añado se me descentra el panelDatos
+       /* ImageIcon logo = new ImageIcon(getClass().getResource("/Images/logoPngNegro.png"));
+		JLabel labelImagenLogo = new JLabel(logo);
+		panelNorte.add(labelImagenLogo, BorderLayout.EAST);*/
         
         JLabel lblTitulo = new JLabel("INICIO SESIÓN", SwingConstants.CENTER);
+        Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 30);
         lblTitulo.setFont(fontTextoTitulo);
         lblTitulo.setBounds(0, 10, 778, 40); // Centrado en la parte superior de la ventana
         add(lblTitulo);
         add(panelNorte);
-
+      
         
         JLabel lblCorreo = new JLabel("Correo:");
         lblCorreo.setBounds(50, 30, 100, 25);
@@ -98,17 +105,24 @@ public class VentanaInicioSesion extends JFrame{
         olvideContra.setForeground(Color.BLUE);
         olvideContra.setBounds(150, 120, 200, 25);
         panelDatos.add(olvideContra);
+        
+        olvideContra.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	
+                new VentanaModificarDatos().setVisible(true);
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                
+                olvideContra.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+        });
+
 
         bRegistrarse = new JButton("REGISTRARSE");
         bRegistrarse.setBounds(150, 160, 150, 30);
-        
-        //LOGO
-        //logo
-        ImageIcon logo = new ImageIcon(getClass().getResource("/Images/logoPngNegro.png"));
-		JLabel labelImagenLogo = new JLabel(logo);
-        panelNorte.add(labelImagenLogo, BorderLayout.EAST);
-        
-        //panelPrincipal.add(panelNorte, BorderLayout.NORTH);
 
         
         //EVENTOS

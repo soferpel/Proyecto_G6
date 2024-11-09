@@ -211,10 +211,3 @@ public VentanaModificarDatos() {
 
 }
 		
-		
-		
-
-		 
-
-
-

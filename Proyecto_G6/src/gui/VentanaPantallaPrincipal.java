@@ -25,7 +25,6 @@ import javax.swing.border.EmptyBorder;
 public class VentanaPantallaPrincipal extends JFrame{
 	
 	private JLabel imgVerEnvios, imgFacturacion, imgHacerEnvio;
-	private Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 25);
 	
 	
 	  public VentanaPantallaPrincipal() {
@@ -37,8 +36,10 @@ public class VentanaPantallaPrincipal extends JFrame{
         // Panel Norte
         JPanel pNorte = new JPanel(new BorderLayout());
         JLabel lblBienvenida = new JLabel("¡¡BIENVENID@!!", SwingConstants.CENTER);
-        lblBienvenida.setFont(fontTextoTitulo);
+        Font fondo = new Font("Tahoma", Font.BOLD, 30);
+        lblBienvenida.setFont(fondo);
         pNorte.add(lblBienvenida, BorderLayout.CENTER);
+        
 
         JPanel pBotonesNorte = new JPanel();
         JButton btnCerrarSesion = new JButton("CERRAR SESIÓN");
@@ -149,6 +150,12 @@ public class VentanaPantallaPrincipal extends JFrame{
         pMedidas.add(pDimensiones, BorderLayout.CENTER);
 
         pDerecha.add(pMedidas, BorderLayout.CENTER);
+        
+        //Logo
+        ImageIcon logo = new ImageIcon(getClass().getResource("/Images/logoPngNegro.png"));
+		JLabel labelImagenLogo = new JLabel(logo);
+		pNorte.add(labelImagenLogo, BorderLayout.WEST);
+        
 
         // Botón Crear
         JButton btnCrear = new JButton("CREAR");

@@ -43,8 +43,6 @@ public class VentanaFacturacion extends JFrame {
 
         panelPrincipal.add(panelSuperior, BorderLayout.NORTH);
 
-        
-        
         JPanel panelCentral = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
                 JPanel panelIzquierdo = new JPanel(new GridLayout(3, 2, 10, 10));
         
@@ -132,3 +130,6 @@ public class VentanaFacturacion extends JFrame {
     }
 
 }
+
+
+/**/
