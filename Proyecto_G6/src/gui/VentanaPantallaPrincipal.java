@@ -229,6 +229,7 @@ public class VentanaPantallaPrincipal extends JFrame{
 			}
 		});
         
+        getRootPane().setDefaultButton(btnCrear);
         
         setVisible(true);
 		setResizable(false);

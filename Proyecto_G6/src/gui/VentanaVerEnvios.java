@@ -59,8 +59,9 @@ public class VentanaVerEnvios  extends JFrame {
 	        }
 	     };
 	        
-	    int rowHeight = 30;  
-	    tablaEnvios.setRowHeight(rowHeight);
+	    tablaEnvios.setRowHeight(30);
+	    tablaEnvios.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+
 	    
 	    tablaEnvios.setDefaultRenderer(Object.class, new RenderTabla(tablaEnvios));
 	    
@@ -281,29 +282,6 @@ public class VentanaVerEnvios  extends JFrame {
             return null;
         }
     }
-    
-   /* class renderTabla extends JLabel implements TableCellRenderer {
-
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-				int row, int column) {
-			JLabel result = new JLabel(value.toString());
-			//tablaEnvios.setFont(new Font("Arial",  Font.PLAIN, 14)); 
-			double precio = Double.parseDouble(value.toString());
-			if(precio <= 50) {
-				result.setBackground(Color.GREEN);
-			}else if(precio <= 100) {
-				result.setBackground(Color.ORANGE);
-			}else {
-				result.setBackground(Color.RED);
-			}
-			result.setOpaque(true);
-			return result;
-		}
-    	
-    }*/
-
-    
     
 }
 

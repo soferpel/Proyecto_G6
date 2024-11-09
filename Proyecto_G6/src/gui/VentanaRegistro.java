@@ -238,25 +238,21 @@ public class VentanaRegistro extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(VentanaRegistro.this, "Te has registrado correctamente", "Registro", JOptionPane.INFORMATION_MESSAGE );
+				if (!aceptarTerminos.isSelected()) {
+					JOptionPane.showMessageDialog(
+							VentanaRegistro.this, "Debes aceptar los Términos y Condiciones para registrarte.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+				    return;
+				}
+				JOptionPane.showMessageDialog(
+						VentanaRegistro.this, "Te has registrado correctamente", "Registro", JOptionPane.INFORMATION_MESSAGE );
 				SwingUtilities.invokeLater(() -> new VentanaInicioSesion());
     			dispose();
-				
 			}
 		});
         
-        btnRegistro.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                	JOptionPane.showMessageDialog(VentanaRegistro.this, "Te has registrado correctamente", "Registro", JOptionPane.INFORMATION_MESSAGE );
-    				SwingUtilities.invokeLater(() -> new VentanaInicioSesion());
-        			dispose();
-                }
-            }
-        });
+      aceptarTerminos.addActionListener(e -> btnRegistro.setEnabled(aceptarTerminos.isSelected()));
+	
 
-       
       getRootPane().setDefaultButton(btnRegistro);
         
         
