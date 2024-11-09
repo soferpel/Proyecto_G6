@@ -16,12 +16,14 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -33,6 +35,8 @@ public class VentanaVerEnvios  extends JFrame {
 	
 	private static final TableCellRenderer RenderTabla = null;
 
+   // private JTextField txtFiltro;
+    
 	public VentanaVerEnvios() {
 		setTitle("Ver Envios");
 		setSize(900, 500);
@@ -58,8 +62,6 @@ public class VentanaVerEnvios  extends JFrame {
 	    int rowHeight = 30;  
 	    tablaEnvios.setRowHeight(rowHeight);
 	    
-	    //tablaEnvios.setDefaultRenderer(Object.class, new RenderTabla(tablaEnvios));
-	   // tablaEnvios.getColumnModel().getColumn(2).setCellRenderer(new RenderTabla(tablaEnvios));
 	    tablaEnvios.setDefaultRenderer(Object.class, new RenderTabla(tablaEnvios));
 	    
 	    ButtonRenderer buttonRendererEditor = new ButtonRenderer(tabla, tablaEnvios);
@@ -74,8 +76,35 @@ public class VentanaVerEnvios  extends JFrame {
 	    
 	    tabla.addRow(new Object[] {"REF-1001", "2024-11-01", "50.00", "Envio de libros", "Pendiente", "2024-12-01", ""});
 	    tabla.addRow(new Object[]{"REF-1002", "2024-11-02", "75.00", "Envio de ropa", "En transito", "2024-12-03", ""});
-	    tabla.addRow(new Object[]{"REF-1003", "2024-11-03", "150", "Envio de electrónicos", "En transito", "2024-12-07", ""});
+	    tabla.addRow(new Object[]{"REF-1003", "2024-11-03", "150", "Envio de electrónicos", "Enviado", "2024-12-01", ""});
         
+	    //Combo para filtrar por Estado
+	    String[] opcionesFiltro = {"Enviado", "Pendiente", "En tránsito"};
+	    JComboBox<String> filtroComboBox = new JComboBox<>(opcionesFiltro);
+	    filtroComboBox.setSelectedIndex(0); 
+	    filtroComboBox.setPreferredSize(new Dimension(150, 20));
+	    filtroComboBox.setFont(new Font("Arial", Font.PLAIN, 12));
+	    
+        
+	    filtroComboBox.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            String estadoSeleccionado = (String) filtroComboBox.getSelectedItem();
+	            DefaultTableModel modeloTabla = (DefaultTableModel) tablaEnvios.getModel();		//!!!!!
+	            modeloTabla.setRowCount(0);
+
+	            if ("Enviado".equals(estadoSeleccionado)) {
+	                modeloTabla.addRow(new Object[]{"REF-1003", "2024-11-03", "150", "Envio de electrónicos", "Enviado", "2024-12-01", ""});
+	            } else if ("Pendiente".equals(estadoSeleccionado)) {
+	                modeloTabla.addRow(new Object[]{"REF-1001", "2024-11-01", "50.00", "Envio de libros", "Pendiente", "2024-12-01", ""});
+	            } else if ("En tránsito".equals(estadoSeleccionado)) {
+	                modeloTabla.addRow(new Object[]{"REF-1002", "2024-11-02", "75.00", "Envio de ropa", "En transito", "2024-12-03", ""});
+	            }
+	        }
+	    });
+
+// Crear el panel superior y
+	   
         
         ImageIcon imageVolverO = new ImageIcon(getClass().getResource("/Images/volver.png"));
         ImageIcon imageVolverE = new ImageIcon(
@@ -103,6 +132,8 @@ public class VentanaVerEnvios  extends JFrame {
         
         JPanel panelSuperior = new JPanel(new BorderLayout());
         panelSuperior.add(panelVolver, BorderLayout.WEST);
+        
+       
 
 		//ImageIcon imgModificar = new ImageIcon(getClass().getResource("/Images/modificar.png"));
         //JButton btnModificar = new JButton("Modificar");
@@ -120,9 +151,16 @@ public class VentanaVerEnvios  extends JFrame {
         panelDerecha.add(labelImagenLogo);
         panelSuperior.add(panelDerecha, BorderLayout.EAST);
         
+        JPanel panelCombo = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        filtroComboBox.add(new JLabel("Filtrar por estado:"));
+        panelCombo.add(filtroComboBox);
+        panelSuperior.add(panelCombo);
+       
         
         add(panelSuperior, BorderLayout.NORTH);
         add(tablePanel, BorderLayout.CENTER);
+        
+        
 
 		
 	}
@@ -147,6 +185,7 @@ public class VentanaVerEnvios  extends JFrame {
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             JLabel label = new JLabel(value.toString());
 
+            table.setBackground(Color.WHITE);
             label.setFont(new Font("Arial",  Font.PLAIN, 14));
             
             if (isSelected) {
