@@ -1,11 +1,15 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -27,6 +31,8 @@ import javax.swing.AbstractCellEditor;
 
 public class VentanaVerEnvios  extends JFrame {
 	
+	private static final TableCellRenderer RenderTabla = null;
+
 	public VentanaVerEnvios() {
 		setTitle("Ver Envios");
 		setSize(900, 500);
@@ -40,10 +46,7 @@ public class VentanaVerEnvios  extends JFrame {
 		DefaultTableModel tabla = new DefaultTableModel(null, nombreColumnas);
 
 		JTable tablaEnvios = new JTable(tabla) {
-			
-		/**
-			 * 
-			 */
+		
 			private static final long serialVersionUID = 1L;
 
 		@Override
@@ -55,6 +58,10 @@ public class VentanaVerEnvios  extends JFrame {
 	    int rowHeight = 30;  
 	    tablaEnvios.setRowHeight(rowHeight);
 	    
+	    //tablaEnvios.setDefaultRenderer(Object.class, new RenderTabla(tablaEnvios));
+	   // tablaEnvios.getColumnModel().getColumn(2).setCellRenderer(new RenderTabla(tablaEnvios));
+	    tablaEnvios.setDefaultRenderer(Object.class, new RenderTabla(tablaEnvios));
+	    
 	    ButtonRenderer buttonRendererEditor = new ButtonRenderer(tabla, tablaEnvios);
         tablaEnvios.getColumnModel().getColumn(6).setCellRenderer(buttonRendererEditor);
         tablaEnvios.getColumnModel().getColumn(6).setCellEditor(buttonRendererEditor);	        
@@ -65,8 +72,9 @@ public class VentanaVerEnvios  extends JFrame {
 			
 	    tablePanel.add(scrollPane, BorderLayout.CENTER);
 	    
-	    tabla.addRow(new Object[] {"REF-1001", "2024-11-01", "50.00", "Env�o de libros", "Pendiente", "2024-12-01", ""});
-	    tabla.addRow(new Object[]{"REF-1002", "2024-11-02", "75.00", "Env�o de ropa", "En tr�nsito", "2024-12-03", ""});
+	    tabla.addRow(new Object[] {"REF-1001", "2024-11-01", "50.00", "Envio de libros", "Pendiente", "2024-12-01", ""});
+	    tabla.addRow(new Object[]{"REF-1002", "2024-11-02", "75.00", "Envio de ropa", "En transito", "2024-12-03", ""});
+	    tabla.addRow(new Object[]{"REF-1003", "2024-11-03", "150", "Envio de electrónicos", "En transito", "2024-12-07", ""});
         
         
         ImageIcon imageVolverO = new ImageIcon(getClass().getResource("/Images/volver.png"));
@@ -128,6 +136,51 @@ public class VentanaVerEnvios  extends JFrame {
         });
     }
     
+    class RenderTabla implements TableCellRenderer {
+        private final JTable table;
+
+        public RenderTabla(JTable table) {
+            this.table = table;
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            JLabel label = new JLabel(value.toString());
+
+            label.setFont(new Font("Arial",  Font.PLAIN, 14));
+            
+            if (isSelected) {
+                label.setBackground(Color.LIGHT_GRAY);
+            }
+            
+            //que la fecha esté en el formato correcto (yyyy-mm-dd).
+            if (value instanceof Date) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                value = dateFormat.format((Date) value);
+            }
+            
+            
+            if (column == 2) {
+                try {
+                    double precio = Double.parseDouble(value.toString());
+                    if (precio <= 50) {
+                        label.setBackground(Color.GREEN);
+                    } else if (precio <= 100) {
+                        label.setBackground(Color.ORANGE);
+                    } else {
+                        label.setBackground(Color.RED);
+                    }
+                } catch (NumberFormatException e) {
+                    label.setBackground(Color.WHITE); 
+                }
+                
+            }
+
+            label.setOpaque(true);
+            return label;
+        }
+    }
+    
     class ButtonRenderer extends AbstractCellEditor implements TableCellRenderer, TableCellEditor {
 
         private final JPanel panel;
@@ -170,6 +223,7 @@ public class VentanaVerEnvios  extends JFrame {
 
             panel.add(btnModificar);
             panel.add(btnEliminar);
+            
         }
 
         @Override
@@ -188,6 +242,28 @@ public class VentanaVerEnvios  extends JFrame {
             return null;
         }
     }
+    
+   /* class renderTabla extends JLabel implements TableCellRenderer {
+
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+			JLabel result = new JLabel(value.toString());
+			//tablaEnvios.setFont(new Font("Arial",  Font.PLAIN, 14)); 
+			double precio = Double.parseDouble(value.toString());
+			if(precio <= 50) {
+				result.setBackground(Color.GREEN);
+			}else if(precio <= 100) {
+				result.setBackground(Color.ORANGE);
+			}else {
+				result.setBackground(Color.RED);
+			}
+			result.setOpaque(true);
+			return result;
+		}
+    	
+    }*/
+
     
     
 }
