@@ -33,8 +33,6 @@ public class VentanaFacturacion extends JFrame {
         panelVolver.setBorder(new EmptyBorder(10, 10, 10, 10));
         panelVolver.add(btnVolver);
         
-        
-        
         panelSuperior.add(panelVolver, BorderLayout.WEST);
 
         //titulo
@@ -50,7 +48,7 @@ public class VentanaFacturacion extends JFrame {
         panelPrincipal.add(panelSuperior, BorderLayout.NORTH);
 
         JPanel panelCentral = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
-                JPanel panelIzquierdo = new JPanel(new GridLayout(4, 2, 10, 10));
+        JPanel panelIzquierdo = new JPanel(new GridLayout(4, 2, 10, 10));
         
         //referencia
         JLabel lblReferencia = new JLabel("Número de referencia:");
@@ -92,17 +90,18 @@ public class VentanaFacturacion extends JFrame {
         JTextField txtFechaEnvio = new JTextField(15);
         panelDerecho.add(lblFechaEnvio);
         panelDerecho.add(txtFechaEnvio);
+        
         panelCentral.add(panelDerecho);
-
         panelPrincipal.add(panelCentral, BorderLayout.CENTER);
 
+        JPanel panelTablaYBoton = new JPanel(new BorderLayout()); 
         JPanel panelTabla = new JPanel();
         panelTabla.setLayout(new BoxLayout(panelTabla, BoxLayout.Y_AXIS));
         String[] columnNames = {"Número de referencia", "Fecha", "Precio", "Descripción", "Tipo de envío"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         
         model.addRow(new Object[]{"001", "2024-11-09", "100.00", "Producto A", "Estándar"});
-        model.addRow(new Object[]{"002", "2024-11-19", "17.00", "Producto b", "Premium"});
+        model.addRow(new Object[]{"002", "2024-11-19", "17.00", "Producto B", "Premium"});
 
         JTable table = new JTable(model);
         JComboBox<String> comboBoxEnvio = new JComboBox<>(new String[]{"Estándar", "Premium", "Superior"});
@@ -111,7 +110,7 @@ public class VentanaFacturacion extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(650, 120));
         panelTabla.add(scrollPane);
-        panelPrincipal.add(panelTabla, BorderLayout.SOUTH);
+        panelTablaYBoton.add(panelTabla, BorderLayout.CENTER);
         
         //exportar
         JPanel panelBoton = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -122,8 +121,9 @@ public class VentanaFacturacion extends JFrame {
                 JOptionPane.showMessageDialog(null, "Factura exportada en PDF");
             }
         });
-        
-        
+        panelBoton.add(btnExportarPDF);
+        panelTablaYBoton.add(panelBoton, BorderLayout.SOUTH);
+        panelPrincipal.add(panelTablaYBoton, BorderLayout.SOUTH);
         
         btnVolver.addActionListener(new ActionListener() {
 			
@@ -133,9 +133,7 @@ public class VentanaFacturacion extends JFrame {
 				dispose();
 			}
 		});
-        
-        panelBoton.add(btnExportarPDF);
-        panelPrincipal.add(panelBoton, BorderLayout.PAGE_END);
+       
         
 
         add(panelPrincipal);
