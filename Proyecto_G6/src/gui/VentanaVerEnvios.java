@@ -55,7 +55,7 @@ public class VentanaVerEnvios  extends JFrame {
 
 		@Override
 		public boolean isCellEditable(int row, int column) {
-			return column == 6;
+			return column == 3;
 	        }
 	     };
 	        
@@ -247,8 +247,11 @@ public class VentanaVerEnvios  extends JFrame {
             btnModificar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    tablaEnvios.editCellAt(row, 0); // Habilita la edici�n de la fila completa
+                   /* tablaEnvios.editCellAt(row, 0); // Habilita la edici�n de la fila completa
                     tablaEnvios.setRowSelectionInterval(row, row); // Selecciona la fila actual
+                    stopCellEditing();*/
+                	tablaEnvios.editCellAt(row, 3);
+                    tablaEnvios.setRowSelectionInterval(row, row); 
                     stopCellEditing();
                 }
             });
