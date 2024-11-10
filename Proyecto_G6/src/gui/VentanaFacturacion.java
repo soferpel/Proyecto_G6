@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -13,6 +14,11 @@ public class VentanaFacturacion extends JFrame {
 	
     public VentanaFacturacion() {
 
+    	setTitle("Facturación");
+        setSize(700, 500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+  		setResizable(false);
 
         JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));
         JPanel panelSuperior = new JPanel(new BorderLayout());
@@ -44,7 +50,7 @@ public class VentanaFacturacion extends JFrame {
         panelPrincipal.add(panelSuperior, BorderLayout.NORTH);
 
         JPanel panelCentral = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
-                JPanel panelIzquierdo = new JPanel(new GridLayout(3, 2, 10, 10));
+                JPanel panelIzquierdo = new JPanel(new GridLayout(4, 2, 10, 10));
         
         //referencia
         JLabel lblReferencia = new JLabel("Número de referencia:");
@@ -83,15 +89,30 @@ public class VentanaFacturacion extends JFrame {
 
         //fecha de envío
         JLabel lblFechaEnvio = new JLabel("Fecha Envío:");
-        JDateChooser dateChooser = new JDateChooser();
-        dateChooser.setPreferredSize(new Dimension(150, 25));
+        JTextField txtFechaEnvio = new JTextField(15);
         panelDerecho.add(lblFechaEnvio);
-        panelDerecho.add(dateChooser);
-
+        panelDerecho.add(txtFechaEnvio);
         panelCentral.add(panelDerecho);
 
         panelPrincipal.add(panelCentral, BorderLayout.CENTER);
 
+        JPanel panelTabla = new JPanel();
+        panelTabla.setLayout(new BoxLayout(panelTabla, BoxLayout.Y_AXIS));
+        String[] columnNames = {"Número de referencia", "Fecha", "Precio", "Descripción", "Tipo de envío"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        
+        model.addRow(new Object[]{"001", "2024-11-09", "100.00", "Producto A", "Estándar"});
+        model.addRow(new Object[]{"002", "2024-11-19", "17.00", "Producto b", "Premium"});
+
+        JTable table = new JTable(model);
+        JComboBox<String> comboBoxEnvio = new JComboBox<>(new String[]{"Estándar", "Premium", "Superior"});
+        table.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(comboBoxEnvio));
+        
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(650, 120));
+        panelTabla.add(scrollPane);
+        panelPrincipal.add(panelTabla, BorderLayout.SOUTH);
+        
         //exportar
         JPanel panelBoton = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton btnExportarPDF = new JButton("EXPORTAR");
@@ -114,22 +135,12 @@ public class VentanaFacturacion extends JFrame {
 		});
         
         panelBoton.add(btnExportarPDF);
-        panelPrincipal.add(panelBoton, BorderLayout.SOUTH);
+        panelPrincipal.add(panelBoton, BorderLayout.PAGE_END);
+        
 
         add(panelPrincipal);
-        
-        
-        
-        setTitle("Facturación");
-        setSize(700, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
         setVisible(true);
-		setResizable(false);
-
+                
     }
 
 }
-
-
-/**/

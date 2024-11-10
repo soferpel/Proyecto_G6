@@ -35,7 +35,6 @@ public class VentanaVerEnvios  extends JFrame {
 	
 	private static final TableCellRenderer RenderTabla = null;
 
-   // private JTextField txtFiltro;
     
 	public VentanaVerEnvios() {
 		setTitle("Ver Envios");
@@ -79,7 +78,7 @@ public class VentanaVerEnvios  extends JFrame {
 	    tabla.addRow(new Object[]{"REF-1002", "2024-11-02", "75.00", "Envio de ropa", "En transito", "2024-12-03", ""});
 	    tabla.addRow(new Object[]{"REF-1003", "2024-11-03", "150", "Envio de electrónicos", "Enviado", "2024-12-01", ""});
         
-	    //Combo para filtrar por Estado
+
 	    String[] opcionesFiltro = {"Enviado", "Pendiente", "En tránsito"};
 	    JComboBox<String> filtroComboBox = new JComboBox<>(opcionesFiltro);
 	    filtroComboBox.setSelectedIndex(0); 
@@ -104,8 +103,8 @@ public class VentanaVerEnvios  extends JFrame {
 	        }
 	    });
 
-// Crear el panel superior y
-	   
+
+	    
         
         ImageIcon imageVolverO = new ImageIcon(getClass().getResource("/Images/volver.png"));
         ImageIcon imageVolverE = new ImageIcon(
@@ -247,8 +246,8 @@ public class VentanaVerEnvios  extends JFrame {
             btnModificar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    tablaEnvios.editCellAt(row, 0); // Habilita la edici�n de la fila completa
-                    tablaEnvios.setRowSelectionInterval(row, row); // Selecciona la fila actual
+                    tablaEnvios.editCellAt(row, 0); 
+                    tablaEnvios.setRowSelectionInterval(row, row); 
                     stopCellEditing();
                 }
             });
