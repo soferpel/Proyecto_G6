@@ -3,11 +3,17 @@ package gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import com.toedter.calendar.JDateChooser;
+
 
 public class VentanaFacturacion extends JFrame {
 
@@ -98,14 +104,22 @@ public class VentanaFacturacion extends JFrame {
         JPanel panelTabla = new JPanel();
         panelTabla.setLayout(new BoxLayout(panelTabla, BoxLayout.Y_AXIS));
         String[] columnNames = {"Número de referencia", "Fecha", "Precio", "Descripción", "Tipo de envío"};
-        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
         
         model.addRow(new Object[]{"001", "2024-11-09", "100.00", "Producto A", "Estándar"});
         model.addRow(new Object[]{"002", "2024-11-19", "17.00", "Producto B", "Premium"});
 
         JTable table = new JTable(model);
+        table.setDefaultRenderer(Object.class, new CustomTableCellRenderer());
         JComboBox<String> comboBoxEnvio = new JComboBox<>(new String[]{"Estándar", "Premium", "Superior"});
         table.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(comboBoxEnvio));
+        table.getColumnModel().getColumn(4).setCellRenderer(new CustomTableCellRenderer());
+        
         
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(650, 120));
@@ -133,12 +147,61 @@ public class VentanaFacturacion extends JFrame {
 				dispose();
 			}
 		});
-       
         
-
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow != -1) {
+                    String referencia = (String) table.getValueAt(selectedRow, 0); 
+                    txtReferencia.setText(referencia); 
+                }
+            }
+        });
         add(panelPrincipal);
         setVisible(true);
+        
+        
                 
+    }
+    
+    private static class CustomTableCellRenderer extends DefaultTableCellRenderer {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+            if (isSelected) {
+            	label.setForeground(new Color(24, 40, 66));
+            	label.setBackground(new Color(134, 166, 191));
+            } else {
+            	
+                if (row % 2 == 0) {
+                	label.setBackground(new Color(245, 245, 245));
+                } else {
+                	label.setBackground(Color.WHITE);
+                }
+                label.setForeground(Color.BLACK);
+                
+                if ("Estándar".equals(value)) {
+                	label.setBackground(new Color(255, 200, 200)); 
+                } else if ("Premium".equals(value)) {
+                	label.setBackground(new Color(255, 255, 200)); 
+                } else if ("Superior".equals(value)) {
+                	label.setBackground(new Color(255, 220, 180)); 
+                }
+            }
+
+            if (column == 0) {
+            	label.setForeground(Color.RED);
+			}
+            
+            
+            
+            label.setHorizontalAlignment(JLabel.CENTER); 
+            label.setOpaque(true); 
+            
+            return label;
+        }
     }
 
 }

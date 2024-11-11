@@ -44,7 +44,7 @@ public class VentanaHacerEnvio extends JFrame{
 	private JLabel txtCrearEnvio;
 	private JPanel  pNorte, pNorte2, pNorte3,pSur,
 					pOeste, pEste, pBtnAnterior, pBtnSiguiente;
-	private Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 20);
+	private Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 20); //IAG (herramienta: ChatGPT)
 	private double precioBase, precioFinal;
 	private int indiceActual = 0;
 	
@@ -638,6 +638,7 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	//EVENTOS
 	
+	//IAG (herramienta: ChatGPT)
 	agregarKeyBindingParaEnter(campoDescripcion);
 	agregarKeyBindingParaEnter(campoLargo);
 	agregarKeyBindingParaEnter(campoAncho);
@@ -883,6 +884,8 @@ public class VentanaHacerEnvio extends JFrame{
         }
     }
 	
+	
+	//IAG (herramienta: ChatGPT)
     private static void agregarKeyBindingParaEnter(JTextField textField) {
         textField.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("ENTER"), "moverFoco");
         textField.getActionMap().put("moverFoco", new AbstractAction() {
