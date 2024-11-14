@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
@@ -24,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -35,7 +37,6 @@ public class VentanaVerEnvios  extends JFrame {
 	
 	private static final TableCellRenderer RenderTabla = null;
 
-   // private JTextField txtFiltro;
     
 	public VentanaVerEnvios() {
 		setTitle("Ver Envios");
@@ -79,7 +80,7 @@ public class VentanaVerEnvios  extends JFrame {
 	    tabla.addRow(new Object[]{"REF-1002", "2024-11-02", "75.00", "Envio de ropa", "En transito", "2024-12-03", ""});
 	    tabla.addRow(new Object[]{"REF-1003", "2024-11-03", "150", "Envio de electrónicos", "Enviado", "2024-12-01", ""});
         
-	    //Combo para filtrar por Estado
+
 	    String[] opcionesFiltro = {"Enviado", "Pendiente", "En tránsito"};
 	    JComboBox<String> filtroComboBox = new JComboBox<>(opcionesFiltro);
 	    filtroComboBox.setSelectedIndex(0); 
@@ -104,8 +105,8 @@ public class VentanaVerEnvios  extends JFrame {
 	        }
 	    });
 
-// Crear el panel superior y
-	   
+
+	    
         
         ImageIcon imageVolverO = new ImageIcon(getClass().getResource("/Images/volver.png"));
         ImageIcon imageVolverE = new ImageIcon(
@@ -177,15 +178,18 @@ public class VentanaVerEnvios  extends JFrame {
     
     class RenderTabla implements TableCellRenderer {
         private final JTable table;
+        private final ImageIcon iconoLibro;
 
         public RenderTabla(JTable table) {
             this.table = table;
+            ImageIcon originalIcon  = new ImageIcon(getClass().getResource("/images/libro.jpg"));
+            Image image = originalIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+            iconoLibro = new ImageIcon(image);
         }
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            JLabel label = new JLabel(value.toString());
-
+            JLabel label = new JLabel(value.toString());;
             table.setBackground(Color.WHITE);
             label.setFont(new Font("Arial",  Font.PLAIN, 14));
             
@@ -214,6 +218,12 @@ public class VentanaVerEnvios  extends JFrame {
                     label.setBackground(Color.WHITE); 
                 }
                 
+            }
+            
+            if(column == 3 && "Envio de libros".equals(value)) {
+            	label.setHorizontalAlignment(SwingConstants.CENTER);
+            	label.setText("");
+            	label.setIcon(iconoLibro);
             }
 
             label.setOpaque(true);
@@ -251,6 +261,7 @@ public class VentanaVerEnvios  extends JFrame {
                     tablaEnvios.setRowSelectionInterval(row, row); // Selecciona la fila actual
                     stopCellEditing();*/
                 	tablaEnvios.editCellAt(row, 3);
+                    tablaEnvios.editCellAt(row, 0); 
                     tablaEnvios.setRowSelectionInterval(row, row); 
                     stopCellEditing();
                 }

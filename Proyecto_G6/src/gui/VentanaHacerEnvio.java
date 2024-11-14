@@ -837,12 +837,7 @@ public class VentanaHacerEnvio extends JFrame{
 	});
 	
 	
-	
-	
-	
-	
 	}
-	
 	
     private void cambiarPestana(int incremento) {
         int nuevoIndice = indiceActual + incremento;

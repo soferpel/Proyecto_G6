@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Image;
@@ -10,16 +11,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.plaf.metal.MetalFileChooserUI.FilterComboBoxRenderer;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
 
 public class VentanaInicioSesion extends JFrame{
@@ -43,7 +51,7 @@ public class VentanaInicioSesion extends JFrame{
         add(panelDatos);
         
         JPanel panelNorte = new JPanel();
-        panelNorte.setLayout(new BorderLayout());	
+        panelNorte.setLayout(null);	
         add(panelNorte, BorderLayout.NORTH);
         
         //Logo		Si lo añado se me descentra el panelDatos
@@ -54,7 +62,7 @@ public class VentanaInicioSesion extends JFrame{
         JLabel lblTitulo = new JLabel("INICIO SESIÓN", SwingConstants.CENTER);
         Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 30);
         lblTitulo.setFont(fontTextoTitulo);
-        lblTitulo.setBounds(0, 10, 778, 40); // Centrado en la parte superior de la ventana
+        lblTitulo.setBounds(0, 10, 778, 40); //Centrado
         add(lblTitulo);
         add(panelNorte);
       
@@ -70,6 +78,35 @@ public class VentanaInicioSesion extends JFrame{
         JComboBox<String> dominioEmail = new JComboBox<>(new String[]{"@admin.es", "@gmail.com", "@hotmail.com"});
         dominioEmail.setBounds(410, 30, 120, 25);
         panelDatos.add(dominioEmail);
+        
+        ListCellRenderer renderCombo = new DefaultListCellRenderer() {
+        	@Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+        	 if (value != null) {
+                 String dominio = value.toString();
+                 switch (dominio) {
+                     case "@admin.es":
+                         label.setBackground(Color.GREEN);
+                         break;
+                     case "@gmail.com":
+                         label.setBackground(Color.PINK);
+                         break;
+                     case "@hotmail.com":
+                         label.setBackground(Color.ORANGE);
+                         break;
+                     default:
+                         label.setBackground(Color.GRAY);
+                         break;
+                 }
+        	 }
+        	 label.setOpaque(true);
+			return label;
+        	}
+        };
+		
+		dominioEmail.setRenderer(renderCombo);
 
         JLabel lblContra = new JLabel("Contraseña:");
         lblContra.setBounds(50, 80, 100, 25);
@@ -111,9 +148,10 @@ public class VentanaInicioSesion extends JFrame{
             public void mouseClicked(MouseEvent e) {
             	
                 new VentanaModificarDatos().setVisible(true);
+                dispose();
             }
 
-            @Override
+            @Override		//MANO
             public void mouseEntered(MouseEvent e) {
                 
                 olvideContra.setCursor(new Cursor(Cursor.HAND_CURSOR));
