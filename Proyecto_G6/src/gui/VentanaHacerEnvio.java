@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
@@ -48,6 +50,8 @@ public class VentanaHacerEnvio extends JFrame{
 	private double precioBase, precioFinal;
 	private int indiceActual = 0;
 	
+	private Thread hilo;
+	private boolean hiloEjecutando;
 	
 	//DONDE
 	
@@ -637,6 +641,48 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	
 	//EVENTOS
+	
+	//HILOS
+	hiloEjecutando = true;
+	addWindowListener(new WindowAdapter() {
+		
+		@Override
+		public void windowOpened(WindowEvent e) {
+			hilo = new Thread() {
+			int reloj = 0;
+			public void run() {
+				while(hiloEjecutando) {
+					reloj++;
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					if (reloj == 300) {
+						int result = JOptionPane.showConfirmDialog(null, "Han pasado 5 minutos, ¿desea continuar creando su pedido?", "Error", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+						if (result == JOptionPane.NO_OPTION) {
+							SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal());
+							dispose();
+							hiloEjecutando = false;
+						}
+						
+					}
+				}
+			}
+			};
+			hilo.start();
+		}
+	});
+	
+	addWindowListener(new WindowAdapter() {
+
+		@Override
+		public void windowClosed(WindowEvent e) {
+			hiloEjecutando = false;				
+		}
+
+	});
+	
 	
 	//IAG (herramienta: ChatGPT)
 	agregarKeyBindingParaEnter(campoDescripcion);
