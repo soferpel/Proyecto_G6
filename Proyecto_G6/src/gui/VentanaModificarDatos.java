@@ -33,7 +33,9 @@ private JTextField campoCorreo, campoTelefono, campoRes, campoNom, campoApel,
 					campoContrasenia1, campoVenificaCon1, campoPregSeg;
 
 private String textoTYC;
+
 private  JTextArea textTYC;
+
 private JScrollPane scrollTYC;
 
 private JPasswordField campoCon, campoVerifCon;
