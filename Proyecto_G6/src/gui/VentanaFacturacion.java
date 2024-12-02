@@ -225,11 +225,24 @@ public class VentanaFacturacion extends JFrame {
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int selectedRow = table.getSelectedRow();
+            	int selectedRow = table.getSelectedRow();
                 if (selectedRow != -1) {
+                	
+                    txtReferencia.setText(""); 
+            /*      txtFechaEnvio.setText("");
+                    txtPrecio.setText("");
+                    txtDescripcion.setText("");
+            */      
                     String referencia = (String) table.getValueAt(selectedRow, 0); 
+            /*      String fecha = (String) table.getValueAt(selectedRow, 1); 
+                    String precio = (String) table.getValueAt(selectedRow, 2); 
+                    String descripcion = (String) table.getValueAt(selectedRow, 3); 
+           */  
                     txtReferencia.setText(referencia); 
-                }
+                    /*txtFechaEnvio.setText(fecha);
+                    txtPrecio.setText(precio);
+                    txtDescripcion.setText(descripcion);
+           */}
             }
         });
         add(panelPrincipal);
