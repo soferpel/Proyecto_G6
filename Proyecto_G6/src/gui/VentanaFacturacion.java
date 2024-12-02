@@ -21,7 +21,7 @@ import com.toedter.calendar.JDateChooser;
 public class VentanaFacturacion extends JFrame {
 
 	private DefaultTableModel model;
-	private ArrayList<Object[]> datosOriginales = new ArrayList<>();
+	private ArrayList<Object[]> datosOriginales = new ArrayList<>(); //IA
 	private JTextField txtReferencia;
 	
     public VentanaFacturacion() {
@@ -145,7 +145,7 @@ public class VentanaFacturacion extends JFrame {
         model.addRow(new Object[]{"001", "2024-11-09", "100.00", "Producto A", "Estándar"});
         model.addRow(new Object[]{"002", "2024-11-19", "17.00", "Producto B", "Premium"});
 
-        for (int i = 0; i < model.getRowCount(); i++) {
+        for (int i = 0; i < model.getRowCount(); i++) { //IA
             Object[] fila = new Object[model.getColumnCount()];
             for (int j = 0; j < model.getColumnCount(); j++) {
                 fila[j] = model.getValueAt(i, j);
@@ -169,10 +169,44 @@ public class VentanaFacturacion extends JFrame {
         //exportar
         JPanel panelBoton = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton btnExportarPDF = new JButton("EXPORTAR");
+        JProgressBar progressBar = new JProgressBar(0,100);
+        progressBar.setPreferredSize(new Dimension(200, 20));
+        progressBar.setStringPainted(true);
+        progressBar.setForeground(new Color(75, 175, 80));
+        progressBar.setBackground(new Color(230, 230, 230));
+        progressBar.setFont(new Font("Tahoma", Font.BOLD, 12));
+        progressBar.setForeground(Color.WHITE);
+        progressBar.setVisible(false);
+	    panelBoton.add(progressBar);
+        
         btnExportarPDF.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Factura exportada en PDF");
+            	progressBar.setVisible(true);
+            	progressBar.setValue(0);
+            	
+            	SwingWorker<Void, Integer> hilo = new SwingWorker<>() { //para hacerlo en un segundo plano IA
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        for (int i = 0; i <= 100; i++) {
+                            Thread.sleep(50); 
+                            publish(i);                         }
+                        return null;
+                    }
+
+                    @Override
+                    protected void process(java.util.List<Integer> chunks) {
+                        progressBar.setValue(chunks.get(chunks.size() - 1));
+                    }
+
+                    @Override
+                    protected void done() {
+                        progressBar.setVisible(false);
+                        JOptionPane.showMessageDialog(null, "Factura exportada en PDF con éxito");
+                    }
+                };
+
+                hilo.execute(); 
             }
         });
         panelBoton.add(btnExportarPDF);
