@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
@@ -15,6 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
@@ -27,6 +31,10 @@ private JLabel txtModDatos, txtCorreo, txtTelefono, txtNewCon, txtVerifCon, txtN
 
 private JTextField campoCorreo, campoTelefono, campoRes, campoNom, campoApel, 
 					campoContrasenia1, campoVenificaCon1, campoPregSeg;
+
+private String textoTYC;
+private  JTextArea textTYC;
+private JScrollPane scrollTYC;
 
 private JPasswordField campoCon, campoVerifCon;
 
@@ -161,10 +169,46 @@ public VentanaModificarDatos() {
 	
 	 
     setLayout(new BorderLayout());
-       add(pNorte, BorderLayout.NORTH);
-       add(pCentro, BorderLayout.CENTER);
-       add(pSur, BorderLayout.SOUTH);
-       
+    add(pNorte, BorderLayout.NORTH);
+    add(pCentro, BorderLayout.CENTER);
+    add(pSur, BorderLayout.SOUTH);
+    
+    
+    textoTYC = new String("Aceptación de Términos y Condiciones de uso:\r\n"
+			+ "\r\n"
+			+ "Al utilizar nuestro sistema, el usuario acepta estos términos y condiciones y se compromete a cumplir con ellos. Estos términos pueden ser modificados en cualquier momento, y el usuario se compromete a revisarlos regularmente para estar al tanto de cualquier cambio.\r\n"
+			+ "\r\n"
+			+ "Los usuarios pueden necesitar registrarse para utilizar ciertas funciones del sistema. La información proporcionada durante el registro debe ser precisa y completa.\r\n"
+			+ "Los usuarios son responsables de mantener la confidencialidad de sus credenciales de inicio de sesión y notificar a Hermes de cualquier uso no autorizado de su cuenta.\r\n"
+			+ "\r\n"
+			+ "Los usuarios se comprometen a utilizar el sistema de manera adecuada y legal, sin infringir derechos de terceros.\r\n"
+			+ "No se permite el uso del sistema para actividades ilegales o fraudulentas.\r\n"
+			+ "\r\n"
+			+ "Los usuarios son responsables de la exactitud de la información proporcionada al sistema, incluyendo datos de contacto y direcciones de envío.\r\n"
+			+ "Los usuarios son responsables de asegurarse de que los paquetes y envíos cumplan con las restricciones y regulaciones aplicables.\r\n"
+			+ "\r\n"
+			+ "Los usuarios aceptan pagar las tarifas correspondientes a los servicios utilizados, según las tarifas publicadas por Hermes.\r\n"
+			+ "Los pagos se pueden realizar a través de los métodos de pago aceptados por el sistema.\r\n"
+			+ "\r\n"
+			+ "Hermes se compromete a proteger la privacidad y los datos de los usuarios de acuerdo con las leyes aplicables.\r\n"
+			+ "\r\n"
+			+ "Hermes no se hará responsable de daños indirectos, consecuentes o incidentales.\r\n"
+			+ "La responsabilidad de Hermes se limita a los términos establecidos en acuerdos específicos.\r\n"
+			+ "\r\n"
+			+ "Las políticas de cancelación y devolución se basan en las tarifas y políticas específicas de Hermes.\r\n"
+			+ "Los usuarios deben revisar nuestras políticas de cancelación y devolución antes de utilizar el sistema.\r\n"
+			+ "\r\n"
+			+ "Hermes se reserva el derecho de suspender o cancelar la cuenta de cualquier usuario que incumpla estos términos y condiciones.\r\n"
+			+ "\r\n"
+			+ "Estos términos y condiciones se rigen por las leyes del país (en este caso España) y cualquier disputa se resolverá mediante arbitraje de conformidad con las reglas de Hermes o ante los tribunales competentes en España.\r\n"
+			+ "\r\n"
+			+ "Si tiene alguna pregunta o inquietud acerca de estos términos y condiciones, por favor contáctenos a través de support@hermes.es.\r\n"
+			+ "\r\n"
+			+ "Al utilizar el Sistema de Paquetería de Hermes, usted acepta y comprende estos términos y condiciones. Le recomendamos que imprima o descargue una copia de este documento para su referencia futura.");
+	
+
+    
+    
    btnVolver.addActionListener(new ActionListener() {
 	   
 	   @Override
@@ -258,6 +302,30 @@ public VentanaModificarDatos() {
 			esOjoAbierto = !esOjoAbierto;
 		}
 	});
+	
+	   aceptarCond.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			
+				textTYC = new JTextArea(textoTYC);
+
+		        	scrollTYC = new JScrollPane(textTYC);
+		        	scrollTYC.setPreferredSize(new Dimension(400, 300));
+
+		        	int option = JOptionPane.showOptionDialog(
+		        			null,
+		        			scrollTYC,
+		        			"Términos y Condiciones",
+		        			JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Aceptar", "Rechazar"}, "Aceptar");
+
+		        	if (option == JOptionPane.OK_OPTION) {
+		        		checkTerminos.setSelected(true);
+		        	} else {
+		        		checkTerminos.setSelected(false);
+		        	}
+			}
+		});
 	
 
 	setTitle("Modificar Datos"); 
