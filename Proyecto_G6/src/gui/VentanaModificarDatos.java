@@ -301,11 +301,11 @@ public VentanaModificarDatos() {
 				pVenificaCon.remove(btnOjoConVen);
 				pVenificaCon.add(btnOjoConVen);
 			}
-			esOjoAbierto = !esOjoAbierto;
+			esOjoAbiertoVen = !esOjoAbiertoVen;
 		}
 	});
 	
-	   aceptarCond.addMouseListener(new MouseAdapter() {
+	checkTerminos.addMouseListener(new MouseAdapter() {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {

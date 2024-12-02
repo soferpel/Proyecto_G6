@@ -684,7 +684,7 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	//EVENTOS
 	
-	 aceptarCond.addMouseListener(new MouseAdapter() {
+    checkTerminos.addMouseListener(new MouseAdapter() {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -708,7 +708,25 @@ public class VentanaHacerEnvio extends JFrame{
 			}
 		});
 	
-	
+    btnFinalizar.addActionListener(new ActionListener() {
+		
+ 			@Override
+ 			public void actionPerformed(ActionEvent e) {
+ 				if (!checkTerminos.isSelected()) {
+ 					JOptionPane.showMessageDialog(
+ 							VentanaHacerEnvio.this, "Debes aceptar los Términos y Condiciones para registrarte.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+ 				    return;
+ 				}
+ 				JOptionPane.showMessageDialog(
+ 						VentanaHacerEnvio.this, "Pedido Realizado", "Finalizar pedido", JOptionPane.INFORMATION_MESSAGE );
+ 				SwingUtilities.invokeLater(() -> new VentanaInicioSesion());
+     			dispose();
+ 			}
+ 		});
+    checkTerminos.addActionListener(e -> btnFinalizar.setEnabled(checkTerminos.isSelected()));
+
+    getRootPane().setDefaultButton(btnFinalizar);
+
 	//HILOS
 	hiloEjecutando = true;
 	addWindowListener(new WindowAdapter() {
@@ -846,18 +864,6 @@ public class VentanaHacerEnvio extends JFrame{
 			
 		}
 	});
-	
-	btnFinalizar.addActionListener(new ActionListener() {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(null, "Pedido Realizado", "Finalizar pedido", JOptionPane.INFORMATION_MESSAGE);
-			SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal());
-			dispose();
-			}
-		});
-	
-	
 	
 	
 	//botones como
