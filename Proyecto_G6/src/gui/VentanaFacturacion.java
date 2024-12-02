@@ -5,9 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -17,6 +20,9 @@ import com.toedter.calendar.JDateChooser;
 
 public class VentanaFacturacion extends JFrame {
 
+	private DefaultTableModel model;
+	private ArrayList<Object[]> datosOriginales = new ArrayList<>();
+	private JTextField txtReferencia;
 	
     public VentanaFacturacion() {
 
@@ -58,9 +64,34 @@ public class VentanaFacturacion extends JFrame {
         
         //referencia
         JLabel lblReferencia = new JLabel("Número de referencia:");
-        JTextField txtReferencia = new JTextField(15);
+         txtReferencia = new JTextField(15);
         panelIzquierdo.add(lblReferencia);
         panelIzquierdo.add(txtReferencia);
+        
+        txtReferencia.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				filtrarPorReferencia();
+				
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				filtrarPorReferencia();
+				
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				filtrarPorReferencia();
+				
+			}
+          
+        });
 
         //precio
         JLabel lblPrecio = new JLabel("Precio:");
@@ -104,7 +135,7 @@ public class VentanaFacturacion extends JFrame {
         JPanel panelTabla = new JPanel();
         panelTabla.setLayout(new BoxLayout(panelTabla, BoxLayout.Y_AXIS));
         String[] columnNames = {"Número de referencia", "Fecha", "Precio", "Descripción", "Tipo de envío"};
-        DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
+        model = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; 
@@ -114,6 +145,15 @@ public class VentanaFacturacion extends JFrame {
         model.addRow(new Object[]{"001", "2024-11-09", "100.00", "Producto A", "Estándar"});
         model.addRow(new Object[]{"002", "2024-11-19", "17.00", "Producto B", "Premium"});
 
+        for (int i = 0; i < model.getRowCount(); i++) {
+            Object[] fila = new Object[model.getColumnCount()];
+            for (int j = 0; j < model.getColumnCount(); j++) {
+                fila[j] = model.getValueAt(i, j);
+            }
+            datosOriginales.add(fila);
+        }
+
+        
         JTable table = new JTable(model);
         table.setDefaultRenderer(Object.class, new CustomTableCellRenderer());
         JComboBox<String> comboBoxEnvio = new JComboBox<>(new String[]{"Estándar", "Premium", "Superior"});
@@ -163,6 +203,25 @@ public class VentanaFacturacion extends JFrame {
         
         
                 
+    }
+    
+    private void filtrarPorReferencia() {
+    	
+    	String filtro = txtReferencia.getText().trim();
+    	
+    	model.setRowCount(0);
+    	 
+    	 if (filtro.isEmpty()) {
+             datosOriginales.forEach(model::addRow);
+             return;
+         }
+
+         datosOriginales.forEach(fila -> {
+             if (fila[0].toString().contains(filtro)) {
+                 model.addRow(fila);
+             }
+         });
+     
     }
     
     private static class CustomTableCellRenderer extends DefaultTableCellRenderer {
