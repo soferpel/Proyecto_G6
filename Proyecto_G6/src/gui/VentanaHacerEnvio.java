@@ -728,6 +728,7 @@ public class VentanaHacerEnvio extends JFrame{
     checkTerminos.addActionListener(e -> btnFinalizar.setEnabled(checkTerminos.isSelected()));
 
     getRootPane().setDefaultButton(btnFinalizar);
+    
 
 	//HILOS
 	hiloEjecutando = true;
