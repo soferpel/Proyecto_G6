@@ -30,7 +30,7 @@ private JTextField campoCorreo, campoTelefono, campoRes, campoNom, campoApel,
 
 private JPasswordField campoCon, campoVerifCon;
 
-private JButton btnElimCuen, btnModif, btnVolver, btnOjoCon, btnOjoConVen;
+private JButton btnElimCuen, btnModif, btnVolver, btnOjoCon, btnOjoConVen, mostrarContra;
 
 private JPanel pNorte, pSur, pCentro, pVenificaCon, pContrasenia, pNombre,
 				pApellido, pRespuesta, pTelefono, pCorreo, 
@@ -188,16 +188,78 @@ public VentanaModificarDatos() {
    });
    
    btnElimCuen.addActionListener(new ActionListener() {
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+	        int result = JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar tu cuenta?", "Eliminar Cuenta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+	        if (result == JOptionPane.OK_OPTION) {
+	            dispose();
+	        }
+	    }
+	});
+
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		int result = JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar tu cuenta?", "Eliminar Cuenta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-		if(result == JOptionPane.OK_OPTION) {
-			dispose();
+	
+   btnOjoCon.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (!esOjoAbierto) {
+				String contrasenia = new String(campoCon.getPassword());
+				campoContrasenia1.setText(contrasenia);
+				pContrasenia.remove(campoCon);
+				pContrasenia.add(campoContrasenia1);
+				pContrasenia.revalidate();
+				pContrasenia.repaint();
+				btnOjoCon.setIcon(ojoCerrado);
+				pContrasenia.remove(btnOjoCon);
+				pContrasenia.add(btnOjoCon);
+			}
+			else {
+				String contrasenia = new String(campoContrasenia1.getText());
+				campoCon.setText(contrasenia);
+				pContrasenia.remove(campoContrasenia1);
+				pContrasenia.add(campoCon);
+				pContrasenia.revalidate();
+				pContrasenia.repaint();
+				btnOjoCon.setIcon(ojoAbierto);
+				pContrasenia.remove(btnOjoCon);
+				pContrasenia.add(btnOjoCon);
+			}
+			esOjoAbierto = !esOjoAbierto;
 		}
-	}
-   });
-   
+	});
+	
+	btnOjoConVen.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (!esOjoAbiertoVen) {
+				String contrasenia = new String(campoVerifCon.getPassword());
+				campoVenificaCon1.setText(contrasenia);
+				pVenificaCon.remove(campoVerifCon);
+				pVenificaCon.add(campoVenificaCon1);
+				pVenificaCon.revalidate();
+				pVenificaCon.repaint();
+				btnOjoConVen.setIcon(ojoCerrado1);
+				pVenificaCon.remove(btnOjoConVen);
+				pVenificaCon.add(btnOjoConVen);
+			}
+			else {
+				String contrasenia = new String(campoVenificaCon1.getText());
+				campoVerifCon.setText(contrasenia);
+				pVenificaCon.remove(campoVenificaCon1);
+				pVenificaCon.add(campoVerifCon);
+				pVenificaCon.revalidate();
+				pVenificaCon.repaint();
+				btnOjoConVen.setIcon(ojoAbierto1);
+				pVenificaCon.remove(btnOjoConVen);
+				pVenificaCon.add(btnOjoConVen);
+			}
+			esOjoAbierto = !esOjoAbierto;
+		}
+	});
+	
+
 	setTitle("Modificar Datos"); 
 	setBounds(300, 200, 600, 500); 
 	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
