@@ -708,6 +708,7 @@ public class VentanaHacerEnvio extends JFrame{
 			}
 		});
 	
+    
     btnFinalizar.addActionListener(new ActionListener() {
 		
  			@Override
@@ -719,10 +720,11 @@ public class VentanaHacerEnvio extends JFrame{
  				}
  				JOptionPane.showMessageDialog(
  						VentanaHacerEnvio.this, "Pedido Realizado", "Finalizar pedido", JOptionPane.INFORMATION_MESSAGE );
- 				SwingUtilities.invokeLater(() -> new VentanaInicioSesion());
+ 				SwingUtilities.invokeLater(() -> new VentanaHacerEnvio());
      			dispose();
  			}
  		});
+    
     checkTerminos.addActionListener(e -> btnFinalizar.setEnabled(checkTerminos.isSelected()));
 
     getRootPane().setDefaultButton(btnFinalizar);

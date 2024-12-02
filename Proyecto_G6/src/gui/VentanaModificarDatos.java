@@ -1,3 +1,4 @@
+
 package gui;
 
 import java.awt.BorderLayout;
@@ -34,7 +35,7 @@ private JTextField campoCorreo, campoTelefono, campoRes, campoNom, campoApel,
 
 private String textoTYC;
 
-private  JTextArea textTYC;
+private JTextArea textTYC;
 
 private JScrollPane scrollTYC;
 
