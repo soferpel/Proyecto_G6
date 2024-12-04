@@ -483,11 +483,11 @@ public class BaseDatosConfiguracion {
 	    
 	    
 	    public static void insertarRecogida(Connection con, Recogida r) {
-			String sql = "INSERT INTO recogida(fechaDeRecogida, lugarDeRecogida, tipoDeEnvio) VALUES (?,?,?)";
+			String sql = "INSERT INTO recogida(fecha_de_recogida, lugar_de_recogida, tipo_de_envio) VALUES (?,?,?)";
 			
 			try {
 					PreparedStatement st = con.prepareStatement(sql);
-					st.setString(1, r.getFechaDeEnvio());
+					st.setString(1, r.getFechaDeRecogida());
 					st.setString(2, r.getLugarDeRecogida());
 					st.setString(3, r.getTipoDeEnvio());
 					
@@ -529,7 +529,7 @@ public class BaseDatosConfiguracion {
 	    
 	    
 	    public static void borrarRecogida(Connection con, String fecha_de_recogida) {
-	        String sql = "DELETE FROM recogida WHERE fecha_de_recogida= ?";
+	        String sql = "DELETE FROM recogida WHERE fecha_de_recogida = ?";
 
 	        try {
 	        	PreparedStatement st = con.prepareStatement(sql);
