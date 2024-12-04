@@ -180,8 +180,8 @@ public class VentanaRegistro extends JFrame{
         mostrarRepeContra = new JButton();
         mostrarContra = new JButton();
         
-        ImageIcon ojoVer = new ImageIcon(getClass().getResource("resources/images/ojoAbierto.png"));
-        ImageIcon ojoOcultar = new ImageIcon(getClass().getResource("resources/images/ojoCerrado.png"));
+        ImageIcon ojoVer = new ImageIcon(getClass().getResource("/resources/images/ojoAbierto.png"));
+        ImageIcon ojoOcultar = new ImageIcon(getClass().getResource("/resources/images/ojoCerrado.png"));
 
         mostrarContra.setIcon(ojoVer);
         mostrarRepeContra.setIcon(ojoVer);
