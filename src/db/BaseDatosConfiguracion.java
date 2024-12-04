@@ -46,6 +46,7 @@ public class BaseDatosConfiguracion {
 		}
 	}
 	
+	//CREAR TABLAS
 	public static void crearTablas(Connection con) throws SQLException{
 
 		String sql = "CREATE TABLE IF NOT EXISTS trayecto (id INT AUTO_INCREMENT PRIMARY KEY, nombre_origen VARCHAR(100), direccion_origen VARCHAR(255), correo_origen VARCHAR(100), telefono_origen VARCHAR(20), nombre_destino VARCHAR(100), direccion_destino VARCHAR(255), correo_destino VARCHAR(100), telefono_destino VARCHAR(20))";
@@ -72,6 +73,8 @@ public class BaseDatosConfiguracion {
 
 	}
 	
+	
+	//PAGO
 	public static void insertarPago(Connection con, Pago p) {
 	    String sql = String.format("INSERT INTO pago (descripcion, numeroTarjeta, fechaCaducidad, CVV, remitenteDestinatario, factura, dni, precio) VALUES (?,?,?,?,?,?,?,?)");
 
