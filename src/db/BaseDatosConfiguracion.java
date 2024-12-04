@@ -455,6 +455,69 @@ public class BaseDatosConfiguracion {
 	    }
 	    
 	    
+	    public static void insertarRecogida(Connection con, Recogida r) {
+			String sql = String.format("INSERT INTO recogida(fechaDeRecogida, lugarDeRecogida, tipoDeEnvio) VALUES (?,?,?)");
+			
+			try {
+					PreparedStatement st = con.prepareStatement(sql);
+					st.setString(1, r.getFechaDeEnvio());
+					st.setString(2, r.getLugarDeRecogida());
+					st.setString(3, r.getTipoDeEnvio());
+					
+					
+					st.executeUpdate();
+					st.close();
+		            logger.info("Recogida insertada correctamente");
+		            
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+		            logger.warning("Error insertando recogida");
+
+				}
+			}
+	    
+	    
+	    public static Recogida buscarRecogida(Connection con, String fecha_de_recogida) {
+			String sql = String.format("SELECT * FROM recogida WHERE fecha_de_recogida = '%s'", fecha_de_recogida);
+	        Recogida r = null;
+	        try {
+	            PreparedStatement ps = con.prepareStatement(sql);
+	            ps.setString(1, fecha_de_recogida); 
+	            ResultSet rs = ps.executeQuery(); 
+
+	            if (rs.next()) { 
+	                String fechaDeRecogida = rs.getString("fecha_de_recogida");
+	                String lugarDeRecogida = rs.getString("lugar_de_recogida"); 
+	                String tipoDeEnvio = rs.getString("tipo_de_envio");
+	                r = new Recogida(fechaDeRecogida, lugarDeRecogida, tipoDeEnvio);
+	            }
+
+	            rs.close();
+	            ps.close();
+	        } catch (SQLException e) {
+	            logger.warning("Error buscando recogida: " + e.getMessage());
+	        }
+	        return r;	       	   	    
+	}
+	    
+	    
+	    public static void borrarRecogida(Connection con, String fecha_de_recogida) {
+	        String sql = String.format("DELETE FROM recogida WHERE fecha_de_recogida='%s'", fecha_de_recogida);
+
+	        try {
+	            Statement st = con.createStatement();
+	            
+	            
+	            st.executeUpdate(sql);
+	            st.close();
+	            
+	            logger.info("Recogida borrada");
+	        } catch (SQLException e) {
+	            logger.warning("Error borrando la recogida");
+	        }
+	    }
+	    
+		 
 	    
 	    public static void insertarRegistroDePrueba(Connection con) {
 	        try {
