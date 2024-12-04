@@ -90,10 +90,10 @@ public VentanaModificarDatos() {
 	checkTerminos = new JCheckBox();
 	checkTerminos.setEnabled(true);
 	
-	ImageIcon ojoAbierto = new ImageIcon(getClass().getResource("resources/images/ojoAbierto.png"));
-	ImageIcon ojoCerrado = new ImageIcon(getClass().getResource("resources/images/ojoCerrado.png"));
-	ImageIcon ojoAbierto1 = new ImageIcon(getClass().getResource("resources/images/ojoAbierto.png"));
-	ImageIcon ojoCerrado1 = new ImageIcon(getClass().getResource("resources/images/ojoCerrado.png"));
+	ImageIcon ojoAbierto = new ImageIcon(getClass().getResource("/resources/images/ojoAbierto.png"));
+	ImageIcon ojoCerrado = new ImageIcon(getClass().getResource("/resources/images/ojoCerrado.png"));
+	ImageIcon ojoAbierto1 = new ImageIcon(getClass().getResource("/resources/images/ojoAbierto.png"));
+	ImageIcon ojoCerrado1 = new ImageIcon(getClass().getResource("/resources/images/ojoCerrado.png"));
 	
 	campoNom = new JTextField(10);
 	campoApel = new JTextField(10);
