@@ -337,7 +337,82 @@ public class BaseDatosConfiguracion {
 
 //PAQUETE
 	    
+	    /*				n_referencia VARCHAR(50) NOT NULL,\r\n"
+	            + "    embalaje VARCHAR(50),\r\n"
+	            + "    peso VARCHAR(50),\r\n"
+	            + "    largo VARCHAR(50),\r\n"
+	            + "    ancho VARCHAR(50),\r\n"
+	            + "    alto VARCHAR(50),\r\n"
+	            + "    valor VARCHAR(50),\r\n"
+	            + "    fragil VARCHAR(10),\r\n"
+	            + "    PRIMARY KEY (n_referencia)\r\n*/
 	    
-	
+	    public static List<Paquete> buscarPaquetePorReferencia(Connection con, String nReferencia) {
+		    List<Paquete> paquetes = new ArrayList<>();
+		    //CAMBIO
+		    String sql = "SELECT * FROM articulo WHERE CATEGORIA = ?";
+		    
+		    try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+		        pstmt.setString(1, nReferencia);
+		        ResultSet rs = pstmt.executeQuery();
+		        
+		        while (rs.next()) {
+		            String n_referencia = rs.getString("n_referencia");
+		            String embalaje = rs.getString("embalaje");
+		            String peso = rs.getString("peso");
+		            String largo = rs.getString("largo");
+		            String ancho = rs.getString("ancho");
+		            String alto = rs.getString("alto");
+		            String valor = rs.getString("valor");
+		            String fragil = rs.getString("fragil");
+		            
+		            paquetes.add(new Paquete(n_referencia, embalaje, peso, largo, ancho, alto, valor, fragil));
+		            System.out.println("Paquete encontrado: " + paquetes); 
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		    System.out.println("Número total de paquetes encontrados: " + paquetes.size());
+		    return paquetes;
+		}
+	    
+	    
+	    public static void insertarRegistroDePrueba(Connection con) {
+	        try {
+	            // Insertar en la tabla trayecto
+	            String sqlTrayecto = "INSERT INTO trayecto (nombre_origen, direccion_origen, correo_origen, telefono_origen, nombre_destino, direccion_destino, correo_destino, telefono_destino) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	            PreparedStatement stTrayecto = con.prepareStatement(sqlTrayecto);
+	            stTrayecto.setString(1, "Origen1");
+	            stTrayecto.setString(2, "Direccion Origen 1");
+	            stTrayecto.setString(3, "correo@origen.com");
+	            stTrayecto.setString(4, "123456789");
+	            stTrayecto.setString(5, "Destino1");
+	            stTrayecto.setString(6, "Direccion Destino 1");
+	            stTrayecto.setString(7, "correo@destino.com");
+	            stTrayecto.setString(8, "987654321");
+	            stTrayecto.executeUpdate();
+	            stTrayecto.close();
+	            
+	            // Insertar en la tabla paquete (si es necesario)
+	            String sqlPaquete = "INSERT INTO paquete (n_referencia, embalaje, peso, largo, ancho, alto, valor, fragil) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	            PreparedStatement stPaquete = con.prepareStatement(sqlPaquete);
+	            stPaquete.setString(1, "REF001");
+	            stPaquete.setString(2, "Caja");
+	            stPaquete.setString(3, "5kg");
+	            stPaquete.setString(4, "50cm");
+	            stPaquete.setString(5, "30cm");
+	            stPaquete.setString(6, "20cm");
+	            stPaquete.setString(7, "100");
+	            stPaquete.setString(8, "No");
+	            stPaquete.executeUpdate();
+	            stPaquete.close();
+	            
+	            System.out.println("Registros de prueba insertados.");
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+
 
 }
