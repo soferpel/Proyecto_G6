@@ -191,17 +191,34 @@ public class VentanaVerEnvios  extends JFrame {
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             JLabel label = new JLabel(value.toString());;
             table.setBackground(Color.WHITE);
+
+           
             label.setFont(new Font("Arial",  Font.PLAIN, 14));
+            
+            if (row % 2 == 0) {
+				label.setBackground(new Color(250, 249, 249));
+			} else {
+				label.setBackground(new Color(190, 227, 219));
+			}
+			
+            if(column == 1 || column == 2 || column == 5) {
+            	label.setHorizontalAlignment(SwingUtilities.CENTER);
+            }
             
             if (isSelected) {
                 label.setBackground(Color.LIGHT_GRAY);
             }
+            
+            
             
             //que la fecha esté en el formato correcto (yyyy-mm-dd).
             if (value instanceof Date) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 value = dateFormat.format((Date) value);
             }
+            
+				
+			
             
             
             if (column == 2) {

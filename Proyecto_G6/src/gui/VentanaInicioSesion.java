@@ -25,9 +25,12 @@ import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+
 import javax.swing.plaf.metal.MetalFileChooserUI.FilterComboBoxRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+
+import javax.swing.border.EmptyBorder;
 
 
 public class VentanaInicioSesion extends JFrame{
@@ -47,17 +50,18 @@ public class VentanaInicioSesion extends JFrame{
 		
 		JPanel panelDatos = new JPanel();
         panelDatos.setLayout(null);
-        panelDatos.setBounds(100, 50, 600, 300); // Ajustar el tamaño y la posición
+        panelDatos.setBounds(100, 50, 550, 300); // Ajustar el tamaño y la posición
         add(panelDatos);
         
         JPanel panelNorte = new JPanel();
         panelNorte.setLayout(null);	
         add(panelNorte, BorderLayout.NORTH);
         
-        //Logo		Si lo añado se me descentra el panelDatos
-       /* ImageIcon logo = new ImageIcon(getClass().getResource("/Images/logoPngNegro.png"));
+        
+        ImageIcon logo = new ImageIcon(getClass().getResource("/Images/logoPngNegro.png"));
 		JLabel labelImagenLogo = new JLabel(logo);
-		panelNorte.add(labelImagenLogo, BorderLayout.EAST);*/
+		panelNorte.add(labelImagenLogo, BorderLayout.NORTH);
+		labelImagenLogo.setBorder(new EmptyBorder(20,680,0,20));
         
         JLabel lblTitulo = new JLabel("INICIO SESIÓN", SwingConstants.CENTER);
         Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 30);
@@ -68,15 +72,15 @@ public class VentanaInicioSesion extends JFrame{
       
         
         JLabel lblCorreo = new JLabel("Correo:");
-        lblCorreo.setBounds(50, 30, 100, 25);
+        lblCorreo.setBounds(60, 30, 100, 25);
         panelDatos.add(lblCorreo);
 
         JTextField txtCorreo = new JTextField();
-        txtCorreo.setBounds(150, 30, 250, 25);
+        txtCorreo.setBounds(160, 30, 250, 25);
         panelDatos.add(txtCorreo);
 
         JComboBox<String> dominioEmail = new JComboBox<>(new String[]{"@admin.es", "@gmail.com", "@hotmail.com"});
-        dominioEmail.setBounds(410, 30, 120, 25);
+        dominioEmail.setBounds(420, 30, 120, 25);
         panelDatos.add(dominioEmail);
         
         ListCellRenderer renderCombo = new DefaultListCellRenderer() {
@@ -109,11 +113,11 @@ public class VentanaInicioSesion extends JFrame{
 		dominioEmail.setRenderer(renderCombo);
 
         JLabel lblContra = new JLabel("Contraseña:");
-        lblContra.setBounds(50, 80, 100, 25);
+        lblContra.setBounds(60, 80, 100, 25);
         panelDatos.add(lblContra);
 
         JPasswordField txtContra = new JPasswordField();
-        txtContra.setBounds(150, 80, 250, 25);
+        txtContra.setBounds(160, 80, 250, 25);
         panelDatos.add(txtContra);
 
         
@@ -122,7 +126,7 @@ public class VentanaInicioSesion extends JFrame{
         ImageIcon ojoOcultar = new ImageIcon(getClass().getResource("/Images/ojoCerrado.png"));
 
         mostrarContra.setIcon(ojoVer);
-        mostrarContra.setBounds(410, 80, 50, 25);
+        mostrarContra.setBounds(420, 80, 50, 25);
         panelDatos.add(mostrarContra);
 
         mostrarContra.addActionListener(new ActionListener() {
@@ -140,7 +144,7 @@ public class VentanaInicioSesion extends JFrame{
 
         JLabel olvideContra = new JLabel("<HTML><U>¿Has olvidado tu contraseña?</U></HTML>");
         olvideContra.setForeground(Color.BLUE);
-        olvideContra.setBounds(150, 120, 200, 25);
+        olvideContra.setBounds(200, 120, 210, 25);
         panelDatos.add(olvideContra);
         
         olvideContra.addMouseListener(new MouseAdapter() {
@@ -158,23 +162,26 @@ public class VentanaInicioSesion extends JFrame{
             }
         });
 
-
+        JPanel pBotones = new JPanel();
         bRegistrarse = new JButton("REGISTRARSE");
-        bRegistrarse.setBounds(150, 160, 150, 30);
-
-        
-        //EVENTOS
-        panelDatos.add(bRegistrarse);
+        bRegistrarse.setBounds(130, 160, 150, 30);
 
         bIniSesion = new JButton("INICIAR SESIÓN");
-        bIniSesion.setBounds(320, 160, 150, 30);
+        bIniSesion.setBounds(300, 160, 150, 30);
+
+
+
+        panelDatos.add(bRegistrarse);
+
 
         panelDatos.add(bIniSesion);
+
+        panelDatos.add(pBotones);
+		
+        setVisible(true);
 		
 
-		setVisible(true);
-		
-
+		//EVENTOS
 		bRegistrarse.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

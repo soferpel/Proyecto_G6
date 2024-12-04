@@ -5,6 +5,8 @@
 
 La idea principal de este proyecto es la gestión de una empresa de paquetería, en la que el usuario puede crear envíos, eliminarlos y modificarlos. Todo esto es posible gracias a diversas ventanas que facilitan el uso del programa y su funcionamiento, además de una base de datos que guarda y administra toda la información de los usuarios. 
 
+El proyecto consta de diversas ventanas por las que se puede navegar para hacer envios, exportar facturas, modificar el usuario y ver los envíos entre muchas otras funcionalidades.
+
 ## Roles
 
 **Administradores**
@@ -57,7 +59,7 @@ La idea principal de este proyecto es la gestión de una empresa de paquetería,
 
 2º Importar el repositorio en el IDE de Java
 
-3º Ejecutar el archivo `Principal.java` que se encuentra en el paquete `main` para iniciar el programa
+3º Ejecutar el archivo `Main.java` que se encuentra en el paquete `main` para iniciar el programa
 
 4º ¡Crea tu primer envío!
 
@@ -70,3 +72,4 @@ La idea principal de este proyecto es la gestión de una empresa de paquetería,
 - [[Samantha Muñoz](https://github.com/samaantha6)]
 
 - [[Anne Beascoechea](https://github.com/annebeascoechea)]
+
