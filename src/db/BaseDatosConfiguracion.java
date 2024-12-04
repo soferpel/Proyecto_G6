@@ -26,6 +26,7 @@ public class BaseDatosConfiguracion {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			con = DriverManager.getConnection("jdbc:sqlite:"+nombreBD);
+			con.createStatement().execute("PRAGMA foreign_keys = ON;");
 					
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -63,11 +64,13 @@ public class BaseDatosConfiguracion {
 			st.executeUpdate(sql3);
 			st.executeUpdate(sql4);
 			st.executeUpdate(sql5);
+			st.executeUpdate(sql6);
 
 			st.close();
 
 		} catch (SQLException e) {
 			logger.warning("Error creando las tablas");
+			e.printStackTrace();
 		}
 		logger.info("Tablas creadas correctamenrte");
 
@@ -103,19 +106,18 @@ public class BaseDatosConfiguracion {
 	        Pago p = null;
 	        try {
 	            PreparedStatement ps = con.prepareStatement(sql);
-	            ps.setString(1, dni); // Sustituye el parámetro por el valor del DNI
-	            ResultSet rs = ps.executeQuery(); // Ejecuta la consulta
+	            ps.setString(1, dni); 
+	            ResultSet rs = ps.executeQuery(); 
 
-	            if (rs.next()) { // Si la consulta devuelve al menos un registro
+	            if (rs.next()) { 
 	                String descripcion = rs.getString("DESCRIPCION");
-	                String numeroTarjeta = rs.getString("NUMERO_TARJETA"); // Asegúrate de que el nombre sea correcto
+	                String numeroTarjeta = rs.getString("NUMERO_TARJETA"); 
 	                String fechaCaducidad = rs.getString("FECHA_CADUCIDAD");
 	                String CVV = rs.getString("CVV");
 	                String remitenteDestinatario = rs.getString("REMITENTE_DESTINATARIO");
 	                String factura = rs.getString("FACTURA");
 	                String precio = rs.getString("PRECIO");
 
-	                // Crea el objeto Pago con los valores extraídos de la base de datos
 	                p = new Pago(descripcion, numeroTarjeta, fechaCaducidad, CVV, remitenteDestinatario, factura, dni, precio);
 	            }
 
@@ -126,36 +128,27 @@ public class BaseDatosConfiguracion {
 	        }
 	        return p;
 	    
-
-
-
 	}
 
+	    public static void borrarPago(Connection con, String dni) {
+	        String sql = String.format("DELETE FROM pago WHERE dni='%s'", dni);
+
+	        try {
+	            Statement st = con.createStatement();
+	            
+	            st.executeUpdate(sql);
+	            
+	            st.close();
+	            
+	            logger.info("Pago borrado correctamente para el DNI: " + dni);
+	        } catch (SQLException e) {
+	            logger.warning("Error borrando pago para el DNI: " + dni);
+	        }
+	    }
+
 	
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }
