@@ -18,10 +18,6 @@ public class Envio {
 
 
 
-
-
-
-
 	public Envio(String dO, String dD, String nRefe, String fRec, String dni, String precio) {
 		dO = trayecto.getDireccionOrigen();
 		dD = trayecto.getDireccionDestino();
@@ -32,16 +28,11 @@ public class Envio {
 	}
 
 
-
-
-
-
-
-	public Trayecto getTrayecto() {
+	public trayecto getTrayecto() {
 		return trayecto;
 	}
 
-	public void setTrayecto(Trayecto trayecto) {
+	public void setTrayecto(trayecto trayecto) {
 		this.trayecto = trayecto;
 	}
 

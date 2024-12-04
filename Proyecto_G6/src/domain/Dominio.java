@@ -1,6 +1,7 @@
 package domain;
 
-public enum Dominios {
+
+public enum Dominio {
 
     GMAIL("@gmail.com"),
     HOTMAIL("@hotmail.com"),
@@ -12,7 +13,7 @@ public enum Dominios {
 	
     private String dominio;
 
-    Dominios(String dominio) {
+    Dominio(String dominio) {
     	this.dominio = dominio;
     	
     }
