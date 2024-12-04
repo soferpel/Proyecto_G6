@@ -55,11 +55,11 @@ public class VentanaPantallaPrincipal extends JFrame{
 
         // Panel Izquierda
         JPanel pIzq = new JPanel(new GridLayout(3, 1, 20, 20));
-        pIzq.setBorder(new EmptyBorder(20, 40, 20, 40));	//top, left, bottom, right) 
+        pIzq.setBorder(new EmptyBorder(20, 40, 20, 40));	//top, left, bottom, right		//IAG
 
         // Panel Ver Envios
         JPanel pVerEnvios = new JPanel(new BorderLayout(10, 10));
-        pVerEnvios.setBorder(BorderFactory.createTitledBorder("Ver Envios"));
+        pVerEnvios.setBorder(BorderFactory.createTitledBorder("Ver Envios"));							//IAG
         ImageIcon iconVerEnvios = new ImageIcon(getClass().getResource("/Images/ver_envios.png"));
         Image scaledVerEnvios = iconVerEnvios.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         imgVerEnvios = new JLabel(new ImageIcon(scaledVerEnvios));
@@ -82,7 +82,7 @@ public class VentanaPantallaPrincipal extends JFrame{
         pIzq.add(pFacturacion);
 
         // Panel Hacer Envio
-        JPanel pHacerEnvio = new JPanel(new BorderLayout(10, 10));	//espacio entre las 5 areas
+        JPanel pHacerEnvio = new JPanel(new BorderLayout(10, 10));	//IAG
         pHacerEnvio.setBorder(BorderFactory.createTitledBorder("Hacer Envio"));
         ImageIcon iconHacerEnvio = new ImageIcon(getClass().getResource("/images/hacer_envio.jpg"));
         Image scaledHacerEnvio = iconHacerEnvio.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);

@@ -35,7 +35,7 @@ import javax.swing.border.EmptyBorder;
 
 public class VentanaRegistro extends JFrame{
 	
-	private JPanel pCentro,pSur,pCentroIzquierda,pCentroDerecha,pNorte;
+	private JPanel pCentro,pSur,pNorte;
 	private JLabel lblNom,lblApe, lblCorreo,lblTel,lblContra,lblRepeContra,lblSegu,lblResp;
 	private JTextField txtNom,txtApe,txttel,txtCorreo,txtContra,txtRepeContra,txtResp, txtSegu;
 	private JButton btnRegistro,btnMostrarContra,btnMostrarRepeContra,btnFlecha, mostrarContra, mostrarRepeContra;
@@ -144,7 +144,8 @@ public class VentanaRegistro extends JFrame{
         pCentro.add(lblResp);
         pCentro.add(txtResp);
         
-        Dimension dimension = new Dimension(80, 20); // Ajustar tamaño deseado
+        //USAR SETBOUNDS PARA HACERLO MAS PEQUEÑO
+        Dimension dimension = new Dimension(80, 20); 
         lblNom.setPreferredSize(dimension);
         lblApe.setPreferredSize(dimension);
         lblCorreo.setPreferredSize(dimension);
@@ -154,7 +155,7 @@ public class VentanaRegistro extends JFrame{
         lblSegu.setPreferredSize(dimension);
         lblResp.setPreferredSize(dimension);
         
-        txtNom.setPreferredSize(new Dimension(80, 20));
+        txtNom.setBounds(100, 100, 250, 25);
         txtApe.setPreferredSize(new Dimension(80, 20));
         txtCorreo.setPreferredSize(new Dimension(80, 20));
         txttel.setPreferredSize(new Dimension(80, 20));
@@ -174,7 +175,6 @@ public class VentanaRegistro extends JFrame{
 		//pSur.setBackground(Color.WHITE);
 		//btnRegistro.setHorizontalAlignment(SwingConstants.CENTER);
 		btnRegistro.setAlignmentX(Component.CENTER_ALIGNMENT);
-        pSur.setLayout(new BoxLayout(pSur, BoxLayout.Y_AXIS));
         
         //OJOS
         mostrarRepeContra = new JButton();
