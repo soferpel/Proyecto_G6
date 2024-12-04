@@ -2,10 +2,12 @@ package main;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.SwingUtilities;
 
 import db.BaseDatosConfiguracion;
+import domain.Paquete;
 import gui.VentanaHacerEnvio;
 import gui.VentanaInicioSesion;
 
@@ -34,6 +36,10 @@ public class Main {
 		String recogidaId = "2024-12-04";
 		BaseDatosConfiguracion.obtenerRecogidaPorId(con, recogidaId);
 		
+	    String referencia = "REF001"; 
+        System.out.println("Buscando paquete con referencia: " + referencia);
+        List<Paquete> paquetes = BaseDatosConfiguracion.buscarPaquetePorReferencia(con, referencia);
+
 		
 		
 		BaseDatosConfiguracion.closeBD(con);

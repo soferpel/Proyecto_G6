@@ -386,17 +386,14 @@ public class BaseDatosConfiguracion {
 	        return envios;
 	    }
 	    
-	    
-	    
-	    
-
 
 //PAQUETE
 	    
 	    public static List<Paquete> buscarPaquetePorReferencia(Connection con, String nReferencia) {
 		    List<Paquete> paquetes = new ArrayList<>();
 		    //CAMBIO
-		    String sql = "SELECT * FROM articulo WHERE CATEGORIA = ?";
+		    String sql = "SELECT * FROM paquete WHERE n_referencia = ?";
+
 		    
 		    try (PreparedStatement pstmt = con.prepareStatement(sql)) {
 		        pstmt.setString(1, nReferencia);
@@ -412,8 +409,9 @@ public class BaseDatosConfiguracion {
 		            String valor = rs.getString("valor");
 		            String fragil = rs.getString("fragil");
 		            
-		            paquetes.add(new Paquete(n_referencia, embalaje, peso, largo, ancho, alto, valor, fragil));
-		            System.out.println("Paquete encontrado: " + paquetes); 
+		            Paquete p = new Paquete(n_referencia, embalaje, peso, largo, ancho, alto, valor, fragil);
+		            paquetes.add(p);
+		            System.out.println("Paquete encontrado: " + p); 
 		        }
 		    } catch (SQLException e) {
 		        e.printStackTrace();
@@ -474,7 +472,7 @@ public class BaseDatosConfiguracion {
 	        return r;
 	    }
 	    
-	    
+	    	   
 	    
 	    public static void insertarRegistroDePrueba(Connection con) {
 	        try {
