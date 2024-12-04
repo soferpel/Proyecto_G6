@@ -44,7 +44,7 @@ public class VentanaPantallaPrincipal extends JFrame{
         JPanel pBotonesNorte = new JPanel();
         JButton btnCerrarSesion = new JButton("CERRAR SESIÃ“N");
         
-        ImageIcon imgModif_usu = new ImageIcon(getClass().getResource("/resources/images/modif_usu.png"));
+        ImageIcon imgModif_usu = new ImageIcon("/resources/images/modif_usu.png");
         JButton btnModificarDatos = new JButton(imgModif_usu);
         pBotonesNorte.add(btnModificarDatos);
         pBotonesNorte.add(btnCerrarSesion);
@@ -60,7 +60,7 @@ public class VentanaPantallaPrincipal extends JFrame{
         // Panel Ver Envios
         JPanel pVerEnvios = new JPanel(new BorderLayout(10, 10));
         pVerEnvios.setBorder(BorderFactory.createTitledBorder("Ver Envios"));							//IAG
-        ImageIcon iconVerEnvios = new ImageIcon(getClass().getResource("/resources/images/ver_envios.png"));
+        ImageIcon iconVerEnvios = new ImageIcon("/resources/images/ver_envios.png");
         Image scaledVerEnvios = iconVerEnvios.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         imgVerEnvios = new JLabel(new ImageIcon(scaledVerEnvios));
         JButton btnVerEnvios = new JButton("VER ENVÃ�OS");
@@ -72,7 +72,7 @@ public class VentanaPantallaPrincipal extends JFrame{
         // Panel FacturaciÃ³n
         JPanel pFacturacion = new JPanel(new BorderLayout(10, 10));
         pFacturacion.setBorder(BorderFactory.createTitledBorder("FacturaciÃ³n"));
-        ImageIcon iconFacturacion = new ImageIcon(getClass().getResource("/resources/images/facturacion.png"));
+        ImageIcon iconFacturacion = new ImageIcon("/resources/images/facturacion.png");
         Image scaledFacturacion = iconFacturacion.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         imgFacturacion = new JLabel(new ImageIcon(scaledFacturacion));
         JButton btnFacturacion = new JButton("FACTURACIÃ“N");
@@ -84,7 +84,7 @@ public class VentanaPantallaPrincipal extends JFrame{
         // Panel Hacer Envio
         JPanel pHacerEnvio = new JPanel(new BorderLayout(10, 10));	//IAG
         pHacerEnvio.setBorder(BorderFactory.createTitledBorder("Hacer Envio"));
-        ImageIcon iconHacerEnvio = new ImageIcon(getClass().getResource("/resources/images/hacer_envio.jpg"));
+        ImageIcon iconHacerEnvio = new ImageIcon("/resources/images/hacer_envio.jpg");
         Image scaledHacerEnvio = iconHacerEnvio.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         imgHacerEnvio = new JLabel(new ImageIcon(scaledHacerEnvio));
         JButton btnHacerEnvio = new JButton("HACER ENVÃ�O");
@@ -152,7 +152,7 @@ public class VentanaPantallaPrincipal extends JFrame{
         pDerecha.add(pMedidas, BorderLayout.CENTER);
         
         //Logo
-        ImageIcon logo = new ImageIcon(getClass().getResource("/resources/images/logoPngNegro.png"));
+        ImageIcon logo = new ImageIcon("/resources/images/logoPngNegro.png");
 		JLabel labelImagenLogo = new JLabel(logo);
 		pNorte.add(labelImagenLogo, BorderLayout.WEST);
         

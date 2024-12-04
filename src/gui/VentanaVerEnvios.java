@@ -108,7 +108,7 @@ public class VentanaVerEnvios  extends JFrame {
 
 	    
         
-        ImageIcon imageVolverO = new ImageIcon(getClass().getResource("/resurces/images/volver.png"));
+        ImageIcon imageVolverO = new ImageIcon("/resurces/images/volver.png");
         ImageIcon imageVolverE = new ImageIcon(
         		imageVolverO.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH)
         );
@@ -142,7 +142,7 @@ public class VentanaVerEnvios  extends JFrame {
 		//ImageIcon imgEliminar = new ImageIcon(getClass().getResource("/Images/eliminar.png"));
        // JButton btnEliminar = new JButton("Eliminar");
         
-        ImageIcon logo = new ImageIcon(getClass().getResource("/resources/images/logoPngNegro.png"));
+        ImageIcon logo = new ImageIcon("/resources/images/logoPngNegro.png");
 		JLabel labelImagenLogo = new JLabel(logo);
 
 		
@@ -182,7 +182,7 @@ public class VentanaVerEnvios  extends JFrame {
 
         public RenderTabla(JTable table) {
             this.table = table;
-            ImageIcon originalIcon  = new ImageIcon(getClass().getResource("/resources/images/libro.jpg"));
+            ImageIcon originalIcon  = new ImageIcon("/resources/images/libro.jpg");
             Image image = originalIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
             iconoLibro = new ImageIcon(image);
         }
@@ -262,8 +262,8 @@ public class VentanaVerEnvios  extends JFrame {
             this.tablaEnvios = tablaEnvios;
             panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
             
-            ImageIcon iconModificar = new ImageIcon(getClass().getResource("/resourcesimages/modificar.png"));
-            ImageIcon iconEliminar = new ImageIcon(getClass().getResource("/resources/images/eliminar.png"));
+            ImageIcon iconModificar = new ImageIcon("/resourcesimages/modificar.png");
+            ImageIcon iconEliminar = new ImageIcon("/resources/images/eliminar.png");
             
             iconModificar = new ImageIcon(iconModificar.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));
             iconEliminar = new ImageIcon(iconEliminar.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH));

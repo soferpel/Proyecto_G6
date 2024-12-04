@@ -107,7 +107,7 @@ public class VentanaRegistro extends JFrame{
         comboPreguntas.setBackground(Color.WHITE);
         
      // Flecha
-        ImageIcon iconoFlecha = new ImageIcon(getClass().getResource( "resources/images/flecha.jpg"));
+        ImageIcon iconoFlecha = new ImageIcon("resources/images/flecha.jpg");
         Image imgFlecha = iconoFlecha.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         btnFlecha = new JButton(new ImageIcon(imgFlecha));
         btnFlecha.setFocusPainted(false);
@@ -180,8 +180,8 @@ public class VentanaRegistro extends JFrame{
         mostrarRepeContra = new JButton();
         mostrarContra = new JButton();
         
-        ImageIcon ojoVer = new ImageIcon(getClass().getResource("/resources/images/ojoAbierto.png"));
-        ImageIcon ojoOcultar = new ImageIcon(getClass().getResource("/resources/images/ojoCerrado.png"));
+        ImageIcon ojoVer = new ImageIcon("/resources/images/ojoAbierto.png");
+        ImageIcon ojoOcultar = new ImageIcon("/resources/images/ojoCerrado.png");
 
         mostrarContra.setIcon(ojoVer);
         mostrarRepeContra.setIcon(ojoVer);
