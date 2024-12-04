@@ -3,12 +3,12 @@ package domain;
 
 public class Envio {
 	
-	Trayecto trayecto;
+	trayecto trayecto;
 	Paquete paquete;
 	Recogida recogida;
 	Pago pago;
 	
-	public Envio(Trayecto trayecto, Paquete paquete, Recogida recogida, Pago pago) {
+	public Envio(trayecto trayecto, Paquete paquete, Recogida recogida, Pago pago) {
 		super();
 		this.trayecto = trayecto;
 		this.paquete = paquete;
