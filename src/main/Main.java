@@ -12,7 +12,7 @@ import gui.VentanaInicioSesion;
 
 public class Main {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 		Connection con =BaseDatosConfiguracion.initBD("Paqueteria.db");
 		try {
 			BaseDatosConfiguracion.crearTablas(con);
@@ -22,6 +22,8 @@ public class Main {
 		}
 		
 		BaseDatosConfiguracion.closeBD(con);
+		
+		
 	
 		VentanaInicioSesion ventanaIni = new VentanaInicioSesion();
 		

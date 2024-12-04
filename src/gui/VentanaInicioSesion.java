@@ -46,7 +46,6 @@ public class VentanaInicioSesion extends JFrame{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100,  778, 350);
 		setLayout(new BorderLayout());
-		setVisible(true);
 		
 		JPanel panelDatos = new JPanel();
         panelDatos.setLayout(null);

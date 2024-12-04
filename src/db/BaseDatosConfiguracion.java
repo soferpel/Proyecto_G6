@@ -42,8 +42,6 @@ public class BaseDatosConfiguracion {
 			logger.warning(String.format("Error conectando con la BBDD: %s", ex.getMessage()));
 		}
 		
-		
-		
 		return con;
 	}
 	
@@ -192,9 +190,29 @@ public class BaseDatosConfiguracion {
 	        } catch (SQLException e) {
 	            logger.warning("Error buscando pago: " + e.getMessage());
 	        }
-	        return p;
-	    
+	        return p;	       	   	    
 	}
+	    
+	    public static Pago obtenerPagoPorId(Connection con, String pagoId) {
+	        Pago p = null;
+	        String sql = "SELECT * FROM pago WHERE dni = ?";
+	        try {
+	            PreparedStatement st = con.prepareStatement(sql); 
+	            st.setString(1, pagoId);
+	            ResultSet rs = st.executeQuery();
+	            
+	            if (rs.next()) {
+	                 p = new Pago(rs.getString("descripcion"), rs.getString("numero_tarjeta"), rs.getString("fecha_caducidad"),
+	                             rs.getString("cvv"), rs.getString("remitente_destinatario"), rs.getString("factura"),
+	                             rs.getString("dni"), rs.getString("precio"));
+	            }
+	            rs.close();
+	            st.close();
+	        } catch (SQLException e) {
+	            logger.warning("Error obteniendo pago: " + e.getMessage());
+	        }
+	        return p;
+	    }
 
 	    public static void borrarPago(Connection con, String dni) {
 	        String sql = String.format("DELETE FROM pago WHERE dni='%s'", dni);
@@ -211,6 +229,8 @@ public class BaseDatosConfiguracion {
 	            logger.warning("Error borrando pago para el DNI: " + dni);
 	        }
 	    }
+	    
+	    
 
 //TRAYECTO
 	    
@@ -218,7 +238,7 @@ public class BaseDatosConfiguracion {
 			String sql = "DELETE FROM trayecto WHERE nombre_origen = ? AND nombre_destino = ?";
 			try {
 				PreparedStatement st = con.prepareStatement(sql);
-				st.setString(1, nombreOrigen);  // nombre_origen
+				st.setString(1, nombreOrigen); 
 		        st.setString(2, nombreDestino); 
 		        
 				st.executeUpdate(sql);
@@ -251,31 +271,40 @@ public class BaseDatosConfiguracion {
 	            logger.warning("Error actualizando trayecto: " + e.getMessage());
 	        }
 	    }
+	    
+	    public static trayecto obtenerTrayectoPorId(Connection con, String trayectoId) {
+	        trayecto t = null;
+	        String sql = "SELECT * FROM trayecto WHERE nombre_origen || ' - ' || nombre_destino = ?";
+	        try {
+	            PreparedStatement st = con.prepareStatement(sql);  // Usando PreparedStatement
+	            st.setString(1, trayectoId);
+	            ResultSet rs = st.executeQuery();
+	            
+	            if (rs.next()) {
+	                t = new trayecto(rs.getString("nombre_origen"), rs.getString("nombre_destino"));
+	                // Aquí puedes agregar más datos si lo deseas.
+	            }
+	            rs.close();
+	            st.close();
+	        } catch (SQLException e) {
+	            logger.warning("Error obteniendo trayecto: " + e.getMessage());
+	        }
+	        return t;
+	    }
 
 	    
 //ENVIO
-	/*				   trayecto_id VARCHAR(100),\r\n"
-	            + "    paquete_id VARCHAR(50),\r\n"
-	            + "    recogida_id VARCHAR(50),\r\n"
-	            + "    pago_id VARCHAR(20),\r\n"
-	            + "    PRIMARY KEY (trayecto_id, paquete_id, recogida_id, pago_id),\r\n"
-	            + "    FOREIGN KEY (trayecto_id) REFERENCES trayecto(nombre_origen),\r\n"
-	            + "    FOREIGN KEY (paquete_id) REFERENCES paquete(n_referencia),\r\n"
-	            + "    FOREIGN KEY (recogida_id) REFERENCES recogida(fecha_de_recogida),\r\n"
-	            + "    FOREIGN KEY (pago_id) REFERENCES pago(dni)\r\n"	            
-	            */
 	    
 	    public static void insertarEnvio(Connection con, Envio e) {
-	        // SQL para insertar un nuevo registro en la tabla 'envio'
 	        String sql = "INSERT INTO envio (trayecto_id, paquete_id, recogida_id, pago_id) VALUES (?, ?, ?, ?)";
 
 	        try {
 	            PreparedStatement st = con.prepareStatement(sql);
 	            
-	            st.setString(1, e.getTrayecto().getNombreOrigen() + " - " + e.getTrayecto().getNombreDestino());  // trayecto_id
-	            st.setString(2, e.getPaquete().getnReferencia());  // paquete_id			MIRAR
-	            st.setString(3, e.getRecogida().getLugarDeRecogida());  // recogida_id
-	            st.setString(4, e.getPago().getDni());  // pago_id
+	            st.setString(1, e.getTrayecto().getNombreOrigen() + " - " + e.getTrayecto().getNombreDestino()); 
+	            st.setString(2, e.getPaquete().getnReferencia());  // 			MIRAR
+	            st.setString(3, e.getRecogida().getLugarDeRecogida());  
+	            st.setString(4, e.getPago().getDni()); 
 
 	            st.executeUpdate();
 	            st.close();
@@ -287,24 +316,22 @@ public class BaseDatosConfiguracion {
 	        }
 	    }
 	    
-	    public static void borrarEnvio(Connection con, String trayectoId, String paqueteId, String recogidaId, String pagoId) {
-	        // SQL para eliminar un registro de la tabla 'envio' usando las claves foráneas
+	    public static void borrarEnvio(Connection con, String trayectoId, String paqueteId, String recogidaId, String pagoId) {	        // 
 	        String sql = "DELETE FROM envio WHERE trayecto_id = ? AND paquete_id = ? AND recogida_id = ? AND pago_id = ?";
 
 	        try {
 	            PreparedStatement st = con.prepareStatement(sql);
 	            
-	            st.setString(1, trayectoId);  // trayecto_id
-	            st.setString(2, paqueteId);    // paquete_id
-	            st.setString(3, recogidaId);  // recogida_id
-	            st.setString(4, pagoId);      // pago_id
+	            st.setString(1, trayectoId);  
+	            st.setString(2, paqueteId);  
+	            st.setString(3, recogidaId);  
+	            st.setString(4, pagoId);      
 	            
 	            st.executeUpdate(sql);
 	            st.close();
 
 	            logger.info("Envio borrado correctamente.");
 	        } catch (SQLException ex) {
-	            // Manejo de errores
 	            logger.warning("Error borrando el envio: " + ex.getMessage());
 	            ex.printStackTrace();
 	        }
@@ -312,21 +339,32 @@ public class BaseDatosConfiguracion {
 	    
 	    
 	    
-	   /* public static List<Envio> obtenerTodosLosEnvios(Connection con) {
+	    public static List<Envio> obtenerTodosLosEnvios(Connection con) {
 	        String sql = "SELECT * FROM envio";
 	        List<Envio> envios = new ArrayList<>();
+	        Envio envio = null;
+	        
 	        try {
-	            Statement st = con.createStatement();
-	            ResultSet rs = st.executeQuery(sql);
+	        	PreparedStatement st = con.prepareStatement(sql);
+	            ResultSet rs = st.executeQuery();
 
 	            while (rs.next()) {
-	                Envio envio = new Envio();
-	                // Asumiendo que puedes obtener los objetos trayecto, paquete, recogida y pago de la base de datos
-	                envio.setTrayecto(new trayecto(rs.getString("trayecto_id")));
-	                envio.setPaquete(new Paquete(rs.getString("paquete_id")));
-	                envio.setRecogida(new Recogida(rs.getString("recogida_id")));
-	                envio.setPago(new Pago(rs.getString("pago_id")));
-
+	                
+	                String trayectoId = rs.getString("trayecto_id");
+	                trayecto t = obtenerTrayectoPorId(con, trayectoId);  
+	                envio.setTrayecto(t);
+	                //envio.setTrayecto(new trayecto(rs.getString("trayecto_id")));
+	                String paqueteId = rs.getString("paquete_id");
+	                Paquete p = obtenerPaquetePorId(con, paqueteId);  
+	                envio.setPaquete(p);
+	                
+	                String recogidaId = rs.getString("recogida_id");
+	                Recogida r = obtenerRecogidaPorId(con, recogidaId);  
+	                envio.setRecogida(r);
+	                
+	                String pagoId = rs.getString("pago_id");
+	                Pago pa = obtenerPagoPorId(con, pagoId);  
+	                envio.setPago(pa);
 	                envios.add(envio);
 	            }
 
@@ -336,20 +374,12 @@ public class BaseDatosConfiguracion {
 	            logger.warning("Error obteniendo envios: " + e.getMessage());
 	        }
 	        return envios;
-	    }*/
+	    }
+	    
+	    
 
 
 //PAQUETE
-	    
-	    /*				n_referencia VARCHAR(50) NOT NULL,\r\n"
-	            + "    embalaje VARCHAR(50),\r\n"
-	            + "    peso VARCHAR(50),\r\n"
-	            + "    largo VARCHAR(50),\r\n"
-	            + "    ancho VARCHAR(50),\r\n"
-	            + "    alto VARCHAR(50),\r\n"
-	            + "    valor VARCHAR(50),\r\n"
-	            + "    fragil VARCHAR(10),\r\n"
-	            + "    PRIMARY KEY (n_referencia)\r\n*/
 	    
 	    public static List<Paquete> buscarPaquetePorReferencia(Connection con, String nReferencia) {
 		    List<Paquete> paquetes = new ArrayList<>();
@@ -379,6 +409,51 @@ public class BaseDatosConfiguracion {
 		    System.out.println("Número total de paquetes encontrados: " + paquetes.size());
 		    return paquetes;
 		}
+	    
+	    public static Paquete obtenerPaquetePorId(Connection con, String paqueteId) {
+	        Paquete p = null;
+	        String sql = "SELECT * FROM paquete WHERE n_referencia = ?";
+	        try {
+	            PreparedStatement st = con.prepareStatement(sql);  // Usando PreparedStatement
+	            st.setString(1, paqueteId);
+	            ResultSet rs = st.executeQuery();
+	            
+	            if (rs.next()) {
+	                p = new Paquete(rs.getString("n_referencia"), rs.getString("embalaje"), rs.getString("peso"), 
+	                                rs.getString("largo"), rs.getString("ancho"), rs.getString("alto"), 
+	                                rs.getString("valor"), rs.getString("fragil"));
+	            }
+	            rs.close();
+	            st.close();
+	        } catch (SQLException e) {
+	            logger.warning("Error obteniendo paquete: " + e.getMessage());
+	        }
+	        return p;
+	    }
+	    
+	   
+
+//RECOGIDA
+	    public static Recogida obtenerRecogidaPorId(Connection con, String recogidaId) {
+	        Recogida r = null;
+	        String sql = "SELECT * FROM recogida WHERE fecha_de_recogida = ?";
+	        try {
+	            PreparedStatement st = con.prepareStatement(sql); 
+	            st.setString(1, recogidaId);
+	            ResultSet rs = st.executeQuery();
+	            
+	            if (rs.next()) {
+	                r = new Recogida(rs.getString("fecha_de_recogida"), rs.getString("lugar_de_recogida"), 
+	                		rs.getString("tipo_de_envio"));
+	            }
+	            rs.close();
+	            st.close();
+	        } catch (SQLException e) {
+	            logger.warning("Error obteniendo recogida: " + e.getMessage());
+	        }
+	        return r;
+	    }
+	    
 	    
 	    
 	    public static void insertarRegistroDePrueba(Connection con) {
@@ -411,12 +486,55 @@ public class BaseDatosConfiguracion {
 	            stPaquete.executeUpdate();
 	            stPaquete.close();
 	            
+	            String insertRecogida = "INSERT INTO recogida (fecha_de_recogida, lugar_de_recogida, tipo_de_envio) VALUES (?, ?, ?)";
+	            PreparedStatement psRecogida = con.prepareStatement(insertRecogida);
+	            psRecogida.setString(1, "2024-12-04");
+	            psRecogida.setString(2, "Calle Falsa 123");
+	            psRecogida.setString(3, "Express");
+	            psRecogida.executeUpdate();
+	            psRecogida.close();
+	            
+	            String insertPago = "INSERT INTO pago (dni, descripcion, numero_tarjeta, fecha_caducidad, cvv, remitente_destinatario, factura, precio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	            PreparedStatement psPago = con.prepareStatement(insertPago);
+	            psPago.setString(1, "12345678A");
+	            psPago.setString(2, "Pago por servicio de envío");
+	            psPago.setString(3, "4111111111111111");
+	            psPago.setDate(4, java.sql.Date.valueOf("2025-05-31"));
+	            psPago.setString(5, "123");
+	            psPago.setString(6, "Juan Pérez");
+	            psPago.setString(7, "Factura001");
+	            psPago.setBigDecimal(8, new java.math.BigDecimal("49.99"));
+	            psPago.executeUpdate();
+	            psPago.close();
+	            
+	            String insertUsuario = "INSERT INTO usuario (nombre, apellido, telefono, correo, respuesta, pregunta_seg, contrasenia) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	            PreparedStatement psUsuario = con.prepareStatement(insertUsuario);
+	            psUsuario.setString(1, "Juan");
+	            psUsuario.setString(2, "Pérez");
+	            psUsuario.setString(3, "600123456");
+	            psUsuario.setString(4, "juan.perez@example.com");
+	            psUsuario.setString(5, "Mi primera mascota");
+	            psUsuario.setString(6, "¿Cuál es el nombre de tu mascota?");
+	            psUsuario.setString(7, "password123");
+	            psUsuario.executeUpdate();
+	            psUsuario.close();
+	            
+	            String insertEnvio = "INSERT INTO envio (trayecto_id, paquete_id, recogida_id, pago_id) VALUES (?, ?, ?, ?)";
+	            PreparedStatement psEnvio = con.prepareStatement(insertEnvio);
+	            psEnvio.setString(1, "Origen1");
+	            psEnvio.setString(2, "REF12345");
+	            psEnvio.setString(3, "2024-12-04");
+	            psEnvio.setString(4, "12345678A");
+	            psEnvio.executeUpdate();
+	            psEnvio.close();
+	            
 	            System.out.println("Registros de prueba insertados.");
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
 	    }
-
-
+	    
+	    
+	    
 
 }
