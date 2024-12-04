@@ -205,6 +205,10 @@ public class BaseDatosConfiguracion {
 	                 p = new Pago(rs.getString("descripcion"), rs.getString("numero_tarjeta"), rs.getString("fecha_caducidad"),
 	                             rs.getString("cvv"), rs.getString("remitente_destinatario"), rs.getString("factura"),
 	                             rs.getString("dni"), rs.getString("precio"));
+	                 
+	                 System.out.println("Pago obtenido: " + p);
+	            } else {
+	                System.out.println("No se encontró un pago con el DNI: " + pagoId);	            
 	            }
 	            rs.close();
 	            st.close();
@@ -282,8 +286,12 @@ public class BaseDatosConfiguracion {
 	            
 	            if (rs.next()) {
 	                t = new trayecto(rs.getString("nombre_origen"), rs.getString("nombre_destino"));
-	                // Aquí puedes agregar más datos si lo deseas.
+	                
+	                System.out.println("Pago obtenido: " + t);
+	            } else {
+	                System.out.println("No se encontró un pago con el DNI: " + trayectoId);	            	           
 	            }
+	            
 	            rs.close();
 	            st.close();
 	        } catch (SQLException e) {
@@ -311,7 +319,8 @@ public class BaseDatosConfiguracion {
  
 	            logger.info("Envio insertado correctamente.");
 	        } catch (SQLException ex) {
-	        	logger.warning(String.format("Error insertando articulo %s", e.toString()));
+	        	System.out.println("Error al insertar el envio: " + ex.getMessage());
+	        	logger.warning(String.format("Error insertando envio %s", e.toString()));
 	            
 	        }
 	    }
@@ -366,6 +375,7 @@ public class BaseDatosConfiguracion {
 	                Pago pa = obtenerPagoPorId(con, pagoId);  
 	                envio.setPago(pa);
 	                envios.add(envio);
+	                
 	            }
 
 	            rs.close();
@@ -375,6 +385,8 @@ public class BaseDatosConfiguracion {
 	        }
 	        return envios;
 	    }
+	    
+	    
 	    
 	    
 
@@ -414,7 +426,7 @@ public class BaseDatosConfiguracion {
 	        Paquete p = null;
 	        String sql = "SELECT * FROM paquete WHERE n_referencia = ?";
 	        try {
-	            PreparedStatement st = con.prepareStatement(sql);  // Usando PreparedStatement
+	            PreparedStatement st = con.prepareStatement(sql); 
 	            st.setString(1, paqueteId);
 	            ResultSet rs = st.executeQuery();
 	            
@@ -422,6 +434,10 @@ public class BaseDatosConfiguracion {
 	                p = new Paquete(rs.getString("n_referencia"), rs.getString("embalaje"), rs.getString("peso"), 
 	                                rs.getString("largo"), rs.getString("ancho"), rs.getString("alto"), 
 	                                rs.getString("valor"), rs.getString("fragil"));
+	                
+	                System.out.println("Pago obtenido: " + p);
+	            } else {
+	                System.out.println("No se encontró un pago con el DNI: " + paqueteId);	            	           
 	            }
 	            rs.close();
 	            st.close();
@@ -445,6 +461,10 @@ public class BaseDatosConfiguracion {
 	            if (rs.next()) {
 	                r = new Recogida(rs.getString("fecha_de_recogida"), rs.getString("lugar_de_recogida"), 
 	                		rs.getString("tipo_de_envio"));
+	                
+	                System.out.println("Pago obtenido: " + r);
+	            } else {
+	                System.out.println("No se encontró un pago con el DNI: " + recogidaId);	            	           	            
 	            }
 	            rs.close();
 	            st.close();
@@ -521,20 +541,18 @@ public class BaseDatosConfiguracion {
 	            
 	            String insertEnvio = "INSERT INTO envio (trayecto_id, paquete_id, recogida_id, pago_id) VALUES (?, ?, ?, ?)";
 	            PreparedStatement psEnvio = con.prepareStatement(insertEnvio);
-	            psEnvio.setString(1, "Origen1");
+	            psEnvio.setString(1, "Origen1"  + " - " + "Destino1");
 	            psEnvio.setString(2, "REF12345");
 	            psEnvio.setString(3, "2024-12-04");
 	            psEnvio.setString(4, "12345678A");
 	            psEnvio.executeUpdate();
 	            psEnvio.close();
 	            
+	            
 	            System.out.println("Registros de prueba insertados.");
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
 	    }
-	    
-	    
-	    
-
+	  
 }
