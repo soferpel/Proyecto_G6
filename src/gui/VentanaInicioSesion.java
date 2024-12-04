@@ -58,7 +58,7 @@ public class VentanaInicioSesion extends JFrame{
         add(panelNorte, BorderLayout.NORTH);
         
         
-        ImageIcon logo = new ImageIcon(getClass().getResource("/Images/logoPngNegro.png"));
+        ImageIcon logo = new ImageIcon(getClass().getResource("resources/Images/logoPngNegro.png"));
 		JLabel labelImagenLogo = new JLabel(logo);
 		panelNorte.add(labelImagenLogo, BorderLayout.NORTH);
 		labelImagenLogo.setBorder(new EmptyBorder(20,680,0,20));

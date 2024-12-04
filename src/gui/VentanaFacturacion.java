@@ -36,7 +36,7 @@ public class VentanaFacturacion extends JFrame {
         JPanel panelSuperior = new JPanel(new BorderLayout());
 
         // btnVolver
-        ImageIcon imageVolverO = new ImageIcon(getClass().getResource("/Images/volver.png"));
+        ImageIcon imageVolverO = new ImageIcon(getClass().getResource("resources/images/volver.png"));
         ImageIcon imageVolverE = new ImageIcon(imageVolverO.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
         
         
@@ -53,7 +53,7 @@ public class VentanaFacturacion extends JFrame {
         panelSuperior.add(lblTitulo, BorderLayout.CENTER);
         
         //logo
-        ImageIcon logo = new ImageIcon(getClass().getResource("/Images/logoPngNegro.png"));
+        ImageIcon logo = new ImageIcon(getClass().getResource("resources/images/logoPngNegro.png"));
 		JLabel labelImagenLogo = new JLabel(logo);
         panelSuperior.add(labelImagenLogo, BorderLayout.EAST);
 
