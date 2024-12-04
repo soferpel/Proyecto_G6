@@ -234,6 +234,33 @@ public class BaseDatosConfiguracion {
 
 //TRAYECTO
 	    
+	    public static void insertarTrayecto(Connection con, trayecto t) {
+			String sql = "INSERT INTO trayecto(nombre_origen, direccion_origen, correo_origen, telefono_origen, nombre_destino, direccion_destino, correo_destino, telefono_destino) VALUES (?,?,?,?,?,?,?,?)";
+			
+			try {
+					PreparedStatement st = con.prepareStatement(sql);
+		            st.setString(1, t.getNombreOrigen());
+				    st.setString(2, t.getDireccionOrigen());
+		            st.setString(3, t.getCorreoOrigen());
+		            st.setString(4, t.getTelefonoOrigen());
+		            st.setString(5, t.getNombreDestino());
+		            st.setString(6, t.getDireccionDestino());
+		            st.setString(7, t.getCorreoDestino());
+		            st.setString(8, t.getTelefonoDestino());
+					
+					
+					st.executeUpdate();
+					st.close();
+		            logger.info("Trayecto insertado correctamente: " + t);
+		            
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+		            logger.warning("Error insertando trayecto: " + t + " - " + e.getMessage());
+
+				}
+			}
+	    
+	    
 	    public static void borrarTrayecto(Connection con, String nombreOrigen, String nombreDestino) {
 			String sql = "DELETE FROM trayecto WHERE nombre_origen = ? AND nombre_destino = ?";
 			try {
@@ -456,7 +483,7 @@ public class BaseDatosConfiguracion {
 	    
 	    
 	    public static void insertarRecogida(Connection con, Recogida r) {
-			String sql = String.format("INSERT INTO recogida(fechaDeRecogida, lugarDeRecogida, tipoDeEnvio) VALUES (?,?,?)");
+			String sql = "INSERT INTO recogida(fechaDeRecogida, lugarDeRecogida, tipoDeEnvio) VALUES (?,?,?)";
 			
 			try {
 					PreparedStatement st = con.prepareStatement(sql);
@@ -469,7 +496,7 @@ public class BaseDatosConfiguracion {
 					st.close();
 		            logger.info("Recogida insertada correctamente");
 		            
-				} catch (SQLException e1) {
+				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 		            logger.warning("Error insertando recogida");
 
@@ -502,11 +529,12 @@ public class BaseDatosConfiguracion {
 	    
 	    
 	    public static void borrarRecogida(Connection con, String fecha_de_recogida) {
-	        String sql = String.format("DELETE FROM recogida WHERE fecha_de_recogida='%s'", fecha_de_recogida);
+	        String sql = "DELETE FROM recogida WHERE fecha_de_recogida= ?";
 
 	        try {
-	            Statement st = con.createStatement();
-	            
+	        	PreparedStatement st = con.prepareStatement(sql);
+		            
+		        st.setString(1, fecha_de_recogida);	            
 	            
 	            st.executeUpdate(sql);
 	            st.close();
