@@ -154,7 +154,7 @@ public class VentanaHacerEnvio extends JFrame{
 	txtCrearEnvio.setFont(fontTextoTitulo);
 	
 	
-	ImageIcon imgVolver = new ImageIcon(getClass().getResource("/resources/images/volver.png"));
+	ImageIcon imgVolver = new ImageIcon("/resources/images/volver.png");
 	btnVolver = new JButton(imgVolver);
 	
 	pQue = new JPanel(new GridLayout(4, 1));

@@ -16,13 +16,13 @@ public class Envio {
 		this.pago = pago;
 	}
 
-
+ 
 
 	public Envio(String dO, String dD, String nRefe, String fRec, String dni, String precio) {
 		dO = trayecto.getDireccionOrigen();
 		dD = trayecto.getDireccionDestino();
 		nRefe = paquete.getnReferencia();
-		fRec = recogida.getFechaDeEnvio();
+		fRec = recogida.getFechaDeRecogida();
 		dni = pago.getDni();
 		precio = pago.getPrecio();
 	}
