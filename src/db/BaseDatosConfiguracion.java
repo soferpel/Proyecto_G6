@@ -6,9 +6,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
+import domain.Envio;
 import domain.Pago;
+import domain.Paquete;
+import domain.Recogida;
+import domain.trayecto;
 
 
 public class BaseDatosConfiguracion {
@@ -133,7 +139,7 @@ public class BaseDatosConfiguracion {
 	}
 	
 	
-	//PAGO
+//PAGO
 	public static void insertarPago(Connection con, Pago p) {
 	    String sql = String.format("INSERT INTO pago (descripcion, numeroTarjeta, fechaCaducidad, CVV, remitenteDestinatario, factura, dni, precio) VALUES (?,?,?,?,?,?,?,?)");
 
@@ -202,9 +208,136 @@ public class BaseDatosConfiguracion {
 	        }
 	    }
 
-	
-	
-	
+//TRAYECTO
+	    
+	    public static void borrarTrayecto(Connection con, String nombreOrigen, String nombreDestino) {
+			String sql = "DELETE FROM trayecto WHERE nombre_origen = ? AND nombre_destino = ?";
+			try {
+				PreparedStatement st = con.prepareStatement(sql);
+				st.setString(1, nombreOrigen);  // nombre_origen
+		        st.setString(2, nombreDestino); 
+		        
+				st.executeUpdate(sql);
+				st.close();
+				logger.info("Trayecto borrado correctamente: " + nombreOrigen + " a " + nombreDestino);				   
+			} catch (SQLException e) {
+				logger.warning("Error borrando el trayecto: " + nombreOrigen + " a " + nombreDestino + " - " + e.getMessage());
+		        e.printStackTrace();
+			}
+			
+		}
+	    
+	    public static void actualizarTrayecto(Connection con, trayecto trayecto) {
+	        String sql = "UPDATE trayecto SET direccion_origen = ?, correo_origen = ?, telefono_origen = ?, "
+	                   + "direccion_destino = ?, correo_destino = ?, telefono_destino = ? WHERE nombre_origen = ? AND nombre_destino = ?";
+	        try {
+	            PreparedStatement st = con.prepareStatement(sql);
+	            st.setString(1, trayecto.getDireccionOrigen());
+	            st.setString(2, trayecto.getCorreoOrigen());
+	            st.setString(3, trayecto.getTelefonoOrigen());
+	            st.setString(4, trayecto.getDireccionDestino());
+	            st.setString(5, trayecto.getCorreoDestino());
+	            st.setString(6, trayecto.getTelefonoDestino());
+	            st.setString(7, trayecto.getNombreOrigen());
+	            st.setString(8, trayecto.getNombreDestino());
+
+	            st.executeUpdate();
+	            st.close();
+	        } catch (SQLException e) {
+	            logger.warning("Error actualizando trayecto: " + e.getMessage());
+	        }
+	    }
+
+	    
+//ENVIO
+	/*				   trayecto_id VARCHAR(100),\r\n"
+	            + "    paquete_id VARCHAR(50),\r\n"
+	            + "    recogida_id VARCHAR(50),\r\n"
+	            + "    pago_id VARCHAR(20),\r\n"
+	            + "    PRIMARY KEY (trayecto_id, paquete_id, recogida_id, pago_id),\r\n"
+	            + "    FOREIGN KEY (trayecto_id) REFERENCES trayecto(nombre_origen),\r\n"
+	            + "    FOREIGN KEY (paquete_id) REFERENCES paquete(n_referencia),\r\n"
+	            + "    FOREIGN KEY (recogida_id) REFERENCES recogida(fecha_de_recogida),\r\n"
+	            + "    FOREIGN KEY (pago_id) REFERENCES pago(dni)\r\n"	            
+	            */
+	    
+	    public static void insertarEnvio(Connection con, Envio e) {
+	        // SQL para insertar un nuevo registro en la tabla 'envio'
+	        String sql = "INSERT INTO envio (trayecto_id, paquete_id, recogida_id, pago_id) VALUES (?, ?, ?, ?)";
+
+	        try {
+	            PreparedStatement st = con.prepareStatement(sql);
+	            
+	            st.setString(1, e.getTrayecto().getNombreOrigen() + " - " + e.getTrayecto().getNombreDestino());  // trayecto_id
+	            st.setString(2, e.getPaquete().getnReferencia());  // paquete_id			MIRAR
+	            st.setString(3, e.getRecogida().getLugarDeRecogida());  // recogida_id
+	            st.setString(4, e.getPago().getDni());  // pago_id
+
+	            st.executeUpdate();
+	            st.close();
+ 
+	            logger.info("Envio insertado correctamente.");
+	        } catch (SQLException ex) {
+	        	logger.warning(String.format("Error insertando articulo %s", e.toString()));
+	            
+	        }
+	    }
+	    
+	    public static void borrarEnvio(Connection con, String trayectoId, String paqueteId, String recogidaId, String pagoId) {
+	        // SQL para eliminar un registro de la tabla 'envio' usando las claves foráneas
+	        String sql = "DELETE FROM envio WHERE trayecto_id = ? AND paquete_id = ? AND recogida_id = ? AND pago_id = ?";
+
+	        try {
+	            PreparedStatement st = con.prepareStatement(sql);
+	            
+	            st.setString(1, trayectoId);  // trayecto_id
+	            st.setString(2, paqueteId);    // paquete_id
+	            st.setString(3, recogidaId);  // recogida_id
+	            st.setString(4, pagoId);      // pago_id
+	            
+	            st.executeUpdate(sql);
+	            st.close();
+
+	            logger.info("Envio borrado correctamente.");
+	        } catch (SQLException ex) {
+	            // Manejo de errores
+	            logger.warning("Error borrando el envio: " + ex.getMessage());
+	            ex.printStackTrace();
+	        }
+	    }
+	    
+	    
+	    
+	   /* public static List<Envio> obtenerTodosLosEnvios(Connection con) {
+	        String sql = "SELECT * FROM envio";
+	        List<Envio> envios = new ArrayList<>();
+	        try {
+	            Statement st = con.createStatement();
+	            ResultSet rs = st.executeQuery(sql);
+
+	            while (rs.next()) {
+	                Envio envio = new Envio();
+	                // Asumiendo que puedes obtener los objetos trayecto, paquete, recogida y pago de la base de datos
+	                envio.setTrayecto(new trayecto(rs.getString("trayecto_id")));
+	                envio.setPaquete(new Paquete(rs.getString("paquete_id")));
+	                envio.setRecogida(new Recogida(rs.getString("recogida_id")));
+	                envio.setPago(new Pago(rs.getString("pago_id")));
+
+	                envios.add(envio);
+	            }
+
+	            rs.close();
+	            st.close();
+	        } catch (SQLException e) {
+	            logger.warning("Error obteniendo envios: " + e.getMessage());
+	        }
+	        return envios;
+	    }*/
+
+
+//PAQUETE
+	    
+	    
 	
 
 }
