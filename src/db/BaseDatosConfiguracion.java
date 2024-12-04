@@ -50,12 +50,68 @@ public class BaseDatosConfiguracion {
 	//CREAR TABLAS
 	public static void crearTablas(Connection con) throws SQLException{
 
-		String sql = "CREATE TABLE IF NOT EXISTS trayecto (id INT AUTO_INCREMENT PRIMARY KEY, nombre_origen VARCHAR(100), direccion_origen VARCHAR(255), correo_origen VARCHAR(100), telefono_origen VARCHAR(20), nombre_destino VARCHAR(100), direccion_destino VARCHAR(255), correo_destino VARCHAR(100), telefono_destino VARCHAR(20))";
-		String sql2 = "CREATE TABLE IF NOT EXISTS paquete (id INT AUTO_INCREMENT PRIMARY KEY, n_referencia VARCHAR(50) NOT NULL, embalaje VARCHAR(50), peso DECIMAL(10, 2), largo DECIMAL(10, 2), ancho DECIMAL(10, 2), alto DECIMAL(10, 2), valor DECIMAL(10, 2), fragil BOOLEAN)";
-		String sql3 = "CREATE TABLE IF NOT EXISTS recogida (id INT AUTO_INCREMENT PRIMARY KEY, fecha_de_recogida DATE, lugar_de_recogida VARCHAR(255), tipo_de_envio VARCHAR(50))";
-		String sql4 = "CREATE TABLE IF NOT EXISTS pago (id INT AUTO_INCREMENT PRIMARY KEY, descripcion VARCHAR(255), numero_tarjeta VARCHAR(16), fecha_caducidad DATE, cvv CHAR(3), remitente_destinatario VARCHAR(255), factura VARCHAR(255), dni VARCHAR(20), precio DECIMAL(10, 2))";
-		String sql5 = "CREATE TABLE IF NOT EXISTS envio (id INT AUTO_INCREMENT PRIMARY KEY, trayecto_id INT, paquete_id INT, recogida_id INT, pago_id INT, FOREIGN KEY (trayecto_id) REFERENCES trayecto(id), FOREIGN KEY (paquete_id) REFERENCES paquete(id), FOREIGN KEY (recogida_id) REFERENCES recogida(id), FOREIGN KEY (pago_id) REFERENCES pago(id))";
-		String sql6 = "CREATE TABLE IF NOT EXISTS usuario (id INT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(100), apellido VARCHAR(100), telefono VARCHAR(20), correo VARCHAR(100) UNIQUE, respuesta VARCHAR(255), pregunta_seg VARCHAR(255), contrasenia VARCHAR(255))";
+		String sql = "CREATE TABLE IF NOT EXISTS trayecto (\r\n"
+	            + "    nombre_origen VARCHAR(100),\r\n"
+	            + "    direccion_origen VARCHAR(255),\r\n"
+	            + "    correo_origen VARCHAR(100),\r\n"
+	            + "    telefono_origen VARCHAR(20),\r\n"
+	            + "    nombre_destino VARCHAR(100),\r\n"
+	            + "    direccion_destino VARCHAR(255),\r\n"
+	            + "    correo_destino VARCHAR(100),\r\n"
+	            + "    telefono_destino VARCHAR(20),\r\n"
+	            + "    PRIMARY KEY (nombre_origen, nombre_destino)\r\n"
+	            + ");\r\n";
+
+		String sql2 = "CREATE TABLE IF NOT EXISTS paquete (\r\n"
+	            + "    n_referencia VARCHAR(50) NOT NULL,\r\n"
+	            + "    embalaje VARCHAR(50),\r\n"
+	            + "    peso VARCHAR(50),\r\n"
+	            + "    largo VARCHAR(50),\r\n"
+	            + "    ancho VARCHAR(50),\r\n"
+	            + "    alto VARCHAR(50),\r\n"
+	            + "    valor VARCHAR(50),\r\n"
+	            + "    fragil VARCHAR(10),\r\n"
+	            + "    PRIMARY KEY (n_referencia)\r\n"
+	            + ");\r\n";
+		String sql3 = "CREATE TABLE IF NOT EXISTS recogida (\r\n"
+	            + "    fecha_de_recogida VARCHAR(50),\r\n"
+	            + "    lugar_de_recogida VARCHAR(255),\r\n"
+	            + "    tipo_de_envio VARCHAR(50),\r\n"
+	            + "    PRIMARY KEY (fecha_de_recogida)\r\n"
+	            + ");\r\n";
+		String sql4 = "CREATE TABLE IF NOT EXISTS pago (\r\n"
+				+ "    dni VARCHAR(20) PRIMARY KEY,\r\n"
+				+ "    descripcion VARCHAR(255),\r\n"
+				+ "    numero_tarjeta VARCHAR(16),\r\n"
+				+ "    fecha_caducidad DATE,\r\n"
+				+ "    cvv CHAR(3),\r\n"
+				+ "    remitente_destinatario VARCHAR(255),\r\n"
+				+ "    factura VARCHAR(255),\r\n"
+				+ "    precio DECIMAL(10, 2)\r\n"
+				+ ");\r\n"
+				+ "";
+		String sql5 = "CREATE TABLE IF NOT EXISTS envio (\r\n"
+	            + "    trayecto_id VARCHAR(100),\r\n"
+	            + "    paquete_id VARCHAR(50),\r\n"
+	            + "    recogida_id VARCHAR(50),\r\n"
+	            + "    pago_id VARCHAR(20),\r\n"
+	            + "    PRIMARY KEY (trayecto_id, paquete_id, recogida_id, pago_id),\r\n"
+	            + "    FOREIGN KEY (trayecto_id) REFERENCES trayecto(nombre_origen),\r\n"
+	            + "    FOREIGN KEY (paquete_id) REFERENCES paquete(n_referencia),\r\n"
+	            + "    FOREIGN KEY (recogida_id) REFERENCES recogida(fecha_de_recogida),\r\n"
+	            + "    FOREIGN KEY (pago_id) REFERENCES pago(dni)\r\n"
+	            + ");\r\n";
+		String sql6 = "CREATE TABLE IF NOT EXISTS usuario (\r\n"
+	            + "    nombre VARCHAR(100),\r\n"
+	            + "    apellido VARCHAR(100),\r\n"
+	            + "    telefono VARCHAR(20),\r\n"
+	            + "    correo VARCHAR(100) UNIQUE,\r\n"
+	            + "    respuesta VARCHAR(255),\r\n"
+	            + "    pregunta_seg VARCHAR(255),\r\n"
+	            + "    contrasenia VARCHAR(255),\r\n"
+	            + "    PRIMARY KEY (correo)\r\n"
+	            + ");\r\n";
+
 
 		try {
 			Statement st = con.createStatement();
@@ -102,7 +158,7 @@ public class BaseDatosConfiguracion {
 	    
 	    
 	    public static Pago buscarPago(Connection con, String dni) {
-			String sql = String.format("SELECT * FROM cliente WHERE DNI = '%s'", dni);
+			String sql = String.format("SELECT * FROM pago WHERE DNI = '%s'", dni);
 	        Pago p = null;
 	        try {
 	            PreparedStatement ps = con.prepareStatement(sql);
