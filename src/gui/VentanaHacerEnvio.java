@@ -131,7 +131,7 @@ public class VentanaHacerEnvio extends JFrame{
 		
 
 		
-	ImageIcon logo = new ImageIcon(getClass().getResource("resources/images/logoPngNegro.png"));
+	ImageIcon logo = new ImageIcon(getClass().getResource("/resources/images/logoPngNegro.png"));
 	JLabel labelImagenLogo = new JLabel(logo);
 	labelImagenLogo.setPreferredSize(new Dimension(350, logo.getIconHeight()));
 	
@@ -140,9 +140,9 @@ public class VentanaHacerEnvio extends JFrame{
 	tabEnvios = new JTabbedPane();
 	
 	
-	ImageIcon imgAnterior = new ImageIcon(getClass().getResource("resources/images/flecha_ant.png"));
+	ImageIcon imgAnterior = new ImageIcon(getClass().getResource("/resources/images/flecha_ant.png"));
     btnAnterior = new JButton(imgAnterior);
-    ImageIcon imgSiguiente = new ImageIcon(getClass().getResource("resources/images/flecha_sig.png"));
+    ImageIcon imgSiguiente = new ImageIcon(getClass().getResource("/resources/images/flecha_sig.png"));
     btnSiguiente = new JButton(imgSiguiente);
 	btnFinalizar = new JButton("FINALIZAR");
 	btnFinalizar.setEnabled(false);
@@ -154,7 +154,7 @@ public class VentanaHacerEnvio extends JFrame{
 	txtCrearEnvio.setFont(fontTextoTitulo);
 	
 	
-	ImageIcon imgVolver = new ImageIcon(getClass().getResource("resources/images/volver.png"));
+	ImageIcon imgVolver = new ImageIcon(getClass().getResource("/resources/images/volver.png"));
 	btnVolver = new JButton(imgVolver);
 	
 	pQue = new JPanel(new GridLayout(4, 1));

@@ -56,7 +56,7 @@ public class VentanaAdministracion extends JFrame {
 
 		pNorte.setBorder(new EmptyBorder(10,0,0,180));
 		
-		ImageIcon imgVolver = new ImageIcon(getClass().getResource("resources/images/volver.png"));
+		ImageIcon imgVolver = new ImageIcon(getClass().getResource("/resources/images/volver.png"));
 		btnVolver = new JButton(imgVolver);
 		
 			
