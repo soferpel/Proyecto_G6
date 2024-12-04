@@ -28,7 +28,9 @@ public class BaseDatosConfiguracion {
 	 * @return Devuelve la conexión a la base de datos
 	 */
 	public static Connection initBD(String nombreBD) {
-		Connection con = null;
+		Connection con = null; 
+		
+        
 		try {
 			Class.forName("org.sqlite.JDBC");
 			con = DriverManager.getConnection("jdbc:sqlite:"+nombreBD);
@@ -39,6 +41,8 @@ public class BaseDatosConfiguracion {
 		} catch (SQLException ex) {
 			logger.warning(String.format("Error conectando con la BBDD: %s", ex.getMessage()));
 		}
+		
+		
 		
 		return con;
 	}
