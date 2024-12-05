@@ -16,6 +16,8 @@ public class Main {
 		Connection con =BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 		try {
 			BaseDatosConfiguracion.crearTablas(con);
+			BaseDatosConfiguracion.insertarRegistroDePrueba(con);
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
