@@ -108,7 +108,7 @@ public class VentanaVerEnvios  extends JFrame {
 
 	    
         
-        ImageIcon imageVolverO = new ImageIcon("/resurces/images/volver.png");
+        ImageIcon imageVolverO = new ImageIcon("resources/images/volver.png");
         ImageIcon imageVolverE = new ImageIcon(
         		imageVolverO.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH)
         );
