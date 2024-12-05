@@ -49,4 +49,4 @@ public class Main {
 		VentanaInicioSesion ventanaIni = new VentanaInicioSesion();
 		
 	}
-}
+} 

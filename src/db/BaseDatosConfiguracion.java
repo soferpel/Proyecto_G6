@@ -34,7 +34,7 @@ public class BaseDatosConfiguracion {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			con = DriverManager.getConnection("jdbc:sqlite:"+nombreBD);
-			con.createStatement().execute("PRAGMA foreign_keys = ON;");
+			//con.createStatement().execute("PRAGMA foreign_keys = ON;");
 					
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -238,6 +238,33 @@ public class BaseDatosConfiguracion {
 
 //TRAYECTO
 	    
+	    public static void insertarTrayecto(Connection con, trayecto t) {
+			String sql = "INSERT INTO trayecto(nombre_origen, direccion_origen, correo_origen, telefono_origen, nombre_destino, direccion_destino, correo_destino, telefono_destino) VALUES (?,?,?,?,?,?,?,?)";
+			
+			try {
+					PreparedStatement st = con.prepareStatement(sql);
+		            st.setString(1, t.getNombreOrigen());
+				    st.setString(2, t.getDireccionOrigen());
+		            st.setString(3, t.getCorreoOrigen());
+		            st.setString(4, t.getTelefonoOrigen());
+		            st.setString(5, t.getNombreDestino());
+		            st.setString(6, t.getDireccionDestino());
+		            st.setString(7, t.getCorreoDestino());
+		            st.setString(8, t.getTelefonoDestino());
+					
+					
+					st.executeUpdate();
+					st.close();
+		            logger.info("Trayecto insertado correctamente: " + t);
+		            
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+		            logger.warning("Error insertando trayecto: " + t + " - " + e.getMessage());
+
+				}
+			}
+	    
+	    
 	    public static void borrarTrayecto(Connection con, String nombreOrigen, String nombreDestino) {
 			String sql = "DELETE FROM trayecto WHERE nombre_origen = ? AND nombre_destino = ?";
 			try {
@@ -280,7 +307,7 @@ public class BaseDatosConfiguracion {
 	        trayecto t = null;
 	        String sql = "SELECT * FROM trayecto WHERE nombre_origen || ' - ' || nombre_destino = ?";
 	        try {
-	            PreparedStatement st = con.prepareStatement(sql);  // Usando PreparedStatement
+	            PreparedStatement st = con.prepareStatement(sql);  
 	            st.setString(1, trayectoId);
 	            ResultSet rs = st.executeQuery();
 	            
@@ -314,6 +341,7 @@ public class BaseDatosConfiguracion {
 	            st.setString(3, e.getRecogida().getLugarDeRecogida());  
 	            st.setString(4, e.getPago().getDni()); 
 
+	            
 	            st.executeUpdate();
 	            st.close();
  
@@ -388,6 +416,64 @@ public class BaseDatosConfiguracion {
 	    
 
 //PAQUETE
+	    
+	    public static void insertarPaquete(Connection con, Paquete p) {
+	        String sql = "INSERT INTO paquete (n_referencia, embalaje, peso, largo, ancho, alto, valor, fragil) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+	        try (PreparedStatement st = con.prepareStatement(sql)) {
+	            st.setString(1, p.getnReferencia());
+	            st.setString(2, p.getEmbalaje());
+	            st.setString(3, p.getPeso());
+	            st.setString(4, p.getLargo());
+	            st.setString(5, p.getAncho());
+	            st.setString(6, p.getAlto());
+	            st.setString(7, p.getValor());
+	            st.setString(8, p.getFragil());
+
+	            st.executeUpdate();
+	            System.out.println("Paquete insertado correctamente.");
+	        } catch (SQLException e) {
+	            System.err.println("Error insertando paquete: " + e.getMessage());
+	        }
+	    }
+
+	    public static Paquete buscarPaquete(Connection con, String nReferencia) {
+	        String sql = "SELECT * FROM paquete WHERE n_referencia = ?";
+	        Paquete paquete = null;
+
+	        try (PreparedStatement ps = con.prepareStatement(sql)) {
+	            ps.setString(1, nReferencia);
+	            ResultSet rs = ps.executeQuery();
+
+	            if (rs.next()) {
+	                String embalaje = rs.getString("embalaje");
+	                String peso = rs.getString("peso");
+	                String largo = rs.getString("largo");
+	                String ancho = rs.getString("ancho");
+	                String alto = rs.getString("alto");
+	                String valor = rs.getString("valor");
+	                String fragil = rs.getString("fragil");
+
+	                paquete = new Paquete(nReferencia, embalaje, peso, largo, ancho, alto, valor, fragil);
+	                System.out.println("Paquete encontrado: " + paquete);
+	            }
+	        } catch (SQLException e) {
+	            System.err.println("Error buscando paquete: " + e.getMessage());
+	        }
+	        return paquete;
+	    }
+
+	    public static void borrarPaquete(Connection con, String nReferencia) {
+	        String sql = "DELETE FROM paquete WHERE n_referencia = ?";
+
+	        try (PreparedStatement st = con.prepareStatement(sql)) {
+	            st.setString(1, nReferencia);
+	            st.executeUpdate();
+	            System.out.println("Paquete borrado correctamente.");
+	        } catch (SQLException e) {
+	            System.err.println("Error borrando paquete: " + e.getMessage());
+	        }
+	    }
 	    
 	    public static List<Paquete> buscarPaquetePorReferencia(Connection con, String nReferencia) {
 		    List<Paquete> paquetes = new ArrayList<>();
@@ -472,7 +558,72 @@ public class BaseDatosConfiguracion {
 	        return r;
 	    }
 	    
-	    	   
+	    
+	    public static void insertarRecogida(Connection con, Recogida r) {
+			String sql = "INSERT INTO recogida(fecha_de_recogida, lugar_de_recogida, tipo_de_envio) VALUES (?,?,?)";
+			
+			try {
+					PreparedStatement st = con.prepareStatement(sql);
+					st.setString(1, r.getFechaDeRecogida());
+					st.setString(2, r.getLugarDeRecogida());
+					st.setString(3, r.getTipoDeEnvio());
+					
+					
+					st.executeUpdate();
+					st.close();
+		            logger.info("Recogida insertada correctamente");
+		            
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+		            logger.warning("Error insertando recogida");
+
+				}
+			}
+	    
+	    
+	    public static Recogida buscarRecogida(Connection con, String fecha_de_recogida) {
+			String sql = String.format("SELECT * FROM recogida WHERE fecha_de_recogida = '%s'", fecha_de_recogida);
+	        Recogida r = null;
+	        try {
+	            PreparedStatement ps = con.prepareStatement(sql);
+	            ps.setString(1, fecha_de_recogida); 
+	            ResultSet rs = ps.executeQuery(); 
+
+	            if (rs.next()) { 
+	                String fechaDeRecogida = rs.getString("fecha_de_recogida");
+	                String lugarDeRecogida = rs.getString("lugar_de_recogida"); 
+	                String tipoDeEnvio = rs.getString("tipo_de_envio");
+	                r = new Recogida(fechaDeRecogida, lugarDeRecogida, tipoDeEnvio);
+	            }
+
+	            rs.close();
+	            ps.close();
+	        } catch (SQLException e) {
+	            logger.warning("Error buscando recogida: " + e.getMessage());
+	        }
+	        return r;	       	   	    
+	}
+	    
+	    
+	    public static void borrarRecogida(Connection con, String fecha_de_recogida) {
+	        String sql = "DELETE FROM recogida WHERE fecha_de_recogida = ?";
+
+	        try {
+	        	PreparedStatement st = con.prepareStatement(sql);
+		            
+		        st.setString(1, fecha_de_recogida);	            
+	            
+	            st.executeUpdate(sql);
+	            st.close();
+	            
+	            logger.info("Recogida borrada");
+	        } catch (SQLException e) {
+	            logger.warning("Error borrando la recogida");
+	        }
+	    }
+	    
+		 
+
 	    
 	    public static void insertarRegistroDePrueba(Connection con) {
 	        try {
