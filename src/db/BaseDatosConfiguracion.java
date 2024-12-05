@@ -408,6 +408,64 @@ public class BaseDatosConfiguracion {
 
 //PAQUETE
 	    
+	    public static void insertarPaquete(Connection con, Paquete p) {
+	        String sql = "INSERT INTO paquete (n_referencia, embalaje, peso, largo, ancho, alto, valor, fragil) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+	        try (PreparedStatement st = con.prepareStatement(sql)) {
+	            st.setString(1, p.getnReferencia());
+	            st.setString(2, p.getEmbalaje());
+	            st.setString(3, p.getPeso());
+	            st.setString(4, p.getLargo());
+	            st.setString(5, p.getAncho());
+	            st.setString(6, p.getAlto());
+	            st.setString(7, p.getValor());
+	            st.setString(8, p.getFragil());
+
+	            st.executeUpdate();
+	            System.out.println("Paquete insertado correctamente.");
+	        } catch (SQLException e) {
+	            System.err.println("Error insertando paquete: " + e.getMessage());
+	        }
+	    }
+
+	    public static Paquete buscarPaquete(Connection con, String nReferencia) {
+	        String sql = "SELECT * FROM paquete WHERE n_referencia = ?";
+	        Paquete paquete = null;
+
+	        try (PreparedStatement ps = con.prepareStatement(sql)) {
+	            ps.setString(1, nReferencia);
+	            ResultSet rs = ps.executeQuery();
+
+	            if (rs.next()) {
+	                String embalaje = rs.getString("embalaje");
+	                String peso = rs.getString("peso");
+	                String largo = rs.getString("largo");
+	                String ancho = rs.getString("ancho");
+	                String alto = rs.getString("alto");
+	                String valor = rs.getString("valor");
+	                String fragil = rs.getString("fragil");
+
+	                paquete = new Paquete(nReferencia, embalaje, peso, largo, ancho, alto, valor, fragil);
+	                System.out.println("Paquete encontrado: " + paquete);
+	            }
+	        } catch (SQLException e) {
+	            System.err.println("Error buscando paquete: " + e.getMessage());
+	        }
+	        return paquete;
+	    }
+
+	    public static void borrarPaquete(Connection con, String nReferencia) {
+	        String sql = "DELETE FROM paquete WHERE n_referencia = ?";
+
+	        try (PreparedStatement st = con.prepareStatement(sql)) {
+	            st.setString(1, nReferencia);
+	            st.executeUpdate();
+	            System.out.println("Paquete borrado correctamente.");
+	        } catch (SQLException e) {
+	            System.err.println("Error borrando paquete: " + e.getMessage());
+	        }
+	    }
+	    
 	    public static List<Paquete> buscarPaquetePorReferencia(Connection con, String nReferencia) {
 		    List<Paquete> paquetes = new ArrayList<>();
 		    //CAMBIO
