@@ -192,11 +192,11 @@ public class VentanaHacerEnvio extends JFrame{
 	JLabel lblDesde = new JLabel("DESDE:");
 	JLabel lblDesdeNombre = new JLabel("Nombre:");
     dNombre = new JTextField(10);
-    JLabel lblDesdeDireccion = new JLabel("DirecciÃ³n:");
+    JLabel lblDesdeDireccion = new JLabel("Dirección:");
     dDireccion = new JTextField(10);
     JLabel lblDesdeCorreo = new JLabel("Correo:");
     dCorreo = new JTextField(10);
-    JLabel lblDesdeTelefono = new JLabel("TelÃ©fono:");
+    JLabel lblDesdeTelefono = new JLabel("Teléfono:");
     dTelefono = new JTextField(10);
     
     pDesde = new JPanel(new GridLayout(5, 2, 10, 10)); 

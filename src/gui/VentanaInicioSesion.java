@@ -57,7 +57,7 @@ public class VentanaInicioSesion extends JFrame{
         add(panelNorte, BorderLayout.NORTH);
         
         
-        ImageIcon logo = new ImageIcon("/resources/images/logoPngNegro.png");
+        ImageIcon logo = new ImageIcon("resources/images/logoPngNegro.png");
 		JLabel labelImagenLogo = new JLabel(logo);
 		panelNorte.add(labelImagenLogo, BorderLayout.NORTH);
 		labelImagenLogo.setBorder(new EmptyBorder(20,680,0,20));
@@ -121,8 +121,8 @@ public class VentanaInicioSesion extends JFrame{
 
         
         mostrarContra = new JButton();
-        ImageIcon ojoVer = new ImageIcon("/resources/images/ojoAbierto.png");
-        ImageIcon ojoOcultar = new ImageIcon("/resources/images/ojoCerrado.png");
+        ImageIcon ojoVer = new ImageIcon("resources/images/ojoAbierto.png");
+        ImageIcon ojoOcultar = new ImageIcon("resources/images/ojoCerrado.png");
 
         mostrarContra.setIcon(ojoVer);
         mostrarContra.setBounds(420, 80, 50, 25);
