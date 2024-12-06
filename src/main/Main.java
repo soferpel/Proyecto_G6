@@ -15,9 +15,11 @@ import gui.VentanaInicioSesion;
 public class Main {
 	
 	public static void main(String[] args) throws SQLException {
-		Connection con =BaseDatosConfiguracion.initBD("Paqueteria.db");
+		Connection con =BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 		try {
 			BaseDatosConfiguracion.crearTablas(con);
+			BaseDatosConfiguracion.insertarRegistroDePrueba(con);
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
