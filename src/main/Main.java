@@ -26,7 +26,7 @@ public class Main {
 		}
 		
 		//PRUEBAS 
-		String pagoId = "12345678A"; 
+		/*String pagoId = "12345678A"; 
 		BaseDatosConfiguracion.obtenerPagoPorId(con, pagoId);
 		
 		String paqueteId = "REF001";
@@ -40,7 +40,7 @@ public class Main {
 		
 	    String referencia = "REF001"; 
         System.out.println("Buscando paquete con referencia: " + referencia);
-        List<Paquete> paquetes = BaseDatosConfiguracion.buscarPaquetePorReferencia(con, referencia);
+        List<Paquete> paquetes = BaseDatosConfiguracion.buscarPaquetePorReferencia(con, referencia);*/
 
 		
 		
@@ -48,7 +48,7 @@ public class Main {
 		
 		
 	
-		VentanaInicioSesion ventanaIni = new VentanaInicioSesion();
+		//VentanaInicioSesion ventanaIni = new VentanaInicioSesion();
 		
 	}
 } 

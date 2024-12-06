@@ -66,8 +66,8 @@ public class BaseDatosConfiguracion {
 	            + "    nombre_destino VARCHAR(100),\r\n"
 	            + "    direccion_destino VARCHAR(255),\r\n"
 	            + "    correo_destino VARCHAR(100),\r\n"
-	            + "    telefono_destino VARCHAR(20),\r\n"
-	            + ");\r\n";
+	            + "    telefono_destino VARCHAR(20)\r\n"
+	            + ");";
 
 		String sql2 = "CREATE TABLE IF NOT EXISTS paquete (\r\n"
 	            + "    n_referencia VARCHAR(50) NOT NULL,\r\n"
