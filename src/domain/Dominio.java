@@ -22,5 +22,14 @@ public enum Dominio {
 		return dominio;
 	}
 
-	
+	public static boolean esDominioValido(String dominio) {
+        for (Dominio d : Dominio.values()) {
+            if (d.getDominio().equalsIgnoreCase(dominio)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
+	
+

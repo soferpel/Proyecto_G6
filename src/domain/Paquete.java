@@ -1,6 +1,6 @@
 package domain;
 
-public class Paquete {
+public class Paquete implements Comparable<Paquete>{
 	
 	String nReferencia;
 	String embalaje;
@@ -98,6 +98,13 @@ public class Paquete {
 	public String toString() {
 		return "Paquete [nReferencia=" + nReferencia + ", embalaje=" + embalaje + ", peso=" + peso + ", largo=" + largo
 				+ ", ancho=" + ancho + ", alto=" + alto + ", valor=" + valor + ", fragil=" + fragil + "]";
+	}
+
+	
+
+	@Override
+	public int compareTo(Paquete o) {
+		 return this.nReferencia.compareTo(o.nReferencia);
 	}
 	
 }

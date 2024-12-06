@@ -1,6 +1,6 @@
 package domain;
 
-public class Usuario {
+public class Usuario  {
 	private String nombre;
 	private String apellido;
 	private String telefono;
@@ -82,7 +82,6 @@ public class Usuario {
 				+ ", respuesta=" + respuesta + ", PreguntaSeg=" + PreguntaSeg
 				+ ", contrasenia=" + contrasenia + "]";
 	}
-	
-	
+
 	
 }

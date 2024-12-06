@@ -18,7 +18,7 @@ public class Main {
 		Connection con =BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 		try {
 			BaseDatosConfiguracion.crearTablas(con);
-			BaseDatosConfiguracion.insertarRegistroDePrueba(con);
+			//BaseDatosConfiguracion.insertarRegistroDePrueba(con);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -40,15 +40,15 @@ public class Main {
 		
 	    String referencia = "REF001"; 
         System.out.println("Buscando paquete con referencia: " + referencia);
-        List<Paquete> paquetes = BaseDatosConfiguracion.buscarPaquetePorReferencia(con, referencia);*/
+        List<Paquete> paquetes = BaseDatosConfiguracion.buscarPaquetePorReferencia(con, referencia);
 
-		
+		*/
 		
 		BaseDatosConfiguracion.closeBD(con);
 		
 		
 	
-		//VentanaInicioSesion ventanaIni = new VentanaInicioSesion();
+		VentanaInicioSesion ventanaIni = new VentanaInicioSesion();
 		
 	}
 } 

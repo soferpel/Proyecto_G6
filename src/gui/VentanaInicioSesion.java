@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
@@ -18,6 +20,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
@@ -29,6 +32,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.plaf.metal.MetalFileChooserUI.FilterComboBoxRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+
+import db.BaseDatosConfiguracion;
+import domain.Usuario;
 
 import javax.swing.border.EmptyBorder;
 
@@ -189,12 +195,34 @@ public class VentanaInicioSesion extends JFrame{
 			}
 		});
 		
-		bIniSesion.addActionListener(new ActionListener() {
+		/*bIniSesion.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal());
 				dispose();			
 			}
+		});*/
+		
+		
+		bIniSesion.addActionListener((e)->{
+			
+			String correo = txtCorreo.getText() + dominioEmail.getSelectedItem().toString();
+            String contrasenia = txtContra.getText();
+            
+            Connection con = BaseDatosConfiguracion.initBD("Paqueteria.db");
+			Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
+			BaseDatosConfiguracion.closeBD(con);
+			
+			if(u != null) {
+				JOptionPane.showMessageDialog(null, "Bienvenido!","SESIÓN INICIADA",JOptionPane.INFORMATION_MESSAGE);
+				SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal());
+                dispose();
+			}else {
+				JOptionPane.showMessageDialog(null, "Para poder iniciar sesión tienes que estar registrado","ERROR",JOptionPane.ERROR_MESSAGE);
+				txtCorreo.setText("");
+				txtContra.setText("");
+			}
+			
 		});
 		
 	}

@@ -14,6 +14,7 @@ import domain.Envio;
 import domain.Pago;
 import domain.Paquete;
 import domain.Recogida;
+import domain.Usuario;
 import domain.trayecto;
 
 
@@ -56,68 +57,73 @@ public class BaseDatosConfiguracion {
 	}
 	
 	//CREAR TABLAS
-	public static void crearTablas(Connection con) throws SQLException{
+	public static void crearTablas(Connection con) throws SQLException {
 
-		String sql = "CREATE TABLE IF NOT EXISTS trayecto (\r\n"
-	            + "    nombre_origen VARCHAR(100),\r\n"
-	            + "    direccion_origen VARCHAR(255),\r\n"
-	            + "    correo_origen VARCHAR(100),\r\n"
-	            + "    telefono_origen VARCHAR(20),\r\n"
-	            + "    nombre_destino VARCHAR(100),\r\n"
-	            + "    direccion_destino VARCHAR(255),\r\n"
-	            + "    correo_destino VARCHAR(100),\r\n"
-	            + "    telefono_destino VARCHAR(20)\r\n"
+	    String sql = "CREATE TABLE IF NOT EXISTS trayecto ("
+	            + "    nombre_origen VARCHAR(100),"
+	            + "    direccion_origen VARCHAR(255),"
+	            + "    correo_origen VARCHAR(100),"
+	            + "    telefono_origen VARCHAR(20),"
+	            + "    nombre_destino VARCHAR(100),"
+	            + "    direccion_destino VARCHAR(255),"
+	            + "    correo_destino VARCHAR(100),"
+	            + "    telefono_destino VARCHAR(20),"
+	            + "    PRIMARY KEY (nombre_origen, nombre_destino)"
 	            + ");";
 
-		String sql2 = "CREATE TABLE IF NOT EXISTS paquete (\r\n"
-	            + "    n_referencia VARCHAR(50) NOT NULL,\r\n"
-	            + "    embalaje VARCHAR(50),\r\n"
-	            + "    peso VARCHAR(50),\r\n"
-	            + "    largo VARCHAR(50),\r\n"
-	            + "    ancho VARCHAR(50),\r\n"
-	            + "    alto VARCHAR(50),\r\n"
-	            + "    valor VARCHAR(50),\r\n"
-	            + "    fragil VARCHAR(10),\r\n"
-	            + "    PRIMARY KEY (n_referencia)\r\n"
-	            + ");\r\n";
-		String sql3 = "CREATE TABLE IF NOT EXISTS recogida (\r\n"
-	            + "    fecha_de_recogida VARCHAR(50),\r\n"
-	            + "    lugar_de_recogida VARCHAR(255),\r\n"
-	            + "    tipo_de_envio VARCHAR(50),\r\n"
-	            + "    PRIMARY KEY (fecha_de_recogida)\r\n"
-	            + ");\r\n";
-		String sql4 = "CREATE TABLE IF NOT EXISTS pago (\r\n"
-				+ "    dni VARCHAR(20) PRIMARY KEY,\r\n"
-				+ "    descripcion VARCHAR(255),\r\n"
-				+ "    numero_tarjeta VARCHAR(16),\r\n"
-				+ "    fecha_caducidad DATE,\r\n"
-				+ "    cvv CHAR(3),\r\n"
-				+ "    remitente_destinatario VARCHAR(255),\r\n"
-				+ "    factura VARCHAR(255),\r\n"
-				+ "    precio DECIMAL(10, 2)\r\n"
-				+ ");\r\n"
-				+ "";
-		String sql5 = "CREATE TABLE IF NOT EXISTS envio (\r\n"
-	            + "    trayecto_id VARCHAR(100),\r\n"
-	            + "    paquete_id VARCHAR(50),\r\n"
-	            + "    recogida_id VARCHAR(50),\r\n"
-	            + "    pago_id VARCHAR(20),\r\n"
-	            + "    PRIMARY KEY (trayecto_id, paquete_id, recogida_id, pago_id),\r\n"
-	            + "    FOREIGN KEY (trayecto_id) REFERENCES trayecto(nombre_origen),\r\n"
-	            + "    FOREIGN KEY (paquete_id) REFERENCES paquete(n_referencia),\r\n"
-	            + "    FOREIGN KEY (recogida_id) REFERENCES recogida(fecha_de_recogida),\r\n"
-	            + "    FOREIGN KEY (pago_id) REFERENCES pago(dni)\r\n"
-	            + ");\r\n";
-		String sql6 = "CREATE TABLE IF NOT EXISTS usuario (\r\n"
-	            + "    nombre VARCHAR(100),\r\n"
-	            + "    apellido VARCHAR(100),\r\n"
-	            + "    telefono VARCHAR(20),\r\n"
-	            + "    correo VARCHAR(100) UNIQUE,\r\n"
-	            + "    respuesta VARCHAR(255),\r\n"
-	            + "    pregunta_seg VARCHAR(255),\r\n"
-	            + "    contrasenia VARCHAR(255),\r\n"
-	            + "    PRIMARY KEY (correo)\r\n"
-	            + ");\r\n";
+	    String sql2 = "CREATE TABLE IF NOT EXISTS paquete ("
+	            + "    n_referencia VARCHAR(50) NOT NULL,"
+	            + "    embalaje VARCHAR(50),"
+	            + "    peso VARCHAR(50),"
+	            + "    largo VARCHAR(50),"
+	            + "    ancho VARCHAR(50),"
+	            + "    alto VARCHAR(50),"
+	            + "    valor VARCHAR(50),"
+	            + "    fragil VARCHAR(10),"
+	            + "    PRIMARY KEY (n_referencia)"
+	            + ");";
+
+	    String sql3 = "CREATE TABLE IF NOT EXISTS recogida ("
+	            + "    fecha_de_recogida VARCHAR(50),"
+	            + "    lugar_de_recogida VARCHAR(255),"
+	            + "    tipo_de_envio VARCHAR(50),"
+	            + "    PRIMARY KEY (fecha_de_recogida)"
+	            + ");";
+
+	    String sql4 = "CREATE TABLE IF NOT EXISTS pago ("
+	            + "    dni VARCHAR(20) PRIMARY KEY,"
+	            + "    descripcion VARCHAR(255),"
+	            + "    numero_tarjeta VARCHAR(16),"
+	            + "    fecha_caducidad DATE,"
+	            + "    cvv CHAR(3),"
+	            + "    remitente_destinatario VARCHAR(255),"
+	            + "    factura VARCHAR(255),"
+	            + "    precio DECIMAL(10, 2)"
+	            + ");";
+
+	    String sql5 = "CREATE TABLE IF NOT EXISTS envio ("
+	            + "    trayecto_nombre_origen VARCHAR(100),"
+	            + "    trayecto_nombre_destino VARCHAR(100),"
+	            + "    paquete_id VARCHAR(50),"
+	            + "    recogida_id VARCHAR(50),"
+	            + "    pago_id VARCHAR(20),"
+	            + "    PRIMARY KEY (trayecto_nombre_origen, trayecto_nombre_destino, paquete_id, recogida_id, pago_id),"
+	            + "    FOREIGN KEY (trayecto_nombre_origen, trayecto_nombre_destino) REFERENCES trayecto(nombre_origen, nombre_destino),"
+	            + "    FOREIGN KEY (paquete_id) REFERENCES paquete(n_referencia),"
+	            + "    FOREIGN KEY (recogida_id) REFERENCES recogida(fecha_de_recogida),"
+	            + "    FOREIGN KEY (pago_id) REFERENCES pago(dni)"
+	            + ");";
+
+	    String sql6 = "CREATE TABLE IF NOT EXISTS usuario ("
+	            + "    nombre VARCHAR(100),"
+	            + "    apellido VARCHAR(100),"
+	            + "    telefono VARCHAR(20),"
+	            + "    correo VARCHAR(100) UNIQUE,"
+	            + "    respuesta VARCHAR(255),"
+	            + "    pregunta_seg VARCHAR(255),"
+	            + "    contrasenia VARCHAR(255),"
+	            + "    PRIMARY KEY (correo)"
+	            + ");";
 
 
 		try {
@@ -205,7 +211,7 @@ public class BaseDatosConfiguracion {
 	                             rs.getString("cvv"), rs.getString("remitente_destinatario"), rs.getString("factura"),
 	                             rs.getString("dni"), rs.getString("precio"));
 	                 
-	                 System.out.println("Pago obtenido: " + p);
+	                 System.out.println("Pago: " + p);
 	            } else {
 	                System.out.println("No se encontró un pago con el DNI: " + pagoId);	            
 	            }
@@ -313,7 +319,7 @@ public class BaseDatosConfiguracion {
 	            if (rs.next()) {
 	                t = new trayecto(rs.getString("nombre_origen"), rs.getString("nombre_destino"));
 	                
-	                System.out.println("Pago obtenido: " + t);
+	                System.out.println("Trayecto: " + t);
 	            } else {
 	                System.out.println("No se encontró un pago con el DNI: " + trayectoId);	            	           
 	            }
@@ -518,7 +524,7 @@ public class BaseDatosConfiguracion {
 	                                rs.getString("largo"), rs.getString("ancho"), rs.getString("alto"), 
 	                                rs.getString("valor"), rs.getString("fragil"));
 	                
-	                System.out.println("Pago obtenido: " + p);
+	                System.out.println("Paquete: " + p);
 	            } else {
 	                System.out.println("No se encontró un pago con el DNI: " + paqueteId);	            	           
 	            }
@@ -545,7 +551,7 @@ public class BaseDatosConfiguracion {
 	                r = new Recogida(rs.getString("fecha_de_recogida"), rs.getString("lugar_de_recogida"), 
 	                		rs.getString("tipo_de_envio"));
 	                
-	                System.out.println("Pago obtenido: " + r);
+	                System.out.println("Recogida: " + r);
 	            } else {
 	                System.out.println("No se encontró un pago con el DNI: " + recogidaId);	            	           	            
 	            }
@@ -620,11 +626,72 @@ public class BaseDatosConfiguracion {
 	            logger.warning("Error borrando la recogida");
 	        }
 	    }
+
+//USUARIO	
 	    
-		 
+		
+		public static Usuario buscarUsuarioPorCorreo(Connection con, String correo) {
+		    String sql = "SELECT * FROM usuario WHERE correo = ?";
+		    Usuario u = null;
+		    try {
+		        PreparedStatement st = con.prepareStatement(sql);
+		        st.setString(1, correo);
+		        ResultSet rs = st.executeQuery();
+		        
+		        if (rs.next()) {
+		            String nombre = rs.getString("nombre");
+		            String apellido = rs.getString("apellido");
+		            String telefono = rs.getString("telefono");
+		            String email = rs.getString("correo");
+		            String respuesta = rs.getString("respuesta");
+		            String pregunta_seg = rs.getString("pregunta_seg");
+		            String contrasenia = rs.getString("contrasenia");
+		            u = new Usuario(nombre, apellido, telefono, email, respuesta, pregunta_seg, contrasenia);
+		        }
+		        rs.close();
+		        st.close();
+		    } catch (SQLException e) {
+		        logger.warning("Error buscando usuario: " + e.getMessage());
+		    }
+		    return u;
+		}
+
+	    	
+		
+		public static void insertarUsuario(Connection con, Usuario u) {
+	        String sql = "INSERT INTO usuario (nombre, apellido, telefono, correo, respuesta, pregunta_seg, contrasenia) "
+	                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+	        try {
+	            PreparedStatement st = con.prepareStatement(sql);
+	            
+	            st.setString(1, u.getNombre()); 
+	            st.setString(2, u.getApellido());
+	            st.setString(3, u.getTelefono());  
+	            st.setString(4, u.getCorreo());
+	            st.setString(5, u.getRespuesta());
+	            st.setString(6, u.getPreguntaSeg());
+	            st.setString(7, u.getContrasenia());
+
+	            
+	            st.executeUpdate();
+	            st.close();
+ 
+	            logger.info("Envio insertado correctamente.");
+	        } catch (SQLException ex) {
+	        	System.out.println("Error al insertar el envio: " + ex.getMessage());
+	        	logger.warning(String.format("Error insertando envio %s", u.toString()));
+	            
+	        }
+	        
+	    }
+		
+		
+		
+		
 
 	    
-	    public static void insertarRegistroDePrueba(Connection con) {
+	   /* public static void insertarRegistroDePrueba(Connection con) {
 	        try {
 	            // Insertar en la tabla trayecto
 	            String sqlTrayecto = "INSERT INTO trayecto (nombre_origen, direccion_origen, correo_origen, telefono_origen, nombre_destino, direccion_destino, correo_destino, telefono_destino) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -641,7 +708,7 @@ public class BaseDatosConfiguracion {
 	            stTrayecto.close();
 	            
 	            // Insertar en la tabla paquete (si es necesario)
-	            String sqlPaquete = "INSERT INTO paquete (n_referencia, embalaje, peso, largo, ancho, alto, valor, fragil) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	            String sqlPaquete = "INSERT INTO paquete (n_referencia, embalaje, peso, largo, ancho, alto, valor, fragil) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";	           
 	            PreparedStatement stPaquete = con.prepareStatement(sqlPaquete);
 	            stPaquete.setString(1, "REF001");
 	            stPaquete.setString(2, "Caja");
@@ -653,6 +720,8 @@ public class BaseDatosConfiguracion {
 	            stPaquete.setString(8, "No");
 	            stPaquete.executeUpdate();
 	            stPaquete.close();
+	            
+	            
 	            
 	            String insertRecogida = "INSERT INTO recogida (fecha_de_recogida, lugar_de_recogida, tipo_de_envio) VALUES (?, ?, ?)";
 	            PreparedStatement psRecogida = con.prepareStatement(insertRecogida);
@@ -701,6 +770,6 @@ public class BaseDatosConfiguracion {
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
-	    }
+	    }*/
 	  
 }

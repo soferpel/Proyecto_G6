@@ -13,6 +13,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -31,6 +33,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+
+import db.BaseDatosConfiguracion;
+import domain.Dominio;
+import domain.Usuario;
 
 
 public class VentanaRegistro extends JFrame{
@@ -241,9 +247,73 @@ public class VentanaRegistro extends JFrame{
         	}
         });
         
-        btnRegistro.addActionListener(new ActionListener() {
-			
-			@Override
+       
+        
+        btnRegistro.addActionListener(e -> {
+            Connection con = BaseDatosConfiguracion.initBD("Paqueteria.db");
+
+            String nombre = txtNom.getText();
+            String apellido = txtApe.getText();
+            String telefono = txttel.getText();
+            String correo = txtCorreo.getText();
+            String contra = txtContra.getText();
+            String contra2 = txtRepeContra.getText();
+            String resp = txtResp.getText();
+            String segu = txtSegu.getText();
+
+            // Comprobar que todos los campos están llenos
+            if (nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty() || correo.isEmpty() ||
+                contra.isEmpty() || contra2.isEmpty() || resp.isEmpty() || segu.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Tienes que rellenar todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return; 
+            }
+
+
+            if (!contra.equals(contra2)) {
+                JOptionPane.showMessageDialog(null, "Los valores de la contraseña deben coincidir", "ERROR", JOptionPane.ERROR_MESSAGE);
+                txtContra.setText("");
+                txtRepeContra.setText("");
+                return;  
+            }
+
+
+            if (!comprobarEmail()) {
+                JOptionPane.showMessageDialog(null, "El email introducido no es correcto", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;  // Detener ejecución si el correo no es válido
+            }
+
+            
+            if (!comprobarTlf()) {
+                JOptionPane.showMessageDialog(null, "El teléfono introducido no es correcto, debe tener al menos 9 números", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;  // Detener ejecución si el teléfono no es válido
+            }
+
+            // Buscar si el correo ya está registrado
+            Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
+
+            if (u != null) {
+                JOptionPane.showMessageDialog(null, "Ya existe este usuario", "ERROR", JOptionPane.ERROR_MESSAGE);
+                txtNom.setText("");
+                txtApe.setText("");
+                txttel.setText("");
+                txtCorreo.setText("");
+                txtContra.setText("");
+                txtRepeContra.setText("");
+                txtResp.setText("");
+                txtSegu.setText("");
+                return;  
+            }
+            
+            Usuario nuevoUsuario = new Usuario(nombre, apellido, telefono, correo, resp, segu, contra2);
+
+            // Insertar el usuario en la base de datos
+            BaseDatosConfiguracion.insertarUsuario(con, nuevoUsuario);
+            JOptionPane.showMessageDialog(null, "Registro realizado con éxito");
+            SwingUtilities.invokeLater(() -> new VentanaInicioSesion());
+            BaseDatosConfiguracion.closeBD(con);
+        });
+
+			/*@Override
 			public void actionPerformed(ActionEvent e) {
 				if (!aceptarTerminos.isSelected()) {
 					JOptionPane.showMessageDialog(
@@ -254,8 +324,8 @@ public class VentanaRegistro extends JFrame{
 						VentanaRegistro.this, "Te has registrado correctamente", "Registro", JOptionPane.INFORMATION_MESSAGE );
 				SwingUtilities.invokeLater(() -> new VentanaInicioSesion());
     			dispose();
-			}
-		});
+			}*/
+		
         
         textoTYC = new String("Aceptación de Términos y Condiciones de uso:\r\n"
     			+ "\r\n"
@@ -323,5 +393,26 @@ public class VentanaRegistro extends JFrame{
 	
 	}
 
+	//Metodos para comprobar el Registro
+	private boolean comprobarTlf() {
+		String patron = "[0-9]{9}";
+		return  Pattern.matches(patron, txttel.getText());		
+	}
+	
+	private boolean comprobarEmail() {		
+		String patron = "[a-zA-Z0-9.]+@[a-zA-Z0-9.]+\\.[a-z]{2,}$";
+	    String correo = txtCorreo.getText();	    
+	    if (!Pattern.matches(patron, correo)) {
+	        return false; 
+	    }	   
+	    String dominio = correo.substring(correo.indexOf('@'));	    	  
+	    return Dominio.esDominioValido(dominio);
+	}
+	
+
+	
+	/*private boolean comprobarContra() {
+		return;
+	}*/
 }
 
