@@ -193,15 +193,7 @@ public class VentanaInicioSesion extends JFrame{
 				SwingUtilities.invokeLater(() -> new VentanaRegistro());
 				dispose();			
 			}
-		});
-		
-		/*bIniSesion.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal());
-				dispose();			
-			}
-		});*/
+		});	
 		
 		
 		bIniSesion.addActionListener((e)->{

@@ -16,6 +16,9 @@ import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
@@ -38,6 +41,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
+
+import db.BaseDatosConfiguracion;
+import domain.Envio;
+import domain.Pago;
+import domain.Paquete;
+import domain.Recogida;
+import domain.trayecto;
 
 
 public class VentanaHacerEnvio extends JFrame{
@@ -709,21 +719,41 @@ public class VentanaHacerEnvio extends JFrame{
 		});
 	
     
-    btnFinalizar.addActionListener(new ActionListener() {
+    btnFinalizar.addActionListener(e -> {
 		
- 			@Override
- 			public void actionPerformed(ActionEvent e) {
- 				if (!checkTerminos.isSelected()) {
- 					JOptionPane.showMessageDialog(
- 							VentanaHacerEnvio.this, "Debes aceptar los TÃ©rminos y Condiciones para registrarte.", "Advertencia", JOptionPane.WARNING_MESSAGE);
- 				    return;
- 				}
- 				JOptionPane.showMessageDialog(
- 						VentanaHacerEnvio.this, "Pedido Realizado", "Finalizar pedido", JOptionPane.INFORMATION_MESSAGE );
- 				SwingUtilities.invokeLater(() -> new VentanaHacerEnvio());
-     			dispose();
- 			}
- 		});
+    	 String trayectoNombreOrigen = campoEnDesde.getText();
+         String trayectoNombreDestino = campoEnHasta.getText();		
+         String paqueteId = campoEnvios.getText(); 		// n_referencia 
+         //CHAT GPT
+         Date fechaRecogida = dateChooser.getDate();
+         if (fechaRecogida == null) {
+        	    JOptionPane.showMessageDialog(null, "Por favor, selecciona una fecha de recogida.");
+        	    return; 
+        	}
+         java.sql.Date fechaSQL = new java.sql.Date(fechaRecogida.getTime());
+         //String recogidaId = 		//CLENDARIO fecha_de_recogida
+         String pagoId = campoPago.getText();                   
+         
+         if (trayectoNombreOrigen.isEmpty() || trayectoNombreDestino.isEmpty() || paqueteId.isEmpty() ||
+        		 fechaRecogida==null  || pagoId.isEmpty()) {
+                 JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios");
+                 return;  // Detener si algún campo está vacío
+             }
+ 			    
+         trayecto t = new trayecto(trayectoNombreOrigen, trayectoNombreDestino); // Crea el objeto trayecto
+         Paquete p = new Paquete(paqueteId); // Crea el objeto Paquete con su referencia
+         Recogida r = new Recogida(fechaSQL); // Crea el objeto Recogida con la fecha
+         Pago pay = new Pago(pagoId); // Crea el objeto Pago con el ID de pago
+         
+         // Crear el objeto Envio con los objetos previamente creados
+         Envio envio = new Envio(t, p, r, pay);
+         
+         Connection con = BaseDatosConfiguracion.initBD("Paqueteria.db");
+    	 BaseDatosConfiguracion.insertarEnvio(con, envio);
+    	 JOptionPane.showMessageDialog(null, "Envío registrado con éxito.");
+                        
+ 		});      
+
     
     checkTerminos.addActionListener(e -> btnFinalizar.setEnabled(checkTerminos.isSelected()));
 
@@ -1012,6 +1042,9 @@ public class VentanaHacerEnvio extends JFrame{
             }
         });
     }
-	
+    
+    public static void main(String[] args)   {
+    	SwingUtilities.invokeLater(() -> new VentanaHacerEnvio());
+    }
 		
 }

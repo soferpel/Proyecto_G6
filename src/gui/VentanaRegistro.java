@@ -251,7 +251,6 @@ public class VentanaRegistro extends JFrame{
         
         btnRegistro.addActionListener(e -> {
             Connection con = BaseDatosConfiguracion.initBD("Paqueteria.db");
-
             String nombre = txtNom.getText();
             String apellido = txtApe.getText();
             String telefono = txttel.getText();
@@ -261,57 +260,39 @@ public class VentanaRegistro extends JFrame{
             String resp = txtResp.getText();
             String segu = txtSegu.getText();
 
-            // Comprobar que todos los campos están llenos
-            if (nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty() || correo.isEmpty() ||
-                contra.isEmpty() || contra2.isEmpty() || resp.isEmpty() || segu.isEmpty()) {
+            if(nombre!=null || apellido!=null ||telefono!=null ||correo!=null || contra!=null || contra2!=null || resp!=null || segu!=null) {
                 JOptionPane.showMessageDialog(null, "Tienes que rellenar todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
-                return; 
+            } else {
+                if (contra.equals(contra2)) {
+                    if (comprobarEmail()) {
+                        if (comprobarTlf()) {
+                            // Buscar si el correo ya está registrado
+                            Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
+
+                            if (u == null) {  // Si no existe, agregarlo
+                                Usuario nuevoUsuario = new Usuario(nombre, apellido, telefono, correo, resp, segu, contra2);
+                                BaseDatosConfiguracion.insertarUsuario(con, nuevoUsuario);
+                                JOptionPane.showMessageDialog(null, "Registro realizado con éxito");
+                                SwingUtilities.invokeLater(() -> new VentanaInicioSesion()); 
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Ya existe este usuario", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "El teléfono introducido no es correcto, debe tener al menos 9 números", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "El email introducido no es correcto", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Los valores de la contraseña deben coincidir", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    txtContra.setText("");
+                    txtRepeContra.setText("");
+                }
             }
 
-
-            if (!contra.equals(contra2)) {
-                JOptionPane.showMessageDialog(null, "Los valores de la contraseña deben coincidir", "ERROR", JOptionPane.ERROR_MESSAGE);
-                txtContra.setText("");
-                txtRepeContra.setText("");
-                return;  
-            }
-
-
-            if (!comprobarEmail()) {
-                JOptionPane.showMessageDialog(null, "El email introducido no es correcto", "ERROR", JOptionPane.ERROR_MESSAGE);
-                return;  // Detener ejecución si el correo no es válido
-            }
-
-            
-            if (!comprobarTlf()) {
-                JOptionPane.showMessageDialog(null, "El teléfono introducido no es correcto, debe tener al menos 9 números", "ERROR", JOptionPane.ERROR_MESSAGE);
-                return;  // Detener ejecución si el teléfono no es válido
-            }
-
-            // Buscar si el correo ya está registrado
-            Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
-
-            if (u != null) {
-                JOptionPane.showMessageDialog(null, "Ya existe este usuario", "ERROR", JOptionPane.ERROR_MESSAGE);
-                txtNom.setText("");
-                txtApe.setText("");
-                txttel.setText("");
-                txtCorreo.setText("");
-                txtContra.setText("");
-                txtRepeContra.setText("");
-                txtResp.setText("");
-                txtSegu.setText("");
-                return;  
-            }
-            
-            Usuario nuevoUsuario = new Usuario(nombre, apellido, telefono, correo, resp, segu, contra2);
-
-            // Insertar el usuario en la base de datos
-            BaseDatosConfiguracion.insertarUsuario(con, nuevoUsuario);
-            JOptionPane.showMessageDialog(null, "Registro realizado con éxito");
-            SwingUtilities.invokeLater(() -> new VentanaInicioSesion());
             BaseDatosConfiguracion.closeBD(con);
         });
+
 
 			/*@Override
 			public void actionPerformed(ActionEvent e) {
