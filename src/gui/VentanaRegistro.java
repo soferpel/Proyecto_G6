@@ -278,7 +278,8 @@ public class VentanaRegistro extends JFrame{
 
                             if (u == null) {  // Si no existe, agregarlo
                                 Usuario nuevoUsuario = new Usuario(nombre, apellido, telefono, correo, resp, segu, contra2);
-                                BaseDatosConfiguracion.insertarUsuario(con, nuevoUsuario);
+            					Connection c = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+                                BaseDatosConfiguracion.insertarUsuario(c, nuevoUsuario);
                                 JOptionPane.showMessageDialog(null, "Registro realizado con éxito");
                                 SwingUtilities.invokeLater(() -> new VentanaInicioSesion());
                                 dispose();
