@@ -201,7 +201,7 @@ public class VentanaInicioSesion extends JFrame{
 			String correo = txtCorreo.getText() + dominioEmail.getSelectedItem().toString();
             String contrasenia = txtContra.getText();
             
-            Connection con = BaseDatosConfiguracion.initBD("Paqueteria.db");
+            Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 			Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
 			BaseDatosConfiguracion.closeBD(con);
 			
