@@ -229,47 +229,50 @@ public VentanaModificarDatos() {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-        Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
-		String nombre = campoNom.getText();
-        String apellido = campoApel.getText();
-        String correo = campoCorreo.getText();
-        String telefono = campoTelefono.getText();
-        String contra = campoVenificaCon1.getText().trim();
-        String contra2 = campoContrasenia1.getText().trim();
-        String respuesta = campoRes.getText();
-        
-        Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
-        
-        campoNom.setText(u.getNombre());
-      		campoApel.setText(u.getApellido());
-      		campoCorreo.setText(u.getCorreo());
-      		campoPregSeg.setText(u.getPreguntaSeg());
-      		campoTelefono.setText(u.getTelefono());
-              
+	    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+	    
+	    String nombre = campoNom.getText().trim();
+	    String apellido = campoApel.getText().trim();
+	    String correo = campoCorreo.getText().trim();
+	    String telefono = campoTelefono.getText().trim();
+	    String contra = campoContrasenia1.getText().trim();
+	    String contra2 = campoVenificaCon1.getText().trim();
+	    String respuesta = campoRes.getText().trim();
 
-        if (u != null) {
-        	if (contrasenia.equals(contraseniaVen)) {
-        		if (u.getRespuesta().equals(respuesta)) {
-		
-		int result = JOptionPane.showConfirmDialog(null, "¿Seguro que quieres modificar tus datos?", "Modificar Datos", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-		if(result == JOptionPane.OK_OPTION) {
-			SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal());
-			dispose();
-		} else {
-        	JOptionPane.showMessageDialog(null, "Debes rellenar todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
-		}
-	} else {
-    	JOptionPane.showMessageDialog(null, "La respuesta no es correcta.", "Error", JOptionPane.ERROR_MESSAGE);
-	}
-} else {
-	JOptionPane.showMessageDialog(null, "La contraseña no coincide.", "Error", JOptionPane.ERROR_MESSAGE);
-}
-} else {
-JOptionPane.showMessageDialog(null, "No existe ningun usuario con ese correo.", "Error", JOptionPane.ERROR_MESSAGE);
-}
-}
-});
-   
+	    if (nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || telefono.isEmpty() || 
+	        contra.isEmpty() || contra2.isEmpty() || respuesta.isEmpty()) {
+	        JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
+
+	    if (!contra.equals(contra2)) {
+	        JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden.", "Error", JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
+
+	    Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
+	    if (u == null) {
+	        JOptionPane.showMessageDialog(null, "No existe ningún usuario con ese correo.", "Error", JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
+
+	    if (!u.getRespuesta().equalsIgnoreCase(respuesta)) {
+	        JOptionPane.showMessageDialog(null, "La respuesta de seguridad no es correcta.", "Error", JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
+
+	    int result = JOptionPane.showConfirmDialog(null, "¿Seguro que quieres modificar tus datos?", "Modificar Datos", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+	    if (result == JOptionPane.OK_OPTION) {
+	        u.setNombre(nombre);
+	        u.setApellido(apellido);
+	        u.setTelefono(telefono);
+	        u.setContrasenia(contra);
+
+	       
+	    }
+	}});
+
+	
    btnElimCuen.addActionListener(new ActionListener() {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
@@ -366,7 +369,6 @@ JOptionPane.showMessageDialog(null, "No existe ningun usuario con ese correo.", 
 			}
 		});
 	
-
 	setTitle("Modificar Datos"); 
 	setBounds(300, 200, 600, 500); 
 	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -376,7 +378,26 @@ JOptionPane.showMessageDialog(null, "No existe ningun usuario con ese correo.", 
 
 
 	}
+	
+	private void cargarDatosUsuario(String correoUsuario) {
+        Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+        Usuario usuarioActual = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correoUsuario);
+
+        if (usuarioActual != null) {
+            campoNom.setText(usuarioActual.getNombre());
+            campoApel.setText(usuarioActual.getApellido());
+            campoCorreo.setText(usuarioActual.getCorreo());
+            campoTelefono.setText(usuarioActual.getTelefono());
+            campoPregSeg.setText(usuarioActual.getPreguntaSeg());
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontró el usuario con el correo proporcionado.", "Error", JOptionPane.ERROR_MESSAGE);
+            dispose();
+        }
+    }
+
+
+	
+	}
        
 
-}
-		
+
