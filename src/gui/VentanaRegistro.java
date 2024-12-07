@@ -252,58 +252,53 @@ public class VentanaRegistro extends JFrame{
         
         btnRegistro.addActionListener(e -> {
             Connection con = BaseDatosConfiguracion.initBD("Paqueteria.db");
-            String nombre = txtNom.getText();
-            String apellido = txtApe.getText();
-            String telefono = txttel.getText();
-            String correo = txtCorreo.getText();
-            char[] contra = ((JPasswordField) txtContra).getPassword();   // Corregido: usar getPassword()
-            char[] contra2 = ((JPasswordField) txtRepeContra).getPassword(); // Corregido: usar getPassword()
-            String resp = txtResp.getText();
-            String segu = txtSegu.getText();
-            
-            // Convertir las contraseñas char[] a String
-            String contraS = new String(contra);
-            String contra2S = new String(contra2);
+            String nombre = txtNom.getText().trim();
+            String apellido = txtApe.getText().trim();
+            String telefono = txttel.getText().trim();
+            String correo = txtCorreo.getText().trim();
+            String contra = txtContra.getText().trim();
+            String contra2 = txtRepeContra.getText().trim();
+            String resp = txtResp.getText().trim();
+            String segu = txtSegu.getText().trim();
 
-            // Verificar si hay algún campo vacío
-            /*if (nombre.trim().isEmpty() || apellido.trim().isEmpty() || telefono.trim().isEmpty() || 
-                correo.trim().isEmpty() || contraS.trim().isEmpty() || contra2S.trim().isEmpty() || 
-                resp.trim().isEmpty() || segu.trim().isEmpty()) {
+            // Comprobar si hay algún campo vacío
+            if (!nombre.equals("") && !apellido.equals("") && !telefono.equals("") && !correo.equals("") && !segu.equals("") && !resp.equals("") && !contra.equals("") && !contra2.equals("")) {
 
-                JOptionPane.showMessageDialog(null, "Tienes que rellenar todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);*/
-            if (!nombre.trim().isEmpty() && !apellido.trim().isEmpty() && !telefono.trim().isEmpty() && 
-                    !correo.trim().isEmpty() && !contraS.trim().isEmpty() && !contra2S.trim().isEmpty() && 
-                    !resp.trim().isEmpty() && !segu.trim().isEmpty()) {
-                // Verificar si las contraseñas coinciden
-                if (Arrays.equals(contra, contra2)) {
+                
+                JOptionPane.showMessageDialog(null, "Tienes que rellenar todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else {
+                // Comprobar si las contraseñas coinciden
+                if (contra.equals(contra2)) {
+                    // Validar correo
                     if (comprobarEmail()) {
+                        // Validar teléfono
                         if (comprobarTlf()) {
                             // Buscar si el correo ya está registrado
                             Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
 
                             if (u == null) {  // Si no existe, agregarlo
-                                Usuario nuevoUsuario = new Usuario(nombre, apellido, telefono, correo, resp, segu, contra2S);
+                                Usuario nuevoUsuario = new Usuario(nombre, apellido, telefono, correo, resp, segu, contra2);
                                 BaseDatosConfiguracion.insertarUsuario(con, nuevoUsuario);
                                 JOptionPane.showMessageDialog(null, "Registro realizado con éxito");
                                 SwingUtilities.invokeLater(() -> new VentanaInicioSesion());
+                                dispose();
                             } else {
                                 JOptionPane.showMessageDialog(null, "Ya existe este usuario", "ERROR", JOptionPane.ERROR_MESSAGE);
                             }
                         } else {
-                            JOptionPane.showMessageDialog(null, "El teléfono introducido no es correcto, debe tener al menos 9 números", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "El teléfono debe tener 9 números", "ERROR", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "El email introducido no es correcto", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Los valores de la contraseña deben coincidir", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden", "ERROR", JOptionPane.ERROR_MESSAGE);
                     txtContra.setText("");
                     txtRepeContra.setText("");
                 }
-            }else {
-            	JOptionPane.showMessageDialog(null, "Tienes que rellenar todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
 
+            // Cerrar conexión a la base de datos
             BaseDatosConfiguracion.closeBD(con);
         });
 
