@@ -251,7 +251,7 @@ public class VentanaRegistro extends JFrame{
        
         
         btnRegistro.addActionListener(e -> {
-            Connection con = BaseDatosConfiguracion.initBD("Paqueteria.db");
+			Connection c = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
             String nombre = txtNom.getText().trim();
             String apellido = txtApe.getText().trim();
             String telefono = txttel.getText().trim();
@@ -274,11 +274,10 @@ public class VentanaRegistro extends JFrame{
                         // Validar teléfono
                         if (comprobarTlf()) {
                             // Buscar si el correo ya está registrado
-                            Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
+                            Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(c, correo);
 
                             if (u == null) {  // Si no existe, agregarlo
                                 Usuario nuevoUsuario = new Usuario(nombre, apellido, telefono, correo, resp, segu, contra2);
-            					Connection c = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
                                 BaseDatosConfiguracion.insertarUsuario(c, nuevoUsuario);
                                 JOptionPane.showMessageDialog(null, "Registro realizado con éxito");
                                 SwingUtilities.invokeLater(() -> new VentanaInicioSesion());
@@ -300,7 +299,7 @@ public class VentanaRegistro extends JFrame{
             }
 
             // Cerrar conexión a la base de datos
-            BaseDatosConfiguracion.closeBD(con);
+            BaseDatosConfiguracion.closeBD(c);
         });
 
 

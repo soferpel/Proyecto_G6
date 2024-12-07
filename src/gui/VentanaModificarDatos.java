@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
 
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
@@ -23,6 +24,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+
+import db.BaseDatosConfiguracion;
+import domain.Usuario; 
 
 public class VentanaModificarDatos extends JFrame{
 	
@@ -225,14 +229,46 @@ public VentanaModificarDatos() {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+        Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+		String nombre = campoNom.getText();
+        String apellido = campoApel.getText();
+        String correo = campoCorreo.getText();
+        String telefono = campoTelefono.getText();
+        String contra = campoVenificaCon1.getText().trim();
+        String contra2 = campoContrasenia1.getText().trim();
+        String respuesta = campoRes.getText();
+        
+        Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
+        
+        campoNom.setText(u.getNombre());
+      		campoApel.setText(u.getApellido());
+      		campoCorreo.setText(u.getCorreo());
+      		campoPregSeg.setText(u.getPreguntaSeg());
+      		campoTelefono.setText(u.getTelefono());
+              
+
+        if (u != null) {
+        	if (contrasenia.equals(contraseniaVen)) {
+        		if (u.getRespuesta().equals(respuesta)) {
 		
 		int result = JOptionPane.showConfirmDialog(null, "¿Seguro que quieres modificar tus datos?", "Modificar Datos", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if(result == JOptionPane.OK_OPTION) {
 			SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal());
 			dispose();
+		} else {
+        	JOptionPane.showMessageDialog(null, "Debes rellenar todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
 		}
+	} else {
+    	JOptionPane.showMessageDialog(null, "La respuesta no es correcta.", "Error", JOptionPane.ERROR_MESSAGE);
 	}
-   });
+} else {
+	JOptionPane.showMessageDialog(null, "La contraseña no coincide.", "Error", JOptionPane.ERROR_MESSAGE);
+}
+} else {
+JOptionPane.showMessageDialog(null, "No existe ningun usuario con ese correo.", "Error", JOptionPane.ERROR_MESSAGE);
+}
+}
+});
    
    btnElimCuen.addActionListener(new ActionListener() {
 	    @Override
