@@ -719,7 +719,7 @@ public class VentanaHacerEnvio extends JFrame{
 		});
 	
     
-    btnFinalizar.addActionListener(e -> {
+   /* btnFinalizar.addActionListener(e -> {
 		
     	 String trayectoNombreOrigen = campoEnDesde.getText();
          String trayectoNombreDestino = campoEnHasta.getText();		
@@ -752,7 +752,7 @@ public class VentanaHacerEnvio extends JFrame{
     	 BaseDatosConfiguracion.insertarEnvio(con, envio);
     	 JOptionPane.showMessageDialog(null, "Envío registrado con éxito.");
                         
- 		});      
+ 		}); */     
 
     
     checkTerminos.addActionListener(e -> btnFinalizar.setEnabled(checkTerminos.isSelected()));
@@ -1043,8 +1043,4 @@ public class VentanaHacerEnvio extends JFrame{
         });
     }
     
-    public static void main(String[] args)   {
-    	SwingUtilities.invokeLater(() -> new VentanaHacerEnvio());
-    }
-		
 }

@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
@@ -255,25 +256,36 @@ public class VentanaRegistro extends JFrame{
             String apellido = txtApe.getText();
             String telefono = txttel.getText();
             String correo = txtCorreo.getText();
-            String contra = txtContra.getText();
-            String contra2 = txtRepeContra.getText();
+            char[] contra = ((JPasswordField) txtContra).getPassword();   // Corregido: usar getPassword()
+            char[] contra2 = ((JPasswordField) txtRepeContra).getPassword(); // Corregido: usar getPassword()
             String resp = txtResp.getText();
             String segu = txtSegu.getText();
+            
+            // Convertir las contraseñas char[] a String
+            String contraS = new String(contra);
+            String contra2S = new String(contra2);
 
-            if(nombre!=null || apellido!=null ||telefono!=null ||correo!=null || contra!=null || contra2!=null || resp!=null || segu!=null) {
-                JOptionPane.showMessageDialog(null, "Tienes que rellenar todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
-            } else {
-                if (contra.equals(contra2)) {
+            // Verificar si hay algún campo vacío
+            /*if (nombre.trim().isEmpty() || apellido.trim().isEmpty() || telefono.trim().isEmpty() || 
+                correo.trim().isEmpty() || contraS.trim().isEmpty() || contra2S.trim().isEmpty() || 
+                resp.trim().isEmpty() || segu.trim().isEmpty()) {
+
+                JOptionPane.showMessageDialog(null, "Tienes que rellenar todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);*/
+            if (!nombre.trim().isEmpty() && !apellido.trim().isEmpty() && !telefono.trim().isEmpty() && 
+                    !correo.trim().isEmpty() && !contraS.trim().isEmpty() && !contra2S.trim().isEmpty() && 
+                    !resp.trim().isEmpty() && !segu.trim().isEmpty()) {
+                // Verificar si las contraseñas coinciden
+                if (Arrays.equals(contra, contra2)) {
                     if (comprobarEmail()) {
                         if (comprobarTlf()) {
                             // Buscar si el correo ya está registrado
                             Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
 
                             if (u == null) {  // Si no existe, agregarlo
-                                Usuario nuevoUsuario = new Usuario(nombre, apellido, telefono, correo, resp, segu, contra2);
+                                Usuario nuevoUsuario = new Usuario(nombre, apellido, telefono, correo, resp, segu, contra2S);
                                 BaseDatosConfiguracion.insertarUsuario(con, nuevoUsuario);
                                 JOptionPane.showMessageDialog(null, "Registro realizado con éxito");
-                                SwingUtilities.invokeLater(() -> new VentanaInicioSesion()); 
+                                SwingUtilities.invokeLater(() -> new VentanaInicioSesion());
                             } else {
                                 JOptionPane.showMessageDialog(null, "Ya existe este usuario", "ERROR", JOptionPane.ERROR_MESSAGE);
                             }
@@ -288,6 +300,8 @@ public class VentanaRegistro extends JFrame{
                     txtContra.setText("");
                     txtRepeContra.setText("");
                 }
+            }else {
+            	JOptionPane.showMessageDialog(null, "Tienes que rellenar todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
 
             BaseDatosConfiguracion.closeBD(con);
@@ -391,9 +405,5 @@ public class VentanaRegistro extends JFrame{
 	}
 	
 
-	
-	/*private boolean comprobarContra() {
-		return;
-	}*/
 }
 

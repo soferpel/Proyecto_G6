@@ -218,6 +218,7 @@ public class VentanaInicioSesion extends JFrame{
 		});
 		
 	}
+
 	
 }
 
