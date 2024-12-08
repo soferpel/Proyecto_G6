@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.swing.JComboBox;
+
 import domain.Envio;
 import domain.Pago;
 import domain.Paquete;
@@ -644,7 +646,7 @@ public class BaseDatosConfiguracion {
 		            String apellido = rs.getString("apellido");
 		            String telefono = rs.getString("telefono");
 		            String email = rs.getString("correo");
-		            String respuesta = rs.getString("respuesta");
+		            String respuesta = rs.getString("respuesta");		           
 		            String pregunta_seg = rs.getString("pregunta_seg");
 		            String contrasenia = rs.getString("contrasenia");
 		            u = new Usuario(nombre, apellido, telefono, email, respuesta, pregunta_seg, contrasenia);

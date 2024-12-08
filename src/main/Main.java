@@ -27,22 +27,6 @@ public class Main {
 		
 		//PRUEBAS 
 		
-		/*String origen = "Origen1";
-		String destino = "Destino1";
-		BaseDatosConfiguracion.borrarTrayecto(con, origen, destino);*/
-		
-		/*String recogidaId = "2024-12-04";
-		BaseDatosConfiguracion.borrarRecogida(con, recogidaId);*/
-		
-		
-		/*String trayectoId = "Origen1 - Destino1"; 
-        String paqueteId = "REF12345";
-        String recogidaId = "2024-12-04"; 
-        String pagoId = "12345678A"; 
-        
-        // Llamar al método para borrar el envío
-        BaseDatosConfiguracion.borrarEnvio(con, trayectoId, paqueteId, recogidaId, pagoId);*/
-    
 		
 		BaseDatosConfiguracion.closeBD(con);
 		

@@ -111,6 +111,7 @@ public class VentanaRegistro extends JFrame{
 		String[] preguntas = {"¿Dia de nacimiento?", "¿Ciudad de nacimiento?", "¿Nombre del primer colegio?"};
         JComboBox<String> comboPreguntas = new JComboBox<>(preguntas);
         txtSegu.add(comboPreguntas);
+        String preguntaSeg = (String) comboPreguntas.getSelectedItem();
         comboPreguntas.setBackground(Color.WHITE);
         
      // Flecha
@@ -251,6 +252,13 @@ public class VentanaRegistro extends JFrame{
        
         
         btnRegistro.addActionListener(e -> {
+        	
+        	if (!aceptarTerminos.isSelected()) {
+				JOptionPane.showMessageDialog(
+						VentanaRegistro.this, "Debes aceptar los Términos y Condiciones para registrarte.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+			    return;
+			}
+        	
             Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 			Connection c = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 			
@@ -263,19 +271,20 @@ public class VentanaRegistro extends JFrame{
             String resp = txtResp.getText().trim();
             String segu = txtSegu.getText().trim();
 
+            
             // Comprobar si hay algún campo vacío
             if (!nombre.equals("") && !apellido.equals("") && !telefono.equals("") && !correo.equals("") && !segu.equals("") && !resp.equals("") && !contra.equals("") && !contra2.equals("")) {
 
                 
                 JOptionPane.showMessageDialog(null, "Tienes que rellenar todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
-                // Comprobar si las contraseñas coinciden
+
                 if (contra.equals(contra2)) {
-                    // Validar correo
+
                     if (comprobarEmail()) {
-                        // Validar teléfono
+
                         if (comprobarTlf()) {
-                            // Buscar si el correo ya está registrado
+
                             Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(c, correo);
 
                             if (u == null) {  // Si no existe, agregarlo
@@ -284,6 +293,7 @@ public class VentanaRegistro extends JFrame{
                                 JOptionPane.showMessageDialog(null, "Registro realizado con éxito");
                                 SwingUtilities.invokeLater(() -> new VentanaInicioSesion());
                                 dispose();
+                             
                             } else {
                                 JOptionPane.showMessageDialog(null, "Ya existe este usuario", "ERROR", JOptionPane.ERROR_MESSAGE);
                             }
@@ -300,24 +310,10 @@ public class VentanaRegistro extends JFrame{
                 }
             }
 
-            // Cerrar conexión a la base de datos
             BaseDatosConfiguracion.closeBD(c);
         });
 
 
-			/*@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!aceptarTerminos.isSelected()) {
-					JOptionPane.showMessageDialog(
-							VentanaRegistro.this, "Debes aceptar los Términos y Condiciones para registrarte.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-				    return;
-				}
-				JOptionPane.showMessageDialog(
-						VentanaRegistro.this, "Te has registrado correctamente", "Registro", JOptionPane.INFORMATION_MESSAGE );
-				SwingUtilities.invokeLater(() -> new VentanaInicioSesion());
-    			dispose();
-			}*/
-		
         
         textoTYC = new String("Aceptación de Términos y Condiciones de uso:\r\n"
     			+ "\r\n"
