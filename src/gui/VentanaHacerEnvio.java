@@ -905,14 +905,23 @@ public class VentanaHacerEnvio extends JFrame{
                    campoRevAlto.setText(campoAlto.getText());
                    campoRevPeso.setText(campoPeso.getText());
                }
-                   if (tabEnvios.getSelectedIndex() == 4) {  // Índice de la pestaña "Revisión"
-                       // Rellenar el campo "Pago" según la selección del botón de radio
+                   if (tabEnvios.getSelectedIndex() == 4) {  
                        if (radTarjeta.isSelected()) {
                            campoPago.setText("Con tarjeta");
                        } else if (radContra.isSelected()) {
                            campoPago.setText("Contrarrembolso");
+                      
                        }
-                   }
+                       }if (tabEnvios.getSelectedIndex() == 4) {  
+                           if (radEstandar.isSelected()) {
+                               campoEnvios.setText("Estandar");
+                           } else if (radSuper.isSelected()) {
+                               campoEnvios.setText("Superior");
+                           } else if (radPremium.isSelected()) {
+                               campoEnvios.setText("Premium");
+                           }
+                       }
+                   
                }
            });
 	   
