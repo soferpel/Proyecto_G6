@@ -677,10 +677,10 @@ public class BaseDatosConfiguracion {
 	            st.executeUpdate();
 	            st.close();
  
-	            logger.info("Envio insertado correctamente.");
+	            logger.info("Usuario insertado correctamente.");
 	        } catch (SQLException ex) {
-	        	System.out.println("Error al insertar el envio: " + ex.getMessage());
-	        	logger.warning(String.format("Error insertando envio %s", u.toString()));
+	        	System.out.println("Error al insertar el usuario: " + ex.getMessage());
+	        	logger.warning(String.format("Error insertando usuario %s", u.toString()));
 	            
 	        }
 	        

@@ -84,7 +84,7 @@ public class VentanaInicioSesion extends JFrame{
         txtCorreo.setBounds(160, 30, 250, 25);
         panelDatos.add(txtCorreo);
 
-        JComboBox<String> dominioEmail = new JComboBox<>(new String[]{"@admin.es", "@gmail.com", "@hotmail.com"});
+        JComboBox<String> dominioEmail = new JComboBox<>(new String[]{"@admin.es", "@gmail.com", "@hotmail.com", "@outlook.com", "@aol.com", "@icloud.com", "@yahoo.com"});
         dominioEmail.setBounds(420, 30, 120, 25);
         panelDatos.add(dominioEmail);
         
@@ -100,14 +100,24 @@ public class VentanaInicioSesion extends JFrame{
                          label.setBackground(Color.GREEN);
                          break;
                      case "@gmail.com":
-                         label.setBackground(Color.PINK);
+                         label.setBackground(Color.cyan);
                          break;
                      case "@hotmail.com":
-                         label.setBackground(Color.ORANGE);
+                         label.setBackground(Color.yellow);
+                         break;
+                     case "@outlook.com":
+                         label.setBackground(Color.lightGray);
+                         break;
+                     case "@aol.com":
+                         label.setBackground(Color.magenta);
+                         break;
+                     case "@icloud.com":
+                         label.setBackground(Color.pink);
                          break;
                      default:
-                         label.setBackground(Color.GRAY);
+                         label.setBackground(Color.white);
                          break;
+                 
                  }
         	 }
         	 label.setOpaque(true);
@@ -197,9 +207,9 @@ public class VentanaInicioSesion extends JFrame{
 		
 		
 		bIniSesion.addActionListener((e)->{
-		//bIniSesion.addActionListener(new ActionListener() {	
 			
 			String correo = txtCorreo.getText() + dominioEmail.getSelectedItem().toString();
+			correo.toLowerCase();
             String contrasenia = txtContra.getText();
             
             Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
