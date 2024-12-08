@@ -526,14 +526,14 @@ public class VentanaHacerEnvio extends JFrame{
 	aceptarCond = new JLabel("<html><u>Aceptas terminos y condiciones de uso</u></html>");
 
 	 
-	campoEnDesde = new JTextField(10);
-	campoEnHasta = new JTextField(10);
+	campoEnDesde = new JTextField(11);
+	campoEnHasta = new JTextField(11);
 	campoPago = new JTextField(11);
 	campoRevLargo = new JTextField(5);
 	campoRevAncho = new JTextField(5);
 	campoRevAlto = new JTextField(5);
 	campoRevPeso = new JTextField(5);
-	campoEnvios = new JTextField(10);
+	campoEnvios = new JTextField(11);
 	
 	campoEnDesde.setEditable(false);
 	campoEnHasta.setEditable(false);
@@ -615,9 +615,9 @@ public class VentanaHacerEnvio extends JFrame{
 	pText.setBorder(new EmptyBorder(10,40,40,40));
 		
 	pDesde.setBorder(new EmptyBorder(0,25,0,0));
-	pHasta.setBorder(new EmptyBorder(0,0,0,20));
+	pHasta.setBorder(new EmptyBorder(0,0,0,15));
 	pTipo.setBorder(new EmptyBorder(0,0,0,0));
-	pPagos.setBorder(new EmptyBorder(0,0,0,30));
+	pPagos.setBorder(new EmptyBorder(0,0,0,10));
 	
 	pRevPeso.setBorder(new EmptyBorder(0,20,0,0));
 	pRevAlto.setBorder(new EmptyBorder(0,0,0,20));
