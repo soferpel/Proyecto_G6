@@ -842,6 +842,7 @@ public class VentanaHacerEnvio extends JFrame{
     getRootPane().setDefaultButton(btnFinalizar);
     
 
+    
 	//HILOS
 	hiloEjecutando = true;
 	addWindowListener(new WindowAdapter() {
