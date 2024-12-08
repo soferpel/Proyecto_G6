@@ -96,11 +96,11 @@ public class BaseDatosConfiguracion {
 	            + "    dni VARCHAR(20) PRIMARY KEY,"
 	            + "    descripcion VARCHAR(255),"
 	            + "    numero_tarjeta VARCHAR(16),"
-	            + "    fecha_caducidad DATE,"
-	            + "    cvv CHAR(3),"
+	            + "    fecha_caducidad VARCHAR(10),"
+	            + "    cvv VARCHAR(3),"
 	            + "    remitente_destinatario VARCHAR(255),"
 	            + "    factura VARCHAR(255),"
-	            + "    precio DECIMAL(10, 2)"
+	            + "    precio VARCHAR(10)"
 	            + ");";
 
 	    String sql5 = "CREATE TABLE IF NOT EXISTS envio ("
@@ -150,23 +150,27 @@ public class BaseDatosConfiguracion {
 	
 //PAGO
 	public static void insertarPago(Connection con, Pago p) {
-	    String sql = String.format("INSERT INTO pago (descripcion, numeroTarjeta, fechaCaducidad, CVV, remitenteDestinatario, factura, dni, precio) VALUES (?,?,?,?,?,?,?,?)");
+	    String sql = String.format("INSERT INTO pago (dni, descripcion, numero_tarjeta, fecha_caducidad, cvv, remitente_destinatario, factura, precio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
 	    try {
 	        PreparedStatement st = con.prepareStatement(sql);
-	        st.setString(1, p.getDescripcion());
-	        st.setString(2, p.getNumeroTrajeta());
-	        st.setString(3, p.getFechaCaducidad());
-	        st.setString(4, p.getCVV());
-	        st.setString(5, p.getRemitenteDestinatario());
-	        st.setString(6, p.getFactura());
-	        st.setString(7, p.getDni());
-	        st.setString(8, p.getPrecio());
 	        
-	        st.execute();
+	        st.setString(1, p.getDni());
+	        st.setString(2, p.getDescripcion());
+	        st.setString(3, p.getNumeroTrajeta());
+	        st.setString(4, p.getFechaCaducidad()); 
+	        st.setString(5, p.getCVV());
+	        st.setString(6, p.getRemitenteDestinatario());
+	        st.setString(7, p.getFactura());
+	        st.setString(8, p.getPrecio().trim());
+	        
+	        System.out.println("SQL generado: " + st.toString());
+	        
+	        st.executeUpdate(); 
 	        st.close();
 	        logger.info(String.format("Nuevo pago insertado: %s", p.toString()));
 	    } catch (SQLException e) {
+	    	e.printStackTrace();
 	        logger.warning(String.format("Error insertando pago %s", p.toString()));
 	    }
 	}  
