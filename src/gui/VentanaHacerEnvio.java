@@ -528,21 +528,21 @@ public class VentanaHacerEnvio extends JFrame{
 	 
 	campoEnDesde = new JTextField(10);
 	campoEnHasta = new JTextField(10);
-	campoPago = new JTextField(8);
+	campoPago = new JTextField(11);
 	campoRevLargo = new JTextField(5);
 	campoRevAncho = new JTextField(5);
 	campoRevAlto = new JTextField(5);
 	campoRevPeso = new JTextField(5);
 	campoEnvios = new JTextField(10);
 	
-	campoEnDesde.setEditable(true);
-	campoEnHasta.setEditable(true);
-	campoPago.setEditable(true);
-	campoRevLargo.setEditable(true);
-	campoRevAncho.setEditable(true);
-	campoRevAlto.setEditable(true);
-	campoRevPeso.setEditable(true);
-	campoEnvios.setEditable(true);
+	campoEnDesde.setEditable(false);
+	campoEnHasta.setEditable(false);
+	campoPago.setEditable(false);
+	campoRevLargo.setEditable(false);
+	campoRevAncho.setEditable(false);
+	campoRevAlto.setEditable(false);
+	campoRevPeso.setEditable(false);
+	campoEnvios.setEditable(false);
 	
  
 	checkTerminos = new JCheckBox();
@@ -904,10 +904,18 @@ public class VentanaHacerEnvio extends JFrame{
                    campoRevAncho.setText(campoAncho.getText());
                    campoRevAlto.setText(campoAlto.getText());
                    campoRevPeso.setText(campoPeso.getText());
-                   campoPago.setText(campoNTarjeta.getText() + "\n" + campoCVV.getText() + "\n" + campoDNI.getText());
                }
-           }
-       });
+                   if (tabEnvios.getSelectedIndex() == 4) {  // Índice de la pestaña "Revisión"
+                       // Rellenar el campo "Pago" según la selección del botón de radio
+                       if (radTarjeta.isSelected()) {
+                           campoPago.setText("Con tarjeta");
+                       } else if (radContra.isSelected()) {
+                           campoPago.setText("Contrarrembolso");
+                       }
+                   }
+               }
+           });
+	   
 
 	btnAnterior.addActionListener(new ActionListener() {
 		
