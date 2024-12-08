@@ -170,8 +170,9 @@ public class BaseDatosConfiguracion {
 	        st.close();
 	        logger.info(String.format("Nuevo pago insertado: %s", p.toString()));
 	    } catch (SQLException e) {
-	    	e.printStackTrace();
 	        logger.warning(String.format("Error insertando pago %s", p.toString()));
+	    	e.printStackTrace();
+
 	    }
 	}  
 	    
@@ -442,6 +443,8 @@ public class BaseDatosConfiguracion {
 	            st.setString(7, p.getValor());
 	            st.setString(8, p.getFragil());
 
+	            System.out.println("SQL generado: " + st.toString());
+	            
 	            st.executeUpdate();
 	            System.out.println("Paquete insertado correctamente.");
 	        } catch (SQLException e) {

@@ -737,9 +737,45 @@ public class VentanaHacerEnvio extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			guardarDatosPago();
+			guardarDatosPaquete();
+			
 			
 		}
 
+		private void guardarDatosPaquete() {
+			// TODO Auto-generated method stub
+			String embalaje = comboEmbalaje.getSelectedItem().toString();  
+		    String peso = campoPeso.getText().trim();
+		    String largo = campoLargo.getText().trim();
+		    String ancho = campoAncho.getText().trim();
+		    String alto = campoAlto.getText().trim();
+		    String valor = campoValor.getText().trim();
+		    String fragil = checkFragil.isSelected() ? "Sí" : "No"; 
+		    
+		    
+		    if (peso.isEmpty() || largo.isEmpty() || ancho.isEmpty() || alto.isEmpty() || valor.isEmpty()) {
+		        JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+		        return;
+		    }
+			
+		    String referencia = generarReferenciaAleatoria();  
+		    Paquete paquete = new Paquete(referencia, embalaje, peso, largo, ancho, alto, valor, fragil);
+		    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+		    
+		    try {
+		        BaseDatosConfiguracion.insertarPaquete(con, paquete);
+		        JOptionPane.showMessageDialog(null, "Paquete guardado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+		    } finally {
+		        
+		        BaseDatosConfiguracion.closeBD(con);
+		    }
+		}
+
+		public static String generarReferenciaAleatoria() {
+		    int numeroAleatorio = (int) (Math.random() * 1000000000);  
+		    return "REF-" + String.format("%010d", numeroAleatorio);  
+		}
+		
 		private void guardarDatosPago() {
 		    String descripcion = campoDescripcion.getText().trim();  
 		    String numeroTarjeta = campoNTarjeta.getText().trim();
@@ -790,7 +826,7 @@ public class VentanaHacerEnvio extends JFrame{
 		        BaseDatosConfiguracion.insertarPago(con, pago);
 		        JOptionPane.showMessageDialog(null, "Pago guardado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 		    } finally {
-		 
+		        
 		        BaseDatosConfiguracion.closeBD(con);
 		    }
 		}
@@ -842,7 +878,6 @@ public class VentanaHacerEnvio extends JFrame{
     getRootPane().setDefaultButton(btnFinalizar);
     
 
-    
 	//HILOS
 	hiloEjecutando = true;
 	addWindowListener(new WindowAdapter() {
