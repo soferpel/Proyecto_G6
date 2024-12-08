@@ -270,22 +270,23 @@ public class BaseDatosConfiguracion {
 			}
 	    
 	    
+	   
 	    public static void borrarTrayecto(Connection con, String nombreOrigen, String nombreDestino) {
-			String sql = "DELETE FROM trayecto WHERE nombre_origen = ? AND nombre_destino = ?";
-			try {
-				PreparedStatement st = con.prepareStatement(sql);
-				st.setString(1, nombreOrigen); 
-		        st.setString(2, nombreDestino); 
-		        
-				st.executeUpdate(sql);
-				st.close();
-				logger.info("Trayecto borrado correctamente: " + nombreOrigen + " a " + nombreDestino);				   
-			} catch (SQLException e) {
-				logger.warning("Error borrando el trayecto: " + nombreOrigen + " a " + nombreDestino + " - " + e.getMessage());
-		        e.printStackTrace();
-			}
-			
-		}
+	        String sql = String.format("DELETE FROM trayecto WHERE nombre_origen='%s' AND nombre_destino='%s'", nombreOrigen, nombreDestino);
+	        try {
+	            Statement st = con.createStatement();
+	            st.executeUpdate(sql);
+	            st.close();
+	            
+	            logger.info("Trayecto borrado correctamente: " + nombreOrigen + " a " + nombreDestino);                   
+	        } catch (SQLException e) {
+	            logger.warning("Error borrando el trayecto: " + nombreOrigen + " a " + nombreDestino + " - " + e.getMessage());
+	            e.printStackTrace();
+	        }
+	    }
+
+	    
+	    
 	    
 	    public static void actualizarTrayecto(Connection con, trayecto trayecto) {
 	        String sql = "UPDATE trayecto SET direccion_origen = ?, correo_origen = ?, telefono_origen = ?, "
@@ -369,7 +370,7 @@ public class BaseDatosConfiguracion {
 	            st.setString(3, recogidaId);  
 	            st.setString(4, pagoId);      
 	            
-	            st.executeUpdate(sql);
+	            st.executeUpdate();
 	            st.close();
 
 	            logger.info("Envio borrado correctamente.");
@@ -618,7 +619,7 @@ public class BaseDatosConfiguracion {
 		            
 		        st.setString(1, fecha_de_recogida);	            
 	            
-	            st.executeUpdate(sql);
+	            st.executeUpdate();
 	            st.close();
 	            
 	            logger.info("Recogida borrada");
