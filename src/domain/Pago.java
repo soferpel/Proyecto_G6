@@ -23,6 +23,10 @@ public class Pago {
 		this.Dni = Dni;
 		this.precio = precio;
 	}
+	
+	public Pago(String Dni) {
+        this.Dni = Dni;
+    }
 
 	public Pago(String descripcion, String remitenteDestinatario, String factura, String Dni, String precio) {
 		super();

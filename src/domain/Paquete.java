@@ -23,6 +23,10 @@ public class Paquete implements Comparable<Paquete>{
 		this.fragil = fragil;
 	}
 	
+	 public Paquete(String nReferencia) {
+	        this.nReferencia = nReferencia;
+	    }
+	
 	public Paquete(String peso, String largo, String ancho, String alto) {
 		this.peso = peso;
 		this.largo = largo;
