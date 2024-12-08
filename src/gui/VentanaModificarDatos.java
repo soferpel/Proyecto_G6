@@ -32,10 +32,10 @@ public class VentanaModificarDatos extends JFrame{
 	
 		
 private JLabel txtModDatos, txtCorreo, txtTelefono, txtNewCon, txtVerifCon, txtNom,
-				txtApel, txtPregSeg, txtRes, aceptarCond;
+				txtApel, txtRes, aceptarCond;
 
 private JTextField campoCorreo, campoTelefono, campoRes, campoNom, campoApel, 
-					campoContrasenia1, campoVenificaCon1, campoPregSeg;
+					campoContrasenia1, campoVenificaCon1;
 
 private String textoTYC;
 
@@ -49,7 +49,7 @@ private JButton btnElimCuen, btnModif, btnVolver, btnOjoCon, btnOjoConVen, mostr
 
 private JPanel pNorte, pSur, pCentro, pVenificaCon, pContrasenia, pNombre,
 				pApellido, pRespuesta, pTelefono, pCorreo, 
-				pPregSeg, pTYC, pBotones;
+			 pTYC, pBotones;
 
 private JCheckBox checkTerminos;
 
@@ -57,9 +57,9 @@ private JCheckBox checkTerminos;
 private boolean esOjoAbierto = false;
 private boolean esOjoAbiertoVen = false;
 
-private String contrasenia;
-private String contraseniaVen;
-private Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 20);
+//private String contrasenia;
+//private String contraseniaVen;
+//private Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 20);
 
 
 
@@ -76,7 +76,6 @@ public VentanaModificarDatos() {
 	pRespuesta = new JPanel();
 	pTelefono = new JPanel();
 	pCorreo = new JPanel();
-	pPregSeg = new JPanel();
 	pBotones = new JPanel(); 
     pTYC = new JPanel(); 
 	
@@ -85,8 +84,7 @@ public VentanaModificarDatos() {
 	txtModDatos = new JLabel("MODIFICAR DATOS:");
 	txtCorreo = new JLabel("      Correo:");
 	txtNewCon = new JLabel("Nueva ContraseÃ±a:");
-	txtPregSeg = new JLabel("Pregunta de seguridad:");
-	txtRes = new JLabel("Respuesta:");
+	txtRes = new JLabel("Respuesta de la Pregunta de Seguridad:");
 	txtTelefono = new JLabel("    Telefono:");
 	txtVerifCon = new JLabel("  Repite contraseÃ±a:");
 	aceptarCond = new JLabel("<html><u>Aceptas terminos y condiciones de uso</u></html>");
@@ -96,8 +94,8 @@ public VentanaModificarDatos() {
 	
 	ImageIcon ojoAbierto = new ImageIcon("resources/images/ojoAbierto.png");
 	ImageIcon ojoCerrado = new ImageIcon("resources/images/ojoCerrado.png");
-	ImageIcon ojoAbierto1 = new ImageIcon("resources/images/ojoAbierto.png");
-	ImageIcon ojoCerrado1 = new ImageIcon("resources/images/ojoCerrado.png");
+	//ImageIcon ojoAbierto1 = new ImageIcon("resources/images/ojoAbierto.png");
+//	ImageIcon ojoCerrado1 = new ImageIcon("resources/images/ojoCerrado.png");
 	
 	campoNom = new JTextField(10);
 	campoApel = new JTextField(10);
@@ -106,8 +104,6 @@ public VentanaModificarDatos() {
 	campoRes = new JTextField(10);
 	campoContrasenia1 = new JTextField(10);
 	campoVenificaCon1 = new JTextField(10);
-	campoPregSeg = new JTextField(10);
-	campoPregSeg.setEditable(false);;
 	
 	campoCon = new JPasswordField(10);
 	campoVerifCon = new JPasswordField(10);
@@ -117,11 +113,11 @@ public VentanaModificarDatos() {
 	btnElimCuen = new JButton("ELIMINAR CUENTA");
 	btnVolver = new JButton("VOLVER");
 	btnOjoCon = new JButton(ojoAbierto);
-	btnOjoConVen = new JButton(ojoAbierto1);
+	btnOjoConVen = new JButton(ojoAbierto);
 	
 	pNorte.add(txtModDatos);
 	
-	txtModDatos.setFont(fontTextoTitulo);
+	txtModDatos.setFont(new Font("Tahoma", Font.BOLD, 20));
 	txtModDatos.setBorder(new EmptyBorder(20,20,20,0));
 	
 	pNombre.add(txtNom);	
@@ -150,9 +146,7 @@ public VentanaModificarDatos() {
 	pVenificaCon.add(btnOjoConVen);
 	pCentro.add(pVenificaCon);
 
-	pPregSeg.add(txtPregSeg);		
-	pPregSeg.add(campoPregSeg);
-	pCentro.add(pPregSeg);
+
 
 	pRespuesta.add(txtRes);	
 	pRespuesta.add(campoRes);
@@ -244,6 +238,22 @@ public VentanaModificarDatos() {
 	        JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
 	        return;
 	    }
+	    
+	    if (!checkTerminos.isSelected()) {
+	        JOptionPane.showMessageDialog(null, "Debes aceptar los términos y condiciones.", "Error", JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
+	    
+	    if (!correo.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+	        JOptionPane.showMessageDialog(null, "Ingresa un correo válido.", "Error", JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
+
+	    if (!telefono.matches("\\d+")) {
+	        JOptionPane.showMessageDialog(null, "El teléfono debe contener sólo números.", "Error", JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
+
 
 	    if (!contra.equals(contra2)) {
 	        JOptionPane.showMessageDialog(null, "Las contraseÃ±as no coinciden.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -267,21 +277,48 @@ public VentanaModificarDatos() {
 	        u.setApellido(apellido);
 	        u.setTelefono(telefono);
 	        u.setContrasenia(contra);
+	        
+	        BaseDatosConfiguracion.actualizarUsuario(con, u);
 
-	       
+            JOptionPane.showMessageDialog(null, "Datos modificados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        BaseDatosConfiguracion.closeBD(con);
+
 	    }
-	}});
+	});
 
 	
    btnElimCuen.addActionListener(new ActionListener() {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-	        int result = JOptionPane.showConfirmDialog(null, "Â¿Seguro que quieres eliminar tu cuenta?", "Eliminar Cuenta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+	        String correo = campoCorreo.getText().trim();
+	        if (correo.isEmpty()) {
+	            JOptionPane.showMessageDialog(null, "Por favor, ingresa tu correo.", "Error", JOptionPane.ERROR_MESSAGE);
+	            return;
+	        }
+
+	        int result = JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar tu cuenta?", "Eliminar Cuenta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	        if (result == JOptionPane.OK_OPTION) {
-	            dispose();
+	            Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+	            try {
+	                Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
+	                if (u == null) {
+	                    JOptionPane.showMessageDialog(null, "No existe ningún usuario con ese correo.", "Error", JOptionPane.ERROR_MESSAGE);
+	                    return;
+	                }
+
+	               
+	                BaseDatosConfiguracion.deleteUsuario(con, correo);
+	                JOptionPane.showMessageDialog(null, "Cuenta eliminada con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+	                dispose(); 
+	            } finally {
+	                BaseDatosConfiguracion.closeBD(con);
+	            }
 	        }
 	    }
 	});
+
 
 	
 	
@@ -289,6 +326,7 @@ public VentanaModificarDatos() {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			/*
 			if (!esOjoAbierto) {
 				String contrasenia = new String(campoCon.getPassword());
 				campoContrasenia1.setText(contrasenia);
@@ -314,11 +352,17 @@ public VentanaModificarDatos() {
 			esOjoAbierto = !esOjoAbierto;
 		}
 	});
+	*/
+            alternaContrasena(pContrasenia, campoCon, campoContrasenia1, btnOjoCon, esOjoAbierto, ojoCerrado, ojoAbierto);
+            esOjoAbierto = !esOjoAbierto;
+        }
+    });
 	
 	btnOjoConVen.addActionListener(new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			/*
 			if (!esOjoAbiertoVen) {
 				String contrasenia = new String(campoVerifCon.getPassword());
 				campoVenificaCon1.setText(contrasenia);
@@ -343,7 +387,11 @@ public VentanaModificarDatos() {
 			}
 			esOjoAbiertoVen = !esOjoAbiertoVen;
 		}
-	});
+	});*/
+			 alternaContrasena(pVenificaCon, campoVerifCon, campoVenificaCon1, btnOjoConVen, esOjoAbiertoVen, ojoCerrado, ojoAbierto);
+             esOjoAbiertoVen = !esOjoAbiertoVen;
+         }
+     });
 	
 	checkTerminos.addMouseListener(new MouseAdapter() {
 			
@@ -378,7 +426,24 @@ public VentanaModificarDatos() {
 
 
 	}
+
 	
+	private void alternaContrasena(JPanel panel, JPasswordField campo, JTextField campoTexto, JButton boton, boolean esAbierto, ImageIcon cerrado, ImageIcon abierto) {
+	    if (!esAbierto) {
+	        campoTexto.setText(new String(campo.getPassword()));
+	        panel.remove(campo);
+	        panel.add(campoTexto);
+	    } else {
+	        campo.setText(campoTexto.getText());
+	        panel.remove(campoTexto);
+	        panel.add(campo);
+	    }
+	    boton.setIcon(esAbierto ? abierto : cerrado);
+	    panel.revalidate();
+	    panel.repaint();
+	}
+
+
 	private void cargarDatosUsuario(String correoUsuario) {
         Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
         Usuario usuarioActual = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correoUsuario);
@@ -388,7 +453,6 @@ public VentanaModificarDatos() {
             campoApel.setText(usuarioActual.getApellido());
             campoCorreo.setText(usuarioActual.getCorreo());
             campoTelefono.setText(usuarioActual.getTelefono());
-            campoPregSeg.setText(usuarioActual.getPreguntaSeg());
         } else {
             JOptionPane.showMessageDialog(null, "No se encontrÃ³ el usuario con el correo proporcionado.", "Error", JOptionPane.ERROR_MESSAGE);
             dispose();

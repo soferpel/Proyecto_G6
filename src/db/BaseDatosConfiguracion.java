@@ -686,8 +686,46 @@ public class BaseDatosConfiguracion {
 	        
 	    }
 		
+		public static void actualizarUsuario(Connection con, Usuario u) {
+		    String sql = "UPDATE usuario SET nombre = ?, apellido = ?, telefono = ?, contrasenia = ? WHERE correo = ?";
+
+		    try (PreparedStatement st = con.prepareStatement(sql)) {
+		        st.setString(1, u.getNombre());
+		        st.setString(2, u.getApellido());
+		        st.setString(3, u.getTelefono());
+		        st.setString(4, u.getContrasenia());
+		        st.setString(5, u.getCorreo());
+
+		        int rowsUpdated = st.executeUpdate();
+		        if (rowsUpdated > 0) {
+		            logger.info("Usuario actualizado correctamente.");
+		        } else {
+		            logger.warning("No se pudo actualizar el usuario. Verifica los datos.");
+		        }
+		    } catch (SQLException ex) {
+		        logger.warning("Error actualizando usuario: " + ex.getMessage());
+		    }
+		}
 		
 		
+		public static void deleteUsuario(Connection con, String correo) {
+		    String sql = "DELETE FROM usuario WHERE correo = ?";
+		    try {
+		        PreparedStatement st = con.prepareStatement(sql);
+		        st.setString(1, correo);
+		        int filasAfectadas = st.executeUpdate();
+		        st.close();
+
+		        if (filasAfectadas > 0) {
+		            logger.info("Usuario eliminado correctamente.");
+		        } else {
+		            logger.warning("No se encontró un usuario con el correo especificado.");
+		        }
+		    } catch (SQLException ex) {
+		        logger.warning("Error eliminando el usuario: " + ex.getMessage());
+		    }
+		}
+
 		
 
 	    
