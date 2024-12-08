@@ -34,19 +34,14 @@ public class Main {
 		/*String recogidaId = "2024-12-04";
 		BaseDatosConfiguracion.borrarRecogida(con, recogidaId);*/
 		
-	    /*String referencia = "REF001"; 
-        System.out.println("Buscando paquete con referencia: " + referencia);
-        List<Paquete> paquetes = BaseDatosConfiguracion.buscarPaquetePorReferencia(con, referencia);
-
-
-		*/
-		String trayectoId = "Origen1 - Destino1"; 
+		
+		/*String trayectoId = "Origen1 - Destino1"; 
         String paqueteId = "REF12345";
         String recogidaId = "2024-12-04"; 
         String pagoId = "12345678A"; 
         
         // Llamar al método para borrar el envío
-        BaseDatosConfiguracion.borrarEnvio(con, trayectoId, paqueteId, recogidaId, pagoId);
+        BaseDatosConfiguracion.borrarEnvio(con, trayectoId, paqueteId, recogidaId, pagoId);*/
     
 		
 		BaseDatosConfiguracion.closeBD(con);
