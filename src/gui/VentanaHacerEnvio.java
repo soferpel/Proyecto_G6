@@ -636,7 +636,7 @@ public class VentanaHacerEnvio extends JFrame{
 	tabEnvios.addTab("QUE", pQue);
 	tabEnvios.addTab("COMO", pComo);
 	tabEnvios.addTab("PAGO", pPago);
-	tabEnvios.addTab("REVISIÃ“N", pRev);
+	tabEnvios.addTab("REVISIÓN", pRev);
 	tabEnvios.setEnabled(false);
 	
 	
@@ -896,9 +896,8 @@ public class VentanaHacerEnvio extends JFrame{
 	   tabEnvios.addChangeListener(new ChangeListener() {
            @Override
            public void stateChanged(ChangeEvent e) {
-               // Detectar si la pestaña seleccionada es "Revisión"
-               if (tabEnvios.getSelectedIndex() == 4) {  // Índice de la pestaña "Revisión"
-                   // Rellenar los campos de la pestaña de Revisión con los datos de las otras pestañas
+               if (tabEnvios.getSelectedIndex() == 4) {  
+            	   
                    campoEnDesde.setText( dDireccion.getText() );
                    campoEnHasta.setText(hDireccion.getText());
                    campoRevLargo.setText(campoLargo.getText());
