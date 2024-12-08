@@ -106,7 +106,6 @@ public class BaseDatosConfiguracion {
 	    String sql5 = "CREATE TABLE IF NOT EXISTS envio ("
 	            + "    trayecto_nombre_origen VARCHAR(100),"
 	            + "    trayecto_nombre_destino VARCHAR(100),"
-	            + "    paquete_id VARCHAR(50),"
 	            + "    recogida_id VARCHAR(50),"
 	            + "    pago_id VARCHAR(20),"
 	            + "    PRIMARY KEY (trayecto_nombre_origen, trayecto_nombre_destino, paquete_id, recogida_id, pago_id),"

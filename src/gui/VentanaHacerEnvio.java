@@ -726,7 +726,7 @@ public class VentanaHacerEnvio extends JFrame{
 		});
 	
     
-   /* btnFinalizar.addActionListener(e -> {
+    btnFinalizar.addActionListener(e -> {
 		
     	 String trayectoNombreOrigen = campoEnDesde.getText();
          String trayectoNombreDestino = campoEnHasta.getText();	
@@ -734,18 +734,30 @@ public class VentanaHacerEnvio extends JFrame{
          // n_referencia se asign AUTOMATICAMENTE 
          String paqueteId = "REF-" + UUID.randomUUID().toString();		//IA
 
-         Date fechaRecogida = dateChooser.getDate();	//IA
-         if (fechaRecogida == null) {
-        	    JOptionPane.showMessageDialog(null, "Por favor, selecciona una fecha de recogida.");
-        	    return; 
-        	}
-         java.sql.Date fechaSQL = new java.sql.Date(fechaRecogida.getTime());
-         //String recogidaId = 		//CLENDARIO fecha_de_recogida
+         //la fecha de recogida puede ser la seleccionada en el calendario si la persona ha seleccionado a domicilio o si ha seleccionado punto de recogida se cogera la opcion que eliga dentro de esta                       
          
-         String pagoId = campoPago.getText();      	//txtDNI             
+         
+         
+         Date fechaRecogida = null;
+         if (radDomic.isSelected()) {
+             fechaRecogida = dateChooser.getDate();
+             if (fechaRecogida == null) {
+                 JOptionPane.showMessageDialog(null, "Por favor, selecciona una fecha de recogida.");
+                 return;
+             }
+         } else {
+        	 String lugarRecogida = (String) comboRecog.getSelectedItem(); 
+             if (lugarRecogida == null || lugarRecogida.isEmpty()) {
+                 JOptionPane.showMessageDialog(null, "Por favor, selecciona un punto de recogida.");
+                 return;
+             }
+         }
+         
+         
+         String pagoId = campoDNI.getText();                 
          
          if (trayectoNombreOrigen.isEmpty() || trayectoNombreDestino.isEmpty() || paqueteId.isEmpty() ||
-        		 fechaRecogida==null  || pagoId.isEmpty()) {
+        		( fechaRecogida==null || radPtoRecog.isSelected())|| pagoId.isEmpty()) {
                  JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios");
                  return;  // Detener si algún campo está vacío
              }
@@ -753,17 +765,22 @@ public class VentanaHacerEnvio extends JFrame{
          String dO = trayectoNombreOrigen;
          String dD = trayectoNombreDestino; 
          String nRefe = paqueteId; 
-         String fRec = fechaSQL.toString();
+         String fRec = (fechaRecogida != null) ? new java.sql.Date(fechaRecogida.getTime()).toString() : "No aplicable";         
          String dni = pagoId; 
          
-         // Crear el objeto Envio con los objetos previamente creados
-         Envio envio = new Envio(dO, dD, nRefe, fRec, dni, precio);
+         trayecto trayecto = new trayecto(trayectoNombreOrigen, trayectoNombreDestino);
+         Paquete paquete = new Paquete(paqueteId);
+
+
          
-         Connection con = BaseDatosConfiguracion.initBD("Paqueteria.db");
+         
+         // Crear el objeto Envio con los objetos previamente creados
+         Envio envio = new Envio(dO, dD, nRefe, fRec, dni, dni);
+         Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
     	 BaseDatosConfiguracion.insertarEnvio(con, envio);
     	 JOptionPane.showMessageDialog(null, "Envío registrado con éxito.");
                         
- 		}); */
+ 		}); 
 	
 
     
