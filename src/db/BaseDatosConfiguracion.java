@@ -679,8 +679,7 @@ public class BaseDatosConfiguracion {
 	            
 	            st.executeUpdate();
 	            st.close();
- 
-	            System.out.println("hola");
+ 	            
 	            logger.info("Usuario insertado correctamente.");
 	        } catch (SQLException ex) {
 	        	System.out.println("Error al insertar el usuario: " + ex.getMessage());
@@ -723,7 +722,7 @@ public class BaseDatosConfiguracion {
 		        if (filasAfectadas > 0) {
 		            logger.info("Usuario eliminado correctamente.");
 		        } else {
-		            logger.warning("No se encontró un usuario con el correo especificado.");
+		            logger.warning("No se encontrï¿½ un usuario con el correo especificado.");
 		        }
 		    } catch (SQLException ex) {
 		        logger.warning("Error eliminando el usuario: " + ex.getMessage());

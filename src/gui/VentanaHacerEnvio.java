@@ -83,7 +83,7 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	private JLabel txtEmbalado, txtDescripcion, txtLargo, txtAncho, txtAlto, txtPeso, txtValor, txtInfo;
 
-	private JTextField campoDescripcion, campoLargo, campoAncho, campoAlto, campoPeso, campoValor;
+	private JTextField campoDescripcion, campoLargo, campoAncho, campoAlto, campoPeso, campoValor, campoPtoRecog;
 
 	private JCheckBox checkFragil;
 	
@@ -388,6 +388,9 @@ public class VentanaHacerEnvio extends JFrame{
 	dateChooser = new JDateChooser();
 	dateChooser.setDateFormatString("dd/MM/yyyy");
 	
+	//campoPtoRecog = new JTextField(20);  // Campo de texto para la entrada de la dirección del punto de recogida
+	//campoPtoRecog.setEnabled(false); 
+	
 	recogidaGrupo.add(radPtoRecog);
 	recogidaGrupo.add(radDomic);
 	
@@ -409,6 +412,7 @@ public class VentanaHacerEnvio extends JFrame{
 	pRecog2.add(pFRecog);
 	pRecog2.add(radPtoRecog);
 	pRecog2.add(comboRecog);
+	//pRecog2.add(campoPtoRecog);
 
 	
 	pRecYEnt.add(pRecog2);
@@ -529,14 +533,14 @@ public class VentanaHacerEnvio extends JFrame{
 	campoRevPeso = new JTextField(5);
 	campoEnvios = new JTextField(10);
 	
-	campoEnDesde.setEditable(false);
-	campoEnHasta.setEditable(false);
-	campoPago.setEditable(false);
-	campoRevLargo.setEditable(false);
-	campoRevAncho.setEditable(false);
-	campoRevAlto.setEditable(false);
-	campoRevPeso.setEditable(false);
-	campoEnvios.setEditable(false);
+	campoEnDesde.setEditable(true);
+	campoEnHasta.setEditable(true);
+	campoPago.setEditable(true);
+	campoRevLargo.setEditable(true);
+	campoRevAncho.setEditable(true);
+	campoRevAlto.setEditable(true);
+	campoRevPeso.setEditable(true);
+	campoEnvios.setEditable(true);
 	
  
 	checkTerminos = new JCheckBox();

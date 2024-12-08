@@ -258,8 +258,7 @@ public class VentanaRegistro extends JFrame{
 						VentanaRegistro.this, "Debes aceptar los Términos y Condiciones para registrarte.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 			    return;
 			}
-        	
-            Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+        	            
 			Connection c = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 			
             String nombre = txtNom.getText().trim();

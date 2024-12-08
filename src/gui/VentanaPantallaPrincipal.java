@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -27,14 +28,15 @@ import db.BaseDatosConfiguracion;
 public class VentanaPantallaPrincipal extends JFrame{
 	
 	private JLabel imgVerEnvios, imgFacturacion, imgHacerEnvio;
-	
-	
+	private static String correoUsuario; 
+
+
 	  public VentanaPantallaPrincipal() {
 		setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
-
+        
         // Panel Norte
         JPanel pNorte = new JPanel(new BorderLayout());
         JLabel lblBienvenida = new JLabel("¡BIENVENID@!", SwingConstants.CENTER);
@@ -223,10 +225,12 @@ public class VentanaPantallaPrincipal extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 				int result = JOptionPane.showConfirmDialog(null, "Â¿Seguro que quieres cerrar sesión?", "Cerrar sesión", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 				if(result == JOptionPane.OK_OPTION) {
-					BaseDatosConfiguracion.bor
-			       VentanaPantallaPrincipal.this.dispose();
+					String correo = VentanaPantallaPrincipal.getCorreoUsuario(); 
+					BaseDatosConfiguracion.deleteUsuario(con, correo);
+			        VentanaPantallaPrincipal.this.dispose();
 				}
 				//BORRAR LOS DATOS
 			}
@@ -237,8 +241,15 @@ public class VentanaPantallaPrincipal extends JFrame{
         setVisible(true);
 		setResizable(false);
 
+	  }
+	 
+	 public static void setCorreoUsuario(String correo) {
+	        correoUsuario = correo; 
+	 }
 
-}
+     public static String getCorreoUsuario() {
+        return correoUsuario; 
+     }
 	
 }
 
