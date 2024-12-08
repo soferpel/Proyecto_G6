@@ -40,6 +40,8 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -891,6 +893,22 @@ public class VentanaHacerEnvio extends JFrame{
 		}
 	});
 
+	   tabEnvios.addChangeListener(new ChangeListener() {
+           @Override
+           public void stateChanged(ChangeEvent e) {
+               // Detectar si la pestaña seleccionada es "Revisión"
+               if (tabEnvios.getSelectedIndex() == 4) {  // Índice de la pestaña "Revisión"
+                   // Rellenar los campos de la pestaña de Revisión con los datos de las otras pestañas
+                   campoEnDesde.setText( dDireccion.getText() );
+                   campoEnHasta.setText(hDireccion.getText());
+                   campoRevLargo.setText(campoLargo.getText());
+                   campoRevAncho.setText(campoAncho.getText());
+                   campoRevAlto.setText(campoAlto.getText());
+                   campoRevPeso.setText(campoPeso.getText());
+                   campoPago.setText(campoNTarjeta.getText() + "\n" + campoCVV.getText() + "\n" + campoDNI.getText());
+               }
+           }
+       });
 
 	btnAnterior.addActionListener(new ActionListener() {
 		
