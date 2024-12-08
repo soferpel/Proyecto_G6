@@ -680,6 +680,7 @@ public class BaseDatosConfiguracion {
 	            st.executeUpdate();
 	            st.close();
  
+	            System.out.println("hola");
 	            logger.info("Usuario insertado correctamente.");
 	        } catch (SQLException ex) {
 	        	System.out.println("Error al insertar el usuario: " + ex.getMessage());
