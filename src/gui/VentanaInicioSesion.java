@@ -136,6 +136,7 @@ public class VentanaInicioSesion extends JFrame{
         panelDatos.add(txtContra);
 
         
+        
         mostrarContra = new JButton();
         ImageIcon ojoVer = new ImageIcon("resources/images/ojoAbierto.png");
         ImageIcon ojoOcultar = new ImageIcon("resources/images/ojoCerrado.png");
@@ -224,6 +225,7 @@ public class VentanaInicioSesion extends JFrame{
 				JOptionPane.showMessageDialog(null, "Para poder iniciar sesión tienes que estar registrado","ERROR",JOptionPane.ERROR_MESSAGE);
 				txtCorreo.setText("");
 				txtContra.setText("");
+				System.out.println("error");
 			}
 			
 		});
