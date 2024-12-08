@@ -16,8 +16,13 @@ import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -376,6 +381,11 @@ public class VentanaHacerEnvio extends JFrame{
 	radPremium = new JRadioButton("Premium\n (En 2 dias)");
 	
 	comboRecog = new JComboBox<String>();
+	String[] codigosPostales = {"28001", "28002", "28003", "28004", "28005", "28006", "08001", "08002", "08003", "08004", "09001", "09002"};
+ 
+		for (String codigoPostal : codigosPostales) {
+		    comboRecog.addItem(codigoPostal);
+		}
 	
 	tipoEnvioGrupo = new ButtonGroup();
 	recogidaGrupo = new ButtonGroup();
@@ -726,63 +736,123 @@ public class VentanaHacerEnvio extends JFrame{
 		});
 	
     
-    btnFinalizar.addActionListener(e -> {
+
+    //btnFinalizar.addActionListener(e -> {
+    btnFinalizar.addActionListener(new ActionListener() {
 		
-    	 String trayectoNombreOrigen = campoEnDesde.getText();
-         String trayectoNombreDestino = campoEnHasta.getText();	
-         
-         // n_referencia se asign AUTOMATICAMENTE 
-         String paqueteId = "REF-" + UUID.randomUUID().toString();		//IA
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			guardarDatosPago();
+			
+		}
 
-         //la fecha de recogida puede ser la seleccionada en el calendario si la persona ha seleccionado a domicilio o si ha seleccionado punto de recogida se cogera la opcion que eliga dentro de esta                       
-         
-         
-         
-         Date fechaRecogida = null;
-         if (radDomic.isSelected()) {
-             fechaRecogida = dateChooser.getDate();
-             if (fechaRecogida == null) {
-                 JOptionPane.showMessageDialog(null, "Por favor, selecciona una fecha de recogida.");
-                 return;
-             }
-         } else {
-        	 String lugarRecogida = (String) comboRecog.getSelectedItem(); 
-             if (lugarRecogida == null || lugarRecogida.isEmpty()) {
-                 JOptionPane.showMessageDialog(null, "Por favor, selecciona un punto de recogida.");
-                 return;
-             }
-         }
-         
-         
-         String pagoId = campoDNI.getText();                 
-         
-         if (trayectoNombreOrigen.isEmpty() || trayectoNombreDestino.isEmpty() || paqueteId.isEmpty() ||
-        		( fechaRecogida==null || radPtoRecog.isSelected())|| pagoId.isEmpty()) {
-                 JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios");
-                 return;  // Detener si algún campo está vacío
-             }
- 			    
-         String dO = trayectoNombreOrigen;
-         String dD = trayectoNombreDestino; 
-         String nRefe = paqueteId; 
-         String fRec = (fechaRecogida != null) ? new java.sql.Date(fechaRecogida.getTime()).toString() : "No aplicable";         
-         String dni = pagoId; 
-         
-         trayecto trayecto = new trayecto(trayectoNombreOrigen, trayectoNombreDestino);
-         Paquete paquete = new Paquete(paqueteId);
+		private void guardarDatosEnvio() {
+			String trayectoNombreOrigen = campoEnDesde.getText();
+	        String trayectoNombreDestino = campoEnHasta.getText();
+	        String paqueteId = "REF-" + UUID.randomUUID().toString();    	//IA
+	        String pagoId = campoDNI.getText();
+	        
+	        
+	        String recogidaId = null;
+	        if (radDomic.isSelected()) {
+	            Date fechaRecogida = dateChooser.getDate(); // Selección de fecha de recogida a domicilio
+	            if (fechaRecogida == null) {
+	                JOptionPane.showMessageDialog(null, "Por favor, selecciona una fecha de recogida.", "Error", JOptionPane.ERROR_MESSAGE);
+	                return;
+	            }
+	            // Convertir fecha a formato de cadena
+	            recogidaId = new java.sql.Date(fechaRecogida.getTime()).toString();
+	        } else if (radPtoRecog.isSelected()) {
+	            String lugarRecogida = (String) comboRecog.getSelectedItem();  // Lugar de recogida seleccionado
+	            if (lugarRecogida == null || lugarRecogida.isEmpty()) {
+	                JOptionPane.showMessageDialog(null, "Por favor, selecciona un punto de recogida.", "Error", JOptionPane.ERROR_MESSAGE);
+	                return;
+	            }
+	            recogidaId = lugarRecogida;  // Asignar el lugar de recogida
+	        }
+	        
+	        if (trayectoNombreOrigen.isEmpty() || trayectoNombreDestino.isEmpty() || pagoId.isEmpty() || recogidaId == null) {
+	            JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+	            return;
+	        }
+	        
+	        trayecto trayecto = new trayecto(trayectoNombreOrigen, trayectoNombreDestino);
+	        Paquete paquete = new Paquete(paqueteId); // Ajustar según los parámetros requeridos
+	        Pago pago = new Pago(pagoId); // Ajustar según los parámetros requeridos
+
+	        Envio envio = new Envio(trayecto, paqueteId, recogidaId, pagoId);
+	        //trayecto_id, paquete_id, recogida_id, pago_id) VALUES (?, ?, ?, ?)";
+	        Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+	        
+	        try {
+	            BaseDatosConfiguracion.insertarEnvio(con, envio);
+	            JOptionPane.showMessageDialog(null, "Envío registrado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+	        } catch (SQLException ex) {
+	            JOptionPane.showMessageDialog(null, "Error al registrar el envío: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+	        } finally {
+	            BaseDatosConfiguracion.closeBD(con);
+	        }
+		}
+		
+		
+		private void guardarDatosPago() {
+		    String descripcion = campoDescripcion.getText().trim();  
+		    String numeroTarjeta = campoNTarjeta.getText().trim();
+		    Date fechaSeleccionada = datechooserTarj.getDate();
+		    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		    String fechaCaducidad = sdf.format(fechaSeleccionada);
+		    String CVV = campoCVV.getText().trim();
+		    String remitenteDestinatario = dNombre.getText().trim() + " - " + hNombre.getText().trim(); 
+		    String factura = checkFactura.isSelected() ? "Sí" : "No";
+		    String dni = campoDNI.getText().trim(); 
+		    String precio = campoValor.getText().trim();
+
+		    if (descripcion.isEmpty() || numeroTarjeta.isEmpty() || fechaCaducidad.isEmpty() ||
+		        CVV.isEmpty() || dni.isEmpty() || precio.isEmpty()) {
+		        JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+		        return;
+		    }
+
+		   
+		    try {
+		        LocalDate fecha = LocalDate.parse(fechaCaducidad, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		    } catch (DateTimeParseException ex) {
+		        JOptionPane.showMessageDialog(null, "Formato de fecha inválido. Usa YYYY-MM-DD.", "Error", JOptionPane.ERROR_MESSAGE);
+		        return;
+		    }
+		  
+		    try {
+		       
+		        if (CVV.length() != 3) {
+		            throw new NumberFormatException("El CVV debe tener 3 dígitos.");
+		        }
+		        Integer.parseInt(CVV); 
+		    } catch (NumberFormatException ex) {
+		        JOptionPane.showMessageDialog(null, "El CVV o el precio no tienen el formato correcto.", "Error", JOptionPane.ERROR_MESSAGE);
+		        return;
+		    }
+		    
+		    if (!precio.matches("\\d+(\\.\\d{1,2})?")) { 
+		        JOptionPane.showMessageDialog(null, "El precio debe ser un número válido con hasta dos decimales.", "Error", JOptionPane.ERROR_MESSAGE);
+		        return;
+		    }
 
 
-         
-         
-         // Crear el objeto Envio con los objetos previamente creados
-         Envio envio = new Envio(dO, dD, nRefe, fRec, dni, dni);
-         Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
-    	 BaseDatosConfiguracion.insertarEnvio(con, envio);
-    	 JOptionPane.showMessageDialog(null, "Envío registrado con éxito.");
-                        
- 		}); 
-	
+		    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+		    Pago pago = new Pago(descripcion, numeroTarjeta, fechaCaducidad, CVV, remitenteDestinatario, factura, dni, precio);
 
+		    try {
+		        BaseDatosConfiguracion.insertarPago(con, pago);
+		        JOptionPane.showMessageDialog(null, "Pago guardado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+		    } finally {
+		 
+		        BaseDatosConfiguracion.closeBD(con);
+		    }
+		}
+	});
+    
+   
     
     checkTerminos.addActionListener(e -> btnFinalizar.setEnabled(checkTerminos.isSelected()));
 
