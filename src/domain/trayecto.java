@@ -92,6 +92,10 @@ public class trayecto {
 		this.telefonoDestino = telefonoDestino;
 	}
 	
+	public String getTrayectoId() {
+        return nombreOrigen + " - " + nombreDestino;  
+    }
+	
 	@Override
 	public String toString() {
 		return "Trayecto [nombreOrigen=" + nombreOrigen + ", direccionOrigen=" + direccionOrigen + ", correoOrigen="

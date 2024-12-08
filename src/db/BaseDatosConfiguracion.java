@@ -70,7 +70,9 @@ public class BaseDatosConfiguracion {
 	            + "    direccion_destino VARCHAR(255),"
 	            + "    correo_destino VARCHAR(100),"
 	            + "    telefono_destino VARCHAR(20),"
-	            + "    PRIMARY KEY (nombre_origen, nombre_destino)"
+	        //    + "    PRIMARY KEY (nombre_origen, nombre_destino)"
+	            + "   trayecto_id VARCHAR(200) GENERATED ALWAYS AS (nombre_origen || ' - ' || nombre_destino) STORED,"
+	             + "   PRIMARY KEY (trayecto_id)"
 	            + ");";
 
 	    String sql2 = "CREATE TABLE IF NOT EXISTS paquete ("
@@ -96,24 +98,26 @@ public class BaseDatosConfiguracion {
 	            + "    dni VARCHAR(20) PRIMARY KEY,"
 	            + "    descripcion VARCHAR(255),"
 	            + "    numero_tarjeta VARCHAR(16),"
-	            + "    fecha_caducidad VARCHAR(10),"
-	            + "    cvv VARCHAR(3),"
+	            + "    fecha_caducidad DATE,"
+	            + "    cvv CHAR(3),"
 	            + "    remitente_destinatario VARCHAR(255),"
 	            + "    factura VARCHAR(255),"
-	            + "    precio VARCHAR(10)"
+	            + "    precio DECIMAL(10, 2)"
 	            + ");";
 
 	    String sql5 = "CREATE TABLE IF NOT EXISTS envio ("
-	            + "    trayecto_nombre_origen VARCHAR(100),"
-	            + "    trayecto_nombre_destino VARCHAR(100),"
-	            + "    recogida_id VARCHAR(50),"
-	            + "    pago_id VARCHAR(20),"
-	            + "    PRIMARY KEY (trayecto_nombre_origen, trayecto_nombre_destino, paquete_id, recogida_id, pago_id),"
-	            + "    FOREIGN KEY (trayecto_nombre_origen, trayecto_nombre_destino) REFERENCES trayecto(nombre_origen, nombre_destino),"
-	            + "    FOREIGN KEY (paquete_id) REFERENCES paquete(n_referencia),"
-	            + "    FOREIGN KEY (recogida_id) REFERENCES recogida(fecha_de_recogida),"
-	            + "    FOREIGN KEY (pago_id) REFERENCES pago(dni)"
-	            + ");";
+	             + "   trayecto_id VARCHAR(200),"
+	             + "   paquete_id VARCHAR(50),"
+	             + "   recogida_id VARCHAR(50),"
+	             + "   pago_id VARCHAR(20),"
+	             + "   PRIMARY KEY (trayecto_id),"
+	             + "   FOREIGN KEY (trayecto_id) REFERENCES trayecto(trayecto_id),"
+	             + "   FOREIGN KEY (paquete_id) REFERENCES paquete(n_referencia),"
+	             + "   FOREIGN KEY (recogida_id) REFERENCES recogida(fecha_de_recogida),"
+	             + "   FOREIGN KEY (pago_id) REFERENCES pago(dni)"
+	             + ");";
+
+
 
 	    String sql6 = "CREATE TABLE IF NOT EXISTS usuario ("
 	            + "    nombre VARCHAR(100),"
@@ -149,29 +153,24 @@ public class BaseDatosConfiguracion {
 	
 //PAGO
 	public static void insertarPago(Connection con, Pago p) {
-	    String sql = String.format("INSERT INTO pago (dni, descripcion, numero_tarjeta, fecha_caducidad, cvv, remitente_destinatario, factura, precio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+	    String sql = String.format("INSERT INTO pago (descripcion, numeroTarjeta, fechaCaducidad, CVV, remitenteDestinatario, factura, dni, precio) VALUES (?,?,?,?,?,?,?,?)");
 
 	    try {
 	        PreparedStatement st = con.prepareStatement(sql);
+	        st.setString(1, p.getDescripcion());
+	        st.setString(2, p.getNumeroTrajeta());
+	        st.setString(3, p.getFechaCaducidad());
+	        st.setString(4, p.getCVV());
+	        st.setString(5, p.getRemitenteDestinatario());
+	        st.setString(6, p.getFactura());
+	        st.setString(7, p.getDni());
+	        st.setString(8, p.getPrecio());
 	        
-	        st.setString(1, p.getDni());
-	        st.setString(2, p.getDescripcion());
-	        st.setString(3, p.getNumeroTrajeta());
-	        st.setString(4, p.getFechaCaducidad()); 
-	        st.setString(5, p.getCVV());
-	        st.setString(6, p.getRemitenteDestinatario());
-	        st.setString(7, p.getFactura());
-	        st.setString(8, p.getPrecio().trim());
-	        
-	        System.out.println("SQL generado: " + st.toString());
-	        
-	        st.executeUpdate(); 
+	        st.execute();
 	        st.close();
 	        logger.info(String.format("Nuevo pago insertado: %s", p.toString()));
 	    } catch (SQLException e) {
 	        logger.warning(String.format("Error insertando pago %s", p.toString()));
-	    	e.printStackTrace();
-
 	    }
 	}  
 	    
@@ -442,8 +441,6 @@ public class BaseDatosConfiguracion {
 	            st.setString(7, p.getValor());
 	            st.setString(8, p.getFragil());
 
-	            System.out.println("SQL generado: " + st.toString());
-	            
 	            st.executeUpdate();
 	            System.out.println("Paquete insertado correctamente.");
 	        } catch (SQLException e) {

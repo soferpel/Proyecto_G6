@@ -746,6 +746,7 @@ public class VentanaHacerEnvio extends JFrame{
 			guardarDatosPago();
 			guardarDatosPaquete();
 			guardarDatosTrayecto();
+			guardarDatosEnvio();
 			
 			
 		}
@@ -753,7 +754,7 @@ public class VentanaHacerEnvio extends JFrame{
 		private void guardarDatosEnvio() {
 		    String trayectoNombreOrigen = campoEnDesde.getText();
 		    String trayectoNombreDestino = campoEnHasta.getText();
-		    String paqueteId = "REF-" + UUID.randomUUID().toString(); //se genra AUTOMATICAMENTE	IA
+		    String paqueteId = generarReferenciaAleatoria();
 		    String pagoId = campoDNI.getText();
 		    String fechaDeRecogida = "";
 		    String lugarDeRecogida = "";
@@ -793,6 +794,7 @@ public class VentanaHacerEnvio extends JFrame{
 
 
 		    trayecto trayecto = new trayecto(trayectoNombreOrigen, trayectoNombreDestino);
+		    String trayectoId = trayecto.getTrayectoId();
 		    Paquete paquete = new Paquete(paqueteId);
 		    Pago pago = new Pago(pagoId);		   
 		    Recogida recogida = new Recogida(fechaDeRecogida, lugarDeRecogida, tipoDeEnvio);
