@@ -738,8 +738,40 @@ public class VentanaHacerEnvio extends JFrame{
 			// TODO Auto-generated method stub
 			guardarDatosPago();
 			guardarDatosPaquete();
+			guardarDatosTrayecto();
 			
 			
+		}
+
+		private void guardarDatosTrayecto() {
+			// TODO Auto-generated method stub
+			String nombreOrigen = dNombre.getText().trim();
+		    String direccionOrigen = dDireccion.getText().trim();
+		    String correoOrigen = dCorreo.getText().trim();
+		    String telefonoOrigen = dTelefono.getText().trim();
+		    String nombreDestino = hNombre.getText().trim();
+		    String direccionDestino = hDireccion.getText().trim();
+		    String correoDestino = hCorreo.getText().trim();
+		    String telefonoDestino = hTelefono.getText().trim();
+		    
+		    if (nombreOrigen.isEmpty() || direccionOrigen.isEmpty() || correoOrigen.isEmpty() || telefonoOrigen.isEmpty() ||
+		            nombreDestino.isEmpty() || direccionDestino.isEmpty() || correoDestino.isEmpty() || telefonoDestino.isEmpty()) {
+		            JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+		            return;
+		        }
+		    
+		    trayecto trayecto = new trayecto(nombreOrigen, direccionOrigen, correoOrigen, telefonoOrigen,
+                    nombreDestino, direccionDestino, correoDestino, telefonoDestino);
+			
+		    
+		    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+		    try {
+		        BaseDatosConfiguracion.insertarTrayecto(con, trayecto);
+		        JOptionPane.showMessageDialog(null, "Trayecto guardado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+		    } finally {
+		    	
+		    	  BaseDatosConfiguracion.closeBD(con);
+		    }
 		}
 
 		private void guardarDatosPaquete() {
