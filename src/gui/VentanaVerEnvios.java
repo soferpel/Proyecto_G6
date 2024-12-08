@@ -75,11 +75,7 @@ public class VentanaVerEnvios  extends JFrame {
 	    JScrollPane scrollPane = new JScrollPane(tablaEnvios);
 			
 	    tablePanel.add(scrollPane, BorderLayout.CENTER);
-	    
-	    tabla.addRow(new Object[] {"REF-1001", "2024-11-01", "50.00", "Envio de libros", "Pendiente", "2024-12-01", ""});
-	    tabla.addRow(new Object[]{"REF-1002", "2024-11-02", "75.00", "Envio de ropa", "En transito", "2024-12-03", ""});
-	    tabla.addRow(new Object[]{"REF-1003", "2024-11-03", "150", "Envio de electrónicos", "Enviado", "2024-12-01", ""});
-        
+	    	   
 
 	    String[] opcionesFiltro = {"Enviado", "Pendiente", "En tránsito"};
 	    JComboBox<String> filtroComboBox = new JComboBox<>(opcionesFiltro);

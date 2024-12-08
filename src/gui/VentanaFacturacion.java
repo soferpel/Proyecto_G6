@@ -142,8 +142,8 @@ public class VentanaFacturacion extends JFrame {
             }
         };
         
-        model.addRow(new Object[]{"001", "2024-11-09", "100.00", "Producto A", "Estándar"});
-        model.addRow(new Object[]{"002", "2024-11-19", "17.00", "Producto B", "Premium"});
+     /*   model.addRow(new Object[]{"001", "2024-11-09", "100.00", "Producto A", "Estándar"});
+        model.addRow(new Object[]{"002", "2024-11-19", "17.00", "Producto B", "Premium"});*/
 
         for (int i = 0; i < model.getRowCount(); i++) { //IA
             Object[] fila = new Object[model.getColumnCount()];

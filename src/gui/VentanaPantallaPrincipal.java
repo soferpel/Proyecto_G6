@@ -225,7 +225,7 @@ public class VentanaPantallaPrincipal extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				int result = JOptionPane.showConfirmDialog(null, "Â¿Seguro que quieres cerrar sesión?", "Cerrar sesión", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 				if(result == JOptionPane.OK_OPTION) {
-					//BaseDatosConfiguracion.borrarUsuario
+					BaseDatosConfiguracion.bor
 			       VentanaPantallaPrincipal.this.dispose();
 				}
 				//BORRAR LOS DATOS
