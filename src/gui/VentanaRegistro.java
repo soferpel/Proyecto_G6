@@ -251,7 +251,7 @@ public class VentanaRegistro extends JFrame{
        
         
         btnRegistro.addActionListener(e -> {
-            Connection con = BaseDatosConfiguracion.initBD("Paqueteria.db");
+            Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
             String nombre = txtNom.getText().trim();
             String apellido = txtApe.getText().trim();
             String telefono = txttel.getText().trim();

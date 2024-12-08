@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
@@ -722,17 +723,20 @@ public class VentanaHacerEnvio extends JFrame{
    /* btnFinalizar.addActionListener(e -> {
 		
     	 String trayectoNombreOrigen = campoEnDesde.getText();
-         String trayectoNombreDestino = campoEnHasta.getText();		
-         String paqueteId = campoEnvios.getText(); 		// n_referencia 
-         //CHAT GPT
-         Date fechaRecogida = dateChooser.getDate();
+         String trayectoNombreDestino = campoEnHasta.getText();	
+         
+         // n_referencia se asign AUTOMATICAMENTE 
+         String paqueteId = "REF-" + UUID.randomUUID().toString();		//IA
+
+         Date fechaRecogida = dateChooser.getDate();	//IA
          if (fechaRecogida == null) {
         	    JOptionPane.showMessageDialog(null, "Por favor, selecciona una fecha de recogida.");
         	    return; 
         	}
          java.sql.Date fechaSQL = new java.sql.Date(fechaRecogida.getTime());
          //String recogidaId = 		//CLENDARIO fecha_de_recogida
-         String pagoId = campoPago.getText();                   
+         
+         String pagoId = campoPago.getText();      	//txtDNI             
          
          if (trayectoNombreOrigen.isEmpty() || trayectoNombreDestino.isEmpty() || paqueteId.isEmpty() ||
         		 fechaRecogida==null  || pagoId.isEmpty()) {
@@ -740,19 +744,21 @@ public class VentanaHacerEnvio extends JFrame{
                  return;  // Detener si algún campo está vacío
              }
  			    
-         trayecto t = new trayecto(trayectoNombreOrigen, trayectoNombreDestino); // Crea el objeto trayecto
-         Paquete p = new Paquete(paqueteId); // Crea el objeto Paquete con su referencia
-         Recogida r = new Recogida(fechaSQL); // Crea el objeto Recogida con la fecha
-         Pago pay = new Pago(pagoId); // Crea el objeto Pago con el ID de pago
+         String dO = trayectoNombreOrigen;
+         String dD = trayectoNombreDestino; 
+         String nRefe = paqueteId; 
+         String fRec = fechaSQL.toString();
+         String dni = pagoId; 
          
          // Crear el objeto Envio con los objetos previamente creados
-         Envio envio = new Envio(t, p, r, pay);
+         Envio envio = new Envio(dO, dD, nRefe, fRec, dni, precio);
          
          Connection con = BaseDatosConfiguracion.initBD("Paqueteria.db");
     	 BaseDatosConfiguracion.insertarEnvio(con, envio);
     	 JOptionPane.showMessageDialog(null, "Envío registrado con éxito.");
                         
- 		}); */     
+ 		}); */
+	
 
     
     checkTerminos.addActionListener(e -> btnFinalizar.setEnabled(checkTerminos.isSelected()));
@@ -1042,5 +1048,4 @@ public class VentanaHacerEnvio extends JFrame{
             }
         });
     }
-    
 }
