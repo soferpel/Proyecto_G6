@@ -21,6 +21,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import db.BaseDatosConfiguracion;
+
 
 public class VentanaPantallaPrincipal extends JFrame{
 	
@@ -223,6 +225,7 @@ public class VentanaPantallaPrincipal extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				int result = JOptionPane.showConfirmDialog(null, "Â¿Seguro que quieres cerrar sesión?", "Cerrar sesión", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 				if(result == JOptionPane.OK_OPTION) {
+					//BaseDatosConfiguracion.borrarUsuario
 			       VentanaPantallaPrincipal.this.dispose();
 				}
 				//BORRAR LOS DATOS

@@ -26,23 +26,7 @@ public class Main {
 		}
 		
 		//PRUEBAS 
-		/*String pagoId = "12345678A"; 
-		BaseDatosConfiguracion.obtenerPagoPorId(con, pagoId);
 		
-		String paqueteId = "REF001";
-		BaseDatosConfiguracion.obtenerPaquetePorId(con, paqueteId);
-		
-		String trayectoId = "Origen1 - Destino1";
-		BaseDatosConfiguracion.obtenerTrayectoPorId(con, trayectoId);
-		
-		String recogidaId = "2024-12-04";
-		BaseDatosConfiguracion.obtenerRecogidaPorId(con, recogidaId);
-		
-	    String referencia = "REF001"; 
-        System.out.println("Buscando paquete con referencia: " + referencia);
-        List<Paquete> paquetes = BaseDatosConfiguracion.buscarPaquetePorReferencia(con, referencia);
-
-		*/
 		
 		BaseDatosConfiguracion.closeBD(con);
 		
