@@ -57,9 +57,7 @@ private JCheckBox checkTerminos;
 private boolean esOjoAbierto = false;
 private boolean esOjoAbiertoVen = false;
 
-//private String contrasenia;
-//private String contraseniaVen;
-//private Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 20);
+
 
 
 
@@ -326,33 +324,7 @@ public VentanaModificarDatos() {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			/*
-			if (!esOjoAbierto) {
-				String contrasenia = new String(campoCon.getPassword());
-				campoContrasenia1.setText(contrasenia);
-				pContrasenia.remove(campoCon);
-				pContrasenia.add(campoContrasenia1);
-				pContrasenia.revalidate();
-				pContrasenia.repaint();
-				btnOjoCon.setIcon(ojoCerrado);
-				pContrasenia.remove(btnOjoCon);
-				pContrasenia.add(btnOjoCon);
-			}
-			else {
-				String contrasenia = new String(campoContrasenia1.getText());
-				campoCon.setText(contrasenia);
-				pContrasenia.remove(campoContrasenia1);
-				pContrasenia.add(campoCon);
-				pContrasenia.revalidate();
-				pContrasenia.repaint();
-				btnOjoCon.setIcon(ojoAbierto);
-				pContrasenia.remove(btnOjoCon);
-				pContrasenia.add(btnOjoCon);
-			}
-			esOjoAbierto = !esOjoAbierto;
-		}
-	});
-	*/
+			
             alternaContrasena(pContrasenia, campoCon, campoContrasenia1, btnOjoCon, esOjoAbierto, ojoCerrado, ojoAbierto);
             esOjoAbierto = !esOjoAbierto;
         }
@@ -362,32 +334,6 @@ public VentanaModificarDatos() {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			/*
-			if (!esOjoAbiertoVen) {
-				String contrasenia = new String(campoVerifCon.getPassword());
-				campoVenificaCon1.setText(contrasenia);
-				pVenificaCon.remove(campoVerifCon);
-				pVenificaCon.add(campoVenificaCon1);
-				pVenificaCon.revalidate();
-				pVenificaCon.repaint();
-				btnOjoConVen.setIcon(ojoCerrado1);
-				pVenificaCon.remove(btnOjoConVen);
-				pVenificaCon.add(btnOjoConVen);
-			}
-			else {
-				String contrasenia = new String(campoVenificaCon1.getText());
-				campoVerifCon.setText(contrasenia);
-				pVenificaCon.remove(campoVenificaCon1);
-				pVenificaCon.add(campoVerifCon);
-				pVenificaCon.revalidate();
-				pVenificaCon.repaint();
-				btnOjoConVen.setIcon(ojoAbierto1);
-				pVenificaCon.remove(btnOjoConVen);
-				pVenificaCon.add(btnOjoConVen);
-			}
-			esOjoAbiertoVen = !esOjoAbiertoVen;
-		}
-	});*/
 			 alternaContrasena(pVenificaCon, campoVerifCon, campoVenificaCon1, btnOjoConVen, esOjoAbiertoVen, ojoCerrado, ojoAbierto);
              esOjoAbiertoVen = !esOjoAbiertoVen;
          }
