@@ -70,11 +70,9 @@ public class BaseDatosConfiguracion {
 	            + "    direccion_destino VARCHAR(255),"
 	            + "    correo_destino VARCHAR(100),"
 	            + "    telefono_destino VARCHAR(20),"
-	        //    + "    PRIMARY KEY (nombre_origen, nombre_destino)"
-	            + "   trayecto_id VARCHAR(200) GENERATED ALWAYS AS (nombre_origen || ' - ' || nombre_destino) STORED,"
-	             + "   PRIMARY KEY (trayecto_id)"
+	            + "    PRIMARY KEY (nombre_origen, nombre_destino)"
 	            + ");";
-
+	    
 	    String sql2 = "CREATE TABLE IF NOT EXISTS paquete ("
 	            + "    n_referencia VARCHAR(50) NOT NULL,"
 	            + "    embalaje VARCHAR(50),"
