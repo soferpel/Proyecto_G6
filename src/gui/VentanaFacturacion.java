@@ -81,31 +81,6 @@ public class VentanaFacturacion extends JFrame {
         
 
         
-        txtReferencia.getDocument().addDocumentListener(new DocumentListener() {
-
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				filtrarPorReferencia();
-				
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				filtrarPorReferencia();
-				
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				filtrarPorReferencia();
-				
-			}
-          
-        });
-        
         txtReferencia.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -165,7 +140,7 @@ public class VentanaFacturacion extends JFrame {
         JPanel panelTablaYBoton = new JPanel(new BorderLayout()); 
         JPanel panelTabla = new JPanel();
         panelTabla.setLayout(new BoxLayout(panelTabla, BoxLayout.Y_AXIS));
-        String[] columnNames = {"Número de referencia", "Fecha", "Precio", "Descripción", "Tipo de envío"};
+        String[] columnNames = {"Número de referencia", "Fecha", "Trayecto", "Tipo de envío"};
         model = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -188,8 +163,8 @@ public class VentanaFacturacion extends JFrame {
         JTable table = new JTable(model);
         table.setDefaultRenderer(Object.class, new CustomTableCellRenderer());
         JComboBox<String> comboBoxEnvio = new JComboBox<>(new String[]{"Estándar", "Premium", "Superior"});
-        table.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(comboBoxEnvio));
-        table.getColumnModel().getColumn(4).setCellRenderer(new CustomTableCellRenderer());
+        table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(comboBoxEnvio));
+        table.getColumnModel().getColumn(3).setCellRenderer(new CustomTableCellRenderer());
         
         
         JScrollPane scrollPane = new JScrollPane(table);
@@ -280,28 +255,45 @@ public class VentanaFacturacion extends JFrame {
         });
         add(panelPrincipal);
         setVisible(true);
-        
+
+        mostrarTodosLosEnvios();  
         
                 
     }
     
-    private void filtrarPorReferencia() {
-        String filtro = txtReferencia.getText().trim();
-        
-        model.setRowCount(0);
-         
-        if (filtro.isEmpty()) {
-            datosOriginales.forEach(model::addRow);
-            return;
-        }
+    private void mostrarTodosLosEnvios() {
+        Connection c = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 
-        datosOriginales.forEach(fila -> {
-            if (fila[0].toString().contains(filtro)) {
-                model.addRow(fila);
+        try {
+            String query = """
+                SELECT e.paquete_id, r.fecha_de_recogida ,e.trayecto_id, r.tipo_de_envio
+                FROM envio e
+                JOIN recogida r ON e.recogida_id = r.lugar_de_recogida;
+            """;
+
+            try (PreparedStatement stmt = c.prepareStatement(query)) {
+                ResultSet rs = stmt.executeQuery();
+
+                model.setRowCount(0);  
+
+                while (rs.next()) {
+                    String referencia = rs.getString("paquete_id");  
+                    String fecha = rs.getString("fecha_de_recogida");  
+                    String trayecto = rs.getString("trayecto_id");
+                    String tipoEnvio = rs.getString("tipo_de_envio"); 
+
+                    model.addRow(new Object[]{referencia, fecha, trayecto, tipoEnvio});
+                }
             }
-        });
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al cargar los envíos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            BaseDatosConfiguracion.closeBD(c);
+        }
     }
-    
+
+
 
     private void buscarDatosReferencia() {
         String referencia = txtReferencia.getText().trim();
