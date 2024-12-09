@@ -233,26 +233,18 @@ public class VentanaFacturacion extends JFrame {
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	int selectedRow = table.getSelectedRow();
-                if (selectedRow != -1) {
-                	
-                    txtReferencia.setText(""); 
-            /*      txtFechaEnvio.setText("");
-                    txtPrecio.setText("");
-                    txtDescripcion.setText("");
-            */      
-                    String referencia = (String) table.getValueAt(selectedRow, 0); 
-            /*      String fecha = (String) table.getValueAt(selectedRow, 1); 
-                    String precio = (String) table.getValueAt(selectedRow, 2); 
-                    String descripcion = (String) table.getValueAt(selectedRow, 3); 
-           */  
-                    txtReferencia.setText(referencia); 
-                    /*txtFechaEnvio.setText(fecha);
-                    txtPrecio.setText(precio);
-                    txtDescripcion.setText(descripcion);
-           */}
+                if (e.getClickCount() == 2) {  
+                    int selectedRow = table.getSelectedRow();
+                    if (selectedRow != -1) {
+                        String referencia = (String) table.getValueAt(selectedRow, 0);
+                        txtReferencia.setText(referencia);  
+
+                        buscarDatosReferencia();
+                    }
+                }
             }
         });
+
         add(panelPrincipal);
         setVisible(true);
 
@@ -329,11 +321,18 @@ public class VentanaFacturacion extends JFrame {
                     txtFechaEnvio.setText(recogidaId); 
 
                     if (cvv == null) {
-                        rbNo.setSelected(true);  
+                        rbNo.setSelected(true);
                     } else {
-                        rbSi.setSelected(true);  
+                        rbSi.setSelected(true);
                     }
                 } else {
+
+                	txtPrecio.setText("");
+                    txtDescripcion.setText("");
+                    txtFechaEnvio.setText("");
+                    rbSi.setSelected(false);
+                    rbNo.setSelected(false);
+
                     JOptionPane.showMessageDialog(this, "No se encontró la referencia.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -344,7 +343,7 @@ public class VentanaFacturacion extends JFrame {
             BaseDatosConfiguracion.closeBD(c);
         }
     }
-
+    
     
     private static class CustomTableCellRenderer extends DefaultTableCellRenderer {
         @Override
