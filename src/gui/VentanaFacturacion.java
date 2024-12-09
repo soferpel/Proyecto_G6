@@ -158,6 +158,9 @@ public class VentanaFacturacion extends JFrame {
         txtPrecio.setEditable(false);
         txtDescripcion.setEditable(false);
         txtFechaEnvio.setEditable(false);
+        
+        rbSi.setEnabled(false);
+        rbNo.setEnabled(false);
 
         JPanel panelTablaYBoton = new JPanel(new BorderLayout()); 
         JPanel panelTabla = new JPanel();
