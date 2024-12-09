@@ -32,6 +32,9 @@ public class VentanaFacturacion extends JFrame {
 	private ArrayList<Object[]> datosOriginales = new ArrayList<>(); //IA
 	private JTextField txtReferencia,txtPrecio,txtDescripcion,txtFechaEnvio;
 	
+	private JRadioButton rbSi; 
+	private JRadioButton rbNo; 
+	
     public VentanaFacturacion() {
 
     	setTitle("Facturación");
@@ -76,8 +79,6 @@ public class VentanaFacturacion extends JFrame {
         panelIzquierdo.add(lblReferencia);
         panelIzquierdo.add(txtReferencia);
         
-       
-        
 
         
         txtReferencia.getDocument().addDocumentListener(new DocumentListener() {
@@ -117,15 +118,15 @@ public class VentanaFacturacion extends JFrame {
 
         //precio
         JLabel lblPrecio = new JLabel("Precio:");
-        JTextField txtPrecio = new JTextField(15);
+         txtPrecio = new JTextField(15);
         panelIzquierdo.add(lblPrecio);
         panelIzquierdo.add(txtPrecio);
 
         //¿pagado?
         JLabel lblPagado = new JLabel("¿Pagado?");
         JPanel panelPagado = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
-        JRadioButton rbSi = new JRadioButton("Sí");
-        JRadioButton rbNo = new JRadioButton("No");
+         rbSi = new JRadioButton("Sí");
+         rbNo = new JRadioButton("No");
         ButtonGroup bgPagado = new ButtonGroup();
         bgPagado.add(rbSi);
         bgPagado.add(rbNo);
@@ -140,18 +141,23 @@ public class VentanaFacturacion extends JFrame {
 
         //descripción
         JLabel lblDescripcion = new JLabel("Descripción:");
-        JTextField txtDescripcion = new JTextField(15);
+         txtDescripcion = new JTextField(15);
         panelDerecho.add(lblDescripcion);
         panelDerecho.add(txtDescripcion);
 
         //fecha de envío
         JLabel lblFechaEnvio = new JLabel("Fecha Envío:");
-        JTextField txtFechaEnvio = new JTextField(15);
+         txtFechaEnvio = new JTextField(15);
         panelDerecho.add(lblFechaEnvio);
         panelDerecho.add(txtFechaEnvio);
         
         panelCentral.add(panelDerecho);
         panelPrincipal.add(panelCentral, BorderLayout.CENTER);
+        
+        
+        txtPrecio.setEditable(false);
+        txtDescripcion.setEditable(false);
+        txtFechaEnvio.setEditable(false);
 
         JPanel panelTablaYBoton = new JPanel(new BorderLayout()); 
         JPanel panelTabla = new JPanel();
@@ -292,40 +298,55 @@ public class VentanaFacturacion extends JFrame {
             }
         });
     }
+    
 
     private void buscarDatosReferencia() {
         String referencia = txtReferencia.getText().trim();
-        System.out.println("Referencia buscada: " + referencia); 
+        System.out.println("Referencia buscada: " + referencia);
 
         if (referencia.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, introduce una referencia válida.", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         Connection c = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
-        
-        String query = "SELECT p.n_referencia, p.embalaje, p.peso, p.largo, p.ancho, p.alto, p.valor, p.fragil, " +
-                       "pa.precio, pa.descripcion, pa.numero_tarjeta " +
-                       "FROM paquete p " +
-                       "JOIN envio e ON p.n_referencia = e.paquete_id " +
-                       "JOIN pago pa ON e.pago_id = pa.dni " +
-                       "WHERE p.n_referencia = ?";
-        
-        try (PreparedStatement stmt = c.prepareStatement(query)) {
-            stmt.setString(1, referencia);
-            ResultSet rs = stmt.executeQuery();
-            
-            if (rs.next()) {
-                txtPrecio.setText(rs.getString("precio"));
-                txtDescripcion.setText(rs.getString("descripcion"));
-                txtFechaEnvio.setText(rs.getString("fecha_de_recogida")); 
-            } else {
-                JOptionPane.showMessageDialog(this, "No se ha encontrado la referencia", "Error", JOptionPane.ERROR_MESSAGE);
+
+        try {
+            String query = """
+                    SELECT pago.precio, pago.descripcion, pago.cvv, envio.recogida_id
+                    FROM pago
+                    JOIN envio ON envio.pago_id = pago.dni
+                    WHERE envio.paquete_id = ?;
+                    """;
+
+            try (PreparedStatement stmt = c.prepareStatement(query)) {
+                stmt.setString(1, referencia);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    String precio = rs.getString("precio");
+                    String descripcion = rs.getString("descripcion");
+                    String recogidaId = rs.getString("recogida_id");
+                    String cvv = rs.getString("cvv");
+
+                    txtPrecio.setText(precio);
+                    txtDescripcion.setText(descripcion);
+                    txtFechaEnvio.setText(recogidaId); 
+
+                    if (cvv == null) {
+                        rbNo.setSelected(true);  
+                    } else {
+                        rbSi.setSelected(true);  
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se encontró la referencia.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al buscar la referencia", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al buscar la referencia.", "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
-            BaseDatosConfiguracion.closeBD(c);  
+            BaseDatosConfiguracion.closeBD(c);
         }
     }
 
