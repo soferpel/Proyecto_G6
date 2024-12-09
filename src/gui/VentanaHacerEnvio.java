@@ -743,8 +743,8 @@ public class VentanaHacerEnvio extends JFrame{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
-			
+			SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal());
+			dispose();
 		}
 		     
 		
