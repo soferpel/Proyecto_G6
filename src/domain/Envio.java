@@ -27,6 +27,22 @@ public class Envio {
 		precio = pago.getPrecio();
 	}
 
+	 public String getEstado() {
+	    // Si el pago está completo, la recogida ha sido realizada y el trayecto está finalizado
+        if (pago != null && pago.getDescripcion().equals("Pagado") && 
+            recogida != null && !recogida.getFechaDeRecogida().isEmpty() && 
+            trayecto != null && trayecto.getNombreDestino() != null) {
+            return "Enviado";
+        } else if (pago != null && pago.getDescripcion().equals("Pendiente")) {
+            return "Pendiente de pago";
+        } else if (recogida != null && recogida.getFechaDeRecogida().isEmpty()) {
+            return "Pendiente de recogida";
+        } else if (trayecto != null && trayecto.getNombreDestino() == null) {
+            return "En tránsito";
+        } else {
+            return "Estado desconocido";
+        }
+    }
 
 	public trayecto getTrayecto() {
 		return trayecto;

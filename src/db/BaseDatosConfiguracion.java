@@ -385,7 +385,7 @@ public class BaseDatosConfiguracion {
 	    
 	    
 	    
-	    public static List<Envio> obtenerTodosLosEnvios(Connection con) {
+	    /*public static List<Envio> obtenerTodosLosEnviosPorUsuario(Connection con) {
 	        String sql = "SELECT * FROM envio";
 	        List<Envio> envios = new ArrayList<>();
 	        Envio envio = null;
@@ -422,7 +422,46 @@ public class BaseDatosConfiguracion {
 	        }
 	        return envios;
 	    }
+	    */
 	    
+	    public static List<Envio> obtenerEnviosPorUsuario(Connection con, String correo) {
+	        String sql = "SELECT * FROM envio WHERE correo = ?";
+	        List<Envio> envios = new ArrayList<>();
+	        
+
+	        try {
+	            PreparedStatement st = con.prepareStatement(sql);
+	            st.setString(1, correo);  
+	            ResultSet rs = st.executeQuery();
+
+	            while (rs.next()) {
+	            	
+	            	
+	                String trayectoId = rs.getString("trayecto_id");
+	                trayecto t = obtenerTrayectoPorId(con, trayectoId);  
+
+	                String paqueteId = rs.getString("paquete_id");
+	                Paquete p = obtenerPaquetePorId(con, paqueteId);  
+
+	                String recogidaId = rs.getString("recogida_id");
+	                Recogida r = obtenerRecogidaPorId(con, recogidaId);  
+
+	                String pagoId = rs.getString("pago_id");
+	                Pago pa = obtenerPagoPorId(con, pagoId);  
+
+	                Envio envio = new Envio(t,p,r,pa);
+	                envios.add(envio);
+	            }
+
+	            rs.close();
+	            st.close();
+	        } catch (SQLException e) {
+	            System.err.println("Error obteniendo envíos del usuario: " + e.getMessage());
+	        }
+
+	        return envios;
+	    }
+
 
 //PAQUETE
 	    

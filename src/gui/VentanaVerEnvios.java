@@ -9,8 +9,10 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -31,6 +33,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+
+import db.BaseDatosConfiguracion;
+import domain.Envio;
+
 import javax.swing.AbstractCellEditor;
 
 public class VentanaVerEnvios  extends JFrame {
@@ -84,23 +90,22 @@ public class VentanaVerEnvios  extends JFrame {
 	    filtroComboBox.setFont(new Font("Arial", Font.PLAIN, 12));
 	    
         
-	    filtroComboBox.addActionListener(new ActionListener() {
+	    /*filtroComboBox.addActionListener(new ActionListener() {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
-	            String estadoSeleccionado = (String) filtroComboBox.getSelectedItem();
-	            DefaultTableModel modeloTabla = (DefaultTableModel) tablaEnvios.getModel();		//!!!!!
-	            modeloTabla.setRowCount(0);
+	        	String estadoSeleccionado = (String) filtroComboBox.getSelectedItem();
+	            DefaultTableModel modeloTabla = (DefaultTableModel) tablaEnvios.getModel();
+	            modeloTabla.setRowCount(0); 
 
-	            if ("Enviado".equals(estadoSeleccionado)) {
-	                modeloTabla.addRow(new Object[]{"REF-1003", "2024-11-03", "150", "Envio de electrónicos", "Enviado", "2024-12-01", ""});
-	            } else if ("Pendiente".equals(estadoSeleccionado)) {
-	                modeloTabla.addRow(new Object[]{"REF-1001", "2024-11-01", "50.00", "Envio de libros", "Pendiente", "2024-12-01", ""});
-	            } else if ("En tránsito".equals(estadoSeleccionado)) {
-	                modeloTabla.addRow(new Object[]{"REF-1002", "2024-11-02", "75.00", "Envio de ropa", "En transito", "2024-12-03", ""});
-	            }
+	            String usuarioID = getUsuarioID(); 
+				cargarEnviosDelUsuario(modeloTabla, con, usuarioID);
+
+	            tablaEnvios.revalidate();
+	            tablaEnvios.repaint();
 	        }
-	    });
+	    });*/
 
+	    
 
 	    
         
@@ -309,6 +314,54 @@ public class VentanaVerEnvios  extends JFrame {
             return null;
         }
     }
+    
+    //cargar la tabla
+    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+    
+    public void cargarEnviosDelUsuario(DefaultTableModel modeloTabla, Connection con, String usuarioId) {
+
+        modeloTabla.setRowCount(0);        
+        
+        String correo = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, usuarioId);
+        if (correo == null) {
+            System.out.println("No se encontró el correo asociado al usuario.");
+            return;
+        }
+        
+        List<Envio> envios = BaseDatosConfiguracion.obtenerEnviosPorUsuario(con, correo);
+        
+        if (envios.isEmpty()) {
+            System.out.println("No hay envíos para este usuario.");
+            return;
+        }
+        
+        System.out.println("Envios: " + envios);  
+        
+        for (Envio envio : envios) {
+    	    System.out.println("Referencia: " + envio.getPaquete().getnReferencia());
+    	    System.out.println("Fecha de Recogida: " + envio.getRecogida().getFechaDeRecogida());
+    	    System.out.println("Precio: " + envio.getPago().getPrecio());
+    	    System.out.println("Descripción: " + envio.getPago().getDescripcion());
+    	    System.out.println("Estado: " + envio.getEstado());
+    	    System.out.println("Fecha Prevista: " + envio.getRecogida().getFechaDeRecogida());
+
+    	    
+        	// {"Nº referencia", "Fecha", "Precio", "Descripción", "Estado", "Fecha prevista", "Editar"};
+            modeloTabla.addRow(new Object[]{
+                envio.getPaquete().getnReferencia(), 
+                envio.getRecogida().getFechaDeRecogida(),
+                envio.getPago().getPrecio(),
+                envio.getPago().getDescripcion(),
+                envio.getEstado(),
+                envio.getRecogida().getFechaDeRecogida(),
+                "" // Columna para el botón de editar
+            });
+        }
+        
+        
+    }
+
+
     
 }
 
