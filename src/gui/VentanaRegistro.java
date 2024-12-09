@@ -268,14 +268,16 @@ public class VentanaRegistro extends JFrame{
             String contra = txtContra.getText().trim();
             String contra2 = txtRepeContra.getText().trim();
             String resp = txtResp.getText().trim();
-            String segu = txtSegu.getText().trim();
-
+           // String segu = txtSegu.getText().trim();
+            String segu = (String) comboPreguntas.getSelectedItem();
             
             // Comprobar si hay algún campo vacío
-            if (!nombre.equals("") && !apellido.equals("") && !telefono.equals("") && !correo.equals("") && !segu.equals("") && !resp.equals("") && !contra.equals("") && !contra2.equals("")) {
-
-                
+            if (nombre.equals("") || apellido.equals("") || telefono.equals("") || correo.equals("") 
+                    || resp.equals("") || contra.equals("") || contra2.equals("") || segu == null) {
                 JOptionPane.showMessageDialog(null, "Tienes que rellenar todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+
+                              
             } else {
 
                 if (contra.equals(contra2)) {
