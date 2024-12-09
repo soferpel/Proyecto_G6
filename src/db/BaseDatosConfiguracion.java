@@ -151,39 +151,41 @@ public class BaseDatosConfiguracion {
 	
 //PAGO
 	public static void insertarPago(Connection con, Pago p) {
-	    String sql = String.format("INSERT INTO pago (descripcion, numeroTarjeta, fechaCaducidad, CVV, remitenteDestinatario, factura, dni, precio) VALUES (?,?,?,?,?,?,?,?)");
+	    String sql = "INSERT INTO pago (descripcion, numero_Tarjeta, fecha_Caducidad, CVV, remitente_Destinatario, factura, dni, precio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-	    try {
-	        PreparedStatement st = con.prepareStatement(sql);
+	    try (PreparedStatement st = con.prepareStatement(sql)) {
+	        
 	        st.setString(1, p.getDescripcion());
-	        st.setString(2, p.getNumeroTrajeta());
+	        st.setString(2, p.getNumeroTarjeta()); 
 	        st.setString(3, p.getFechaCaducidad());
 	        st.setString(4, p.getCVV());
 	        st.setString(5, p.getRemitenteDestinatario());
 	        st.setString(6, p.getFactura());
 	        st.setString(7, p.getDni());
 	        st.setString(8, p.getPrecio());
+
 	        
-	        st.execute();
-	        st.close();
+	        st.executeUpdate();
 	        logger.info(String.format("Nuevo pago insertado: %s", p.toString()));
 	    } catch (SQLException e) {
-	        logger.warning(String.format("Error insertando pago %s", p.toString()));
+	        logger.warning(String.format("Error insertando pago %s: %s", p.toString(), e.getMessage()));
+	        e.printStackTrace(); 
 	    }
-	}  
-	    
-	    
-	    public static Pago buscarPago(Connection con, String dni) {
-			String sql = String.format("SELECT * FROM pago WHERE DNI = '%s'", dni);
-	        Pago p = null;
-	        try {
-	            PreparedStatement ps = con.prepareStatement(sql);
-	            ps.setString(1, dni); 
-	            ResultSet rs = ps.executeQuery(); 
+	}
 
+	    
+	    
+	public static Pago buscarPago(Connection con, String dni) {
+	    String sql = "SELECT * FROM pago WHERE DNI = ?";
+	    Pago p = null;
+
+	    try (PreparedStatement ps = con.prepareStatement(sql)) {
+	        ps.setString(1, dni); 
+
+	        try (ResultSet rs = ps.executeQuery()) { 
 	            if (rs.next()) { 
 	                String descripcion = rs.getString("DESCRIPCION");
-	                String numeroTarjeta = rs.getString("NUMERO_TARJETA"); 
+	                String numeroTarjeta = rs.getString("NUMERO_TARJETA");
 	                String fechaCaducidad = rs.getString("FECHA_CADUCIDAD");
 	                String CVV = rs.getString("CVV");
 	                String remitenteDestinatario = rs.getString("REMITENTE_DESTINATARIO");
@@ -192,14 +194,14 @@ public class BaseDatosConfiguracion {
 
 	                p = new Pago(descripcion, numeroTarjeta, fechaCaducidad, CVV, remitenteDestinatario, factura, dni, precio);
 	            }
-
-	            rs.close();
-	            ps.close();
-	        } catch (SQLException e) {
-	            logger.warning("Error buscando pago: " + e.getMessage());
 	        }
-	        return p;	       	   	    
+	    } catch (SQLException e) {
+	        System.err.println("Error buscando pago: " + e.getMessage());
+	        e.printStackTrace(); 
+	    }
+	    return p;
 	}
+
 	    
 	    public static Pago obtenerPagoPorId(Connection con, String pagoId) {
 	        Pago p = null;

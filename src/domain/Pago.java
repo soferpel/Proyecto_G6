@@ -24,6 +24,8 @@ public class Pago {
 		this.precio = precio;
 	}
 	
+
+	
 	public Pago(String Dni) {
         this.Dni = Dni;
     }
@@ -56,7 +58,7 @@ public class Pago {
 		this.factura = factura;
 	}
 
-	public String getNumeroTrajeta() {
+	public String getNumeroTarjeta() {
 		return numeroTrajeta;
 	}
 

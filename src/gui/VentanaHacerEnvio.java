@@ -951,59 +951,78 @@ public class VentanaHacerEnvio extends JFrame{
 
 		
 		private void guardarDatosPago() {
-		    String descripcion = campoDescripcion.getText().trim();  
-		    String numeroTarjeta = campoNTarjeta.getText().trim();
-		    Date fechaSeleccionada = datechooserTarj.getDate();
-		    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		    String fechaCaducidad = sdf.format(fechaSeleccionada);
-		    String CVV = campoCVV.getText().trim();
-		    String remitenteDestinatario = dNombre.getText().trim() + " - " + hNombre.getText().trim(); 
+		    String descripcion = campoDescripcion.getText().trim();
+		    String remitenteDestinatario = dNombre.getText().trim() + " - " + hNombre.getText().trim();
 		    String factura = checkFactura.isSelected() ? "Sí" : "No";
-		    String dni = campoDNI.getText().trim(); 
+		    String dni = campoDNI.getText().trim();
 		    String precio = campoValor.getText().trim();
+		    String numeroTarjeta = null;
+		    String fechaCaducidad = null;
+		    String CVV = null;
 
-		    if (descripcion.isEmpty() || numeroTarjeta.isEmpty() || fechaCaducidad.isEmpty() ||
-		        CVV.isEmpty() || dni.isEmpty() || precio.isEmpty()) {
-		        JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+		    
+		    if (descripcion.isEmpty() || dni.isEmpty() || precio.isEmpty()) {
+		        JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
 		        return;
 		    }
 
 		   
-		    try {
-		        LocalDate fecha = LocalDate.parse(fechaCaducidad, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		    } catch (DateTimeParseException ex) {
-		        JOptionPane.showMessageDialog(null, "Formato de fecha inválido. Usa YYYY-MM-DD.", "Error", JOptionPane.ERROR_MESSAGE);
-		        return;
-		    }
-		  
-		    try {
-		       
-		        if (CVV.length() != 3) {
-		            throw new NumberFormatException("El CVV debe tener 3 dígitos.");
-		        }
-		        Integer.parseInt(CVV); 
-		    } catch (NumberFormatException ex) {
-		        JOptionPane.showMessageDialog(null, "El CVV o el precio no tienen el formato correcto.", "Error", JOptionPane.ERROR_MESSAGE);
-		        return;
-		    }
-		    
-		    if (!precio.matches("\\d+(\\.\\d{1,2})?")) { 
+		    if (!precio.matches("\\d+(\\.\\d{1,2})?")) {
 		        JOptionPane.showMessageDialog(null, "El precio debe ser un número válido con hasta dos decimales.", "Error", JOptionPane.ERROR_MESSAGE);
 		        return;
 		    }
 
+		    
+		    if (radTarjeta.isSelected()) {
+		        numeroTarjeta = campoNTarjeta.getText().trim();
+		        Date fechaSeleccionada = datechooserTarj.getDate();
+		        CVV = campoCVV.getText().trim();
+
+		        if (numeroTarjeta.isEmpty() || fechaSeleccionada == null || CVV.isEmpty()) {
+		            JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos de la tarjeta.", "Error", JOptionPane.ERROR_MESSAGE);
+		            return;
+		        }
+
+		        try {
+		            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		            fechaCaducidad = sdf.format(fechaSeleccionada);
+		            LocalDate.parse(fechaCaducidad, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		        } catch (DateTimeParseException ex) {
+		            JOptionPane.showMessageDialog(null, "Formato de fecha inválido. Usa YYYY-MM-DD.", "Error", JOptionPane.ERROR_MESSAGE);
+		            return;
+		        }
+
+		        try {
+		            if (CVV.length() != 3 || !CVV.matches("\\d+")) {
+		                throw new NumberFormatException("El CVV debe ser un número de 3 dígitos.");
+		            }
+		        } catch (NumberFormatException ex) {
+		            JOptionPane.showMessageDialog(null, "El CVV debe ser un número de 3 dígitos.", "Error", JOptionPane.ERROR_MESSAGE);
+		            return;
+		        }
+		    }
+
+		    
+		    Pago pago = new Pago(descripcion, numeroTarjeta != null ? numeroTarjeta : "-", fechaCaducidad, CVV != null ? CVV : "-", remitenteDestinatario, factura, dni, precio);
 
 		    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
-		    Pago pago = new Pago(descripcion, numeroTarjeta, fechaCaducidad, CVV, remitenteDestinatario, factura, dni, precio);
 
 		    try {
-		        BaseDatosConfiguracion.insertarPago(con, pago);
+				if (radTarjeta.isSelected()) {
+					
+					pago = new Pago(descripcion, numeroTarjeta, fechaCaducidad, CVV, remitenteDestinatario, factura, dni, Double.toString(precioFinal));
+					BaseDatosConfiguracion.insertarPago(con, pago);
+				} else {
+					pago = new Pago(descripcion, remitenteDestinatario, factura, dni, Double.toString(precioFinal));
+					BaseDatosConfiguracion.insertarPago(con, pago);
+
+				}
 		        JOptionPane.showMessageDialog(null, "Pago guardado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 		    } finally {
-		        
 		        BaseDatosConfiguracion.closeBD(con);
 		    }
 		}
+
 	});
     
    

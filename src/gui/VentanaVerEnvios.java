@@ -36,6 +36,7 @@ import javax.swing.table.TableCellRenderer;
 
 import db.BaseDatosConfiguracion;
 import domain.Envio;
+import domain.Usuario;
 
 import javax.swing.AbstractCellEditor;
 
@@ -318,48 +319,48 @@ public class VentanaVerEnvios  extends JFrame {
     //cargar la tabla
     Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
     
-    public void cargarEnviosDelUsuario(DefaultTableModel modeloTabla, Connection con, String usuarioId) {
-
-        modeloTabla.setRowCount(0);        
-        
-        String correo = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, usuarioId);
-        if (correo == null) {
-            System.out.println("No se encontró el correo asociado al usuario.");
-            return;
-        }
-        
-        List<Envio> envios = BaseDatosConfiguracion.obtenerEnviosPorUsuario(con, correo);
-        
-        if (envios.isEmpty()) {
-            System.out.println("No hay envíos para este usuario.");
-            return;
-        }
-        
-        System.out.println("Envios: " + envios);  
-        
-        for (Envio envio : envios) {
-    	    System.out.println("Referencia: " + envio.getPaquete().getnReferencia());
-    	    System.out.println("Fecha de Recogida: " + envio.getRecogida().getFechaDeRecogida());
-    	    System.out.println("Precio: " + envio.getPago().getPrecio());
-    	    System.out.println("Descripción: " + envio.getPago().getDescripcion());
-    	    System.out.println("Estado: " + envio.getEstado());
-    	    System.out.println("Fecha Prevista: " + envio.getRecogida().getFechaDeRecogida());
-
-    	    
-        	// {"Nº referencia", "Fecha", "Precio", "Descripción", "Estado", "Fecha prevista", "Editar"};
-            modeloTabla.addRow(new Object[]{
-                envio.getPaquete().getnReferencia(), 
-                envio.getRecogida().getFechaDeRecogida(),
-                envio.getPago().getPrecio(),
-                envio.getPago().getDescripcion(),
-                envio.getEstado(),
-                envio.getRecogida().getFechaDeRecogida(),
-                "" // Columna para el botón de editar
-            });
-        }
-        
-        
-    }
+//    public void cargarEnviosDelUsuario(DefaultTableModel modeloTabla, Connection con, String usuarioId) {
+//
+//        modeloTabla.setRowCount(0);        
+//        
+//        String correo = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, usuarioId);
+//        if (correo == null) {
+//            System.out.println("No se encontró el correo asociado al usuario.");
+//            return;
+//        }
+//        
+//        List<Envio> envios = BaseDatosConfiguracion.obtenerEnviosPorUsuario(con, correo);
+//        
+//        if (envios.isEmpty()) {
+//            System.out.println("No hay envíos para este usuario.");
+//            return;
+//        }
+//        
+//        System.out.println("Envios: " + envios);  
+//        
+//        for (Envio envio : envios) {
+//    	    System.out.println("Referencia: " + envio.getPaquete().getnReferencia());
+//    	    System.out.println("Fecha de Recogida: " + envio.getRecogida().getFechaDeRecogida());
+//    	    System.out.println("Precio: " + envio.getPago().getPrecio());
+//    	    System.out.println("Descripción: " + envio.getPago().getDescripcion());
+//    	    System.out.println("Estado: " + envio.getEstado());
+//    	    System.out.println("Fecha Prevista: " + envio.getRecogida().getFechaDeRecogida());
+//
+//    	    
+//        	// {"Nº referencia", "Fecha", "Precio", "Descripción", "Estado", "Fecha prevista", "Editar"};
+//            modeloTabla.addRow(new Object[]{
+//                envio.getPaquete().getnReferencia(), 
+//                envio.getRecogida().getFechaDeRecogida(),
+//                envio.getPago().getPrecio(),
+//                envio.getPago().getDescripcion(),
+//                envio.getEstado(),
+//                envio.getRecogida().getFechaDeRecogida(),
+//                "" // Columna para el botón de editar
+//            });
+//        }
+//        
+//        
+//    }
 
 
     
