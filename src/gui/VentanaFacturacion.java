@@ -146,7 +146,7 @@ public class VentanaFacturacion extends JFrame {
         panelDerecho.add(txtDescripcion);
 
         //fecha de envío
-        JLabel lblFechaEnvio = new JLabel("Fecha Envío:");
+        JLabel lblFechaEnvio = new JLabel("Lugar de Envío:");
          txtFechaEnvio = new JTextField(15);
         panelDerecho.add(lblFechaEnvio);
         panelDerecho.add(txtFechaEnvio);
