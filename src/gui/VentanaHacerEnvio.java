@@ -747,138 +747,135 @@ public class VentanaHacerEnvio extends JFrame{
 			guardarDatosPaquete();
 			guardarDatosTrayecto();
 			guardarDatosEnvio();
-			guardarDatosRecogida();
+			try {
+				guardarDatosRecogida();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
 			
 		}
 		     
 		
-		private void guardarDatosRecogida() {
-			java.util.Date fecha = dateChooser.getDate();
-		    String fechaDeRecogida = "";
+		private void guardarDatosRecogida() throws SQLException {
+		    java.util.Date fecha = dateChooser.getDate();
+		    String fechaDeRecogida = null;
+		    String lugarDeRecogida = null; 
+		    String tipoDeEnvio = null;
 
-		    // Si se seleccionó "A domicilio"
 		    if (radDomic.isSelected()) {
 		        if (fecha == null) {
-		        	JOptionPane.showMessageDialog(null, "La fecha de recogida no ha sido seleccionada", "Advertencia", JOptionPane.WARNING_MESSAGE);		            
-		            return; 
+		            JOptionPane.showMessageDialog(null, "La fecha de recogida no ha sido seleccionada.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+		            return;
 		        }
-		        fechaDeRecogida = new SimpleDateFormat("dd/MM/yyyy").format(fecha);
-		    }
-
-		    // Lugar de recogida si es "Punto de recogida"
-		    String lugarDeRecogida = "";
-		    if (radPtoRecog.isSelected()) {
-		        lugarDeRecogida = (String) comboRecog.getSelectedItem();
-		    } else if (radDomic.isSelected()) {
+		        fechaDeRecogida = new SimpleDateFormat("yyyy-MM-dd").format(fecha);
 		        lugarDeRecogida = "A domicilio";
-		    }
-
-
-		    String tipoDeEnvio = "";
-		    if (radEstandar.isSelected()) {
-		        tipoDeEnvio = "Estandar";
-		    } else if (radSuper.isSelected()) {
-		        tipoDeEnvio = "Superior";
-		    } else if (radPremium.isSelected()) {
-		        tipoDeEnvio = "Premium";
-		    }
-
-		   
-		    if (lugarDeRecogida.isEmpty() || tipoDeEnvio.isEmpty()) {
-		    	JOptionPane.showMessageDialog(null, "Faltan datos para completar la recogida", "Advertencia", JOptionPane.WARNING_MESSAGE);		        
+			    if (radEstandar.isSelected()) {
+			        tipoDeEnvio = "Estandar";
+			    } else if (radSuper.isSelected()) {
+			        tipoDeEnvio = "Superior";
+			    } else if (radPremium.isSelected()) {
+			        tipoDeEnvio = "Premium";
+			    }
+		    } else if (radPtoRecog.isSelected()) {
+		        lugarDeRecogida = (String) comboRecog.getSelectedItem();
+		        if (lugarDeRecogida == null || lugarDeRecogida.isEmpty()) {
+		            JOptionPane.showMessageDialog(null, "Por favor, selecciona un punto de recogida.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+		            return;
+		        }
+				    if (radEstandar.isSelected()) {
+				        tipoDeEnvio = "Estandar";
+				    } else if (radSuper.isSelected()) {
+				        tipoDeEnvio = "Superior";
+				    } else if (radPremium.isSelected()) {
+				        tipoDeEnvio = "Premium";
+				    }
+		    } else {
+		        JOptionPane.showMessageDialog(null, "Por favor, selecciona una opción de recogida.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 		        return;
 		    }
-
-		    // Si se seleccionó "A domicilio", asegurarse de tener la fecha
-		    if (radDomic.isSelected() && fechaDeRecogida.isEmpty()) {
-		    	 JOptionPane.showMessageDialog(null, "La fecha de recogida es obligatoria si es a domicilio", "Advertencia", JOptionPane.WARNING_MESSAGE);		         
-		        return;
-		    }
-		    
-		    if (radPtoRecog.isSelected() && lugarDeRecogida.isEmpty()) {
-		    	 JOptionPane.showMessageDialog(null, "El lugar de recogida es obligatorio si es punto de recogida", "Advertencia", JOptionPane.WARNING_MESSAGE);		         
-		        return;
-		    }
-
 
 		    Recogida recogida = new Recogida(fechaDeRecogida, lugarDeRecogida, tipoDeEnvio);
 
-
 		    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
-
-		    
-	        try {
-	        	 BaseDatosConfiguracion.insertarRecogida(con, recogida);
-	 	        JOptionPane.showMessageDialog(null, "Recogida registrada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);	    
-		    } finally {		       
+		    try {
+		        BaseDatosConfiguracion.insertarRecogida(con, recogida);
+		        JOptionPane.showMessageDialog(null, "Recogida registrada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+		    } finally {
 		        BaseDatosConfiguracion.closeBD(con);
 		    }
-		    
-			
 		}
+
+
 		
 		private void guardarDatosEnvio() {
-		    String trayectoNombreOrigen = campoEnDesde.getText();
-		    String trayectoNombreDestino = campoEnHasta.getText();
+		    String trayectoNombreOrigen = dNombre.getText().trim();
+		    String trayectoNombreDestino = hNombre.getText().trim();
 		    String paqueteId = generarReferenciaAleatoria();
-		    String pagoId = campoDNI.getText();
+		    String pagoId = campoDNI.getText().trim();
 		    String fechaDeRecogida = "";
 		    String lugarDeRecogida = "";
 		    String tipoDeEnvio = "";
 
-
-		    // Tipo de recogida
 		    if (radDomic.isSelected()) {
-		        // Si es a domicilio, obtener la fecha
 		        Date fechaRecogida = dateChooser.getDate();
 		        if (fechaRecogida == null) {
 		            JOptionPane.showMessageDialog(null, "Por favor, selecciona una fecha de recogida.", "Error", JOptionPane.ERROR_MESSAGE);
 		            return;
 		        }
 		        fechaDeRecogida = new java.sql.Date(fechaRecogida.getTime()).toString();
-		        lugarDeRecogida = null; // No es necesario lugar de recogida si es a domicilio
+		        lugarDeRecogida = "A domicilio";
 		        tipoDeEnvio = "Domicilio";
 		    } else if (radPtoRecog.isSelected()) {
-		        // Si es en un punto de recogida, obtener el lugar
 		        lugarDeRecogida = (String) comboRecog.getSelectedItem();
 		        if (lugarDeRecogida == null || lugarDeRecogida.isEmpty()) {
 		            JOptionPane.showMessageDialog(null, "Por favor, selecciona un punto de recogida.", "Error", JOptionPane.ERROR_MESSAGE);
 		            return;
 		        }
-		        fechaDeRecogida = null; // No es necesario fecha de recogida si es un punto de recogida
 		        tipoDeEnvio = "Punto de recogida";
 		    } else {
 		        JOptionPane.showMessageDialog(null, "Por favor, selecciona una opción de recogida.", "Error", JOptionPane.ERROR_MESSAGE);
 		        return;
 		    }
 
-
-		    if (trayectoNombreOrigen.isEmpty() || trayectoNombreDestino.isEmpty() || pagoId.isEmpty() || (fechaDeRecogida == null && lugarDeRecogida == null)) {
-		        JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
-		        return;
-		    }
-
-
-		    trayecto trayecto = new trayecto(trayectoNombreOrigen, trayectoNombreDestino);
+		    trayecto trayecto = new trayecto(trayectoNombreOrigen, dDireccion.getText(), dCorreo.getText(), dTelefono.getText(),
+		                                     trayectoNombreDestino, hDireccion.getText(), hCorreo.getText(), hTelefono.getText());
 		    String trayectoId = trayecto.getTrayectoId();
-		    Paquete paquete = new Paquete(paqueteId);
-		    Pago pago = new Pago(pagoId);		   
+
+		    String embalaje = comboEmbalaje.getSelectedItem() != null ? comboEmbalaje.getSelectedItem().toString() : "Sin embalaje";
+		    String peso = campoPeso.getText().trim();
+		    String largo = campoLargo.getText().trim();
+		    String ancho = campoAncho.getText().trim();
+		    String alto = campoAlto.getText().trim();
+		    String valor = campoValor.getText().trim();
+		    String fragil = checkFragil.isSelected() ? "Sí" : "No";
+
+		    Paquete paquete = new Paquete(paqueteId, embalaje, peso, largo, ancho, alto, valor, fragil);
+
+		    String descripcion = campoDescripcion.getText().trim();
+		    String numeroTarjeta = radTarjeta.isSelected() ? campoNTarjeta.getText().trim() : "-";
+		    String fechaCaducidad = radTarjeta.isSelected() && datechooserTarj.getDate() != null ? new SimpleDateFormat("yyyy-MM-dd").format(datechooserTarj.getDate()) : null;
+		    String CVV = radTarjeta.isSelected() ? campoCVV.getText().trim() : "-";
+		    String remitenteDestinatario = trayectoNombreOrigen + " - " + trayectoNombreDestino;
+		    String factura = checkFactura.isSelected() ? "Sí" : "No";
+		    String precio = valor;
+
+		    Pago pago = new Pago(descripcion, numeroTarjeta, fechaCaducidad, CVV, remitenteDestinatario, factura, pagoId, precio);
+
 		    Recogida recogida = new Recogida(fechaDeRecogida, lugarDeRecogida, tipoDeEnvio);
 
 		    Envio envio = new Envio(trayecto, paquete, recogida, pago);
 
 		    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
-
-		    
-	        try {
-	        	 BaseDatosConfiguracion.insertarEnvio(con, envio);
-	 	        JOptionPane.showMessageDialog(null, "Envío registrado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);	    
-		    } finally {		       
+		    try {
+		        BaseDatosConfiguracion.insertarEnvio(con, envio);
+		        JOptionPane.showMessageDialog(null, "Envío registrado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+		    } finally {
 		        BaseDatosConfiguracion.closeBD(con);
 		    }
-		    
 		}
+
 
 
 		
@@ -907,7 +904,6 @@ public class VentanaHacerEnvio extends JFrame{
 		    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 		    try {
 		        BaseDatosConfiguracion.insertarTrayecto(con, trayecto);
-		        JOptionPane.showMessageDialog(null, "Trayecto guardado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 		    } finally {
 		    	
 		    	  BaseDatosConfiguracion.closeBD(con);
@@ -937,7 +933,6 @@ public class VentanaHacerEnvio extends JFrame{
 		    
 		    try {
 		        BaseDatosConfiguracion.insertarPaquete(con, paquete);
-		        JOptionPane.showMessageDialog(null, "Paquete guardado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 		    } finally {
 		        
 		        BaseDatosConfiguracion.closeBD(con);
@@ -1017,7 +1012,6 @@ public class VentanaHacerEnvio extends JFrame{
 					BaseDatosConfiguracion.insertarPago(con, pago);
 
 				}
-		        JOptionPane.showMessageDialog(null, "Pago guardado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 		    } finally {
 		        BaseDatosConfiguracion.closeBD(con);
 		    }

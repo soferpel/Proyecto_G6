@@ -609,27 +609,34 @@ public class BaseDatosConfiguracion {
 	    }
 	    
 	    
-	    public static void insertarRecogida(Connection con, Recogida r) {
-			String sql = "INSERT INTO recogida(fecha_de_recogida, lugar_de_recogida, tipo_de_envio) VALUES (?,?,?)";
-			
-			try {
-					PreparedStatement st = con.prepareStatement(sql);
-					st.setString(1, r.getFechaDeRecogida());
-					st.setString(2, r.getLugarDeRecogida());
-					st.setString(3, r.getTipoDeEnvio());
-					
-					
-					st.executeUpdate();
-					st.close();
-		            logger.info("Recogida insertada correctamente");
-		            
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-		            logger.warning("Error insertando recogida");
+	    public static void insertarRecogida(Connection con, Recogida r) throws SQLException {
+	        String sql = "INSERT INTO recogida (fecha_de_recogida, lugar_de_recogida, tipo_de_envio) VALUES (?, ?, ?)";
 
-				}
-			}
-	    
+	        try {
+	            PreparedStatement st = con.prepareStatement(sql);
+	            if (r.getFechaDeRecogida() == null || r.getFechaDeRecogida().isEmpty()) {
+	                st.setNull(1, java.sql.Types.DATE);
+	            } else {
+	                st.setString(1, r.getFechaDeRecogida());
+	            }
+
+	            if (r.getLugarDeRecogida() == null || r.getLugarDeRecogida().isEmpty()) {
+	                st.setNull(2, java.sql.Types.VARCHAR);
+	            } else {
+	                st.setString(2, r.getLugarDeRecogida());
+	            }
+
+	            st.setString(3, r.getTipoDeEnvio());
+
+	            st.executeUpdate();
+	            st.close();
+	            logger.info("Recogida insertada correctamente.");
+	        } catch (SQLException e) {
+	            logger.warning("Error insertando recogida: " + e.getMessage());
+	            throw e;
+	        }
+	    }
+
 	    
 	    public static Recogida buscarRecogida(Connection con, String fecha_de_recogida) {
 			String sql = String.format("SELECT * FROM recogida WHERE fecha_de_recogida = '%s'", fecha_de_recogida);
