@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -12,11 +11,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -24,8 +18,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
-import java.util.UUID;
-
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -47,9 +39,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
 import com.toedter.calendar.JDateChooser;
-
 import db.BaseDatosConfiguracion;
 import domain.Envio;
 import domain.Pago;
@@ -90,7 +80,7 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	private JLabel txtEmbalado, txtDescripcion, txtLargo, txtAncho, txtAlto, txtPeso, txtValor, txtInfo;
 
-	private JTextField campoDescripcion, campoLargo, campoAncho, campoAlto, campoPeso, campoValor, campoPtoRecog;
+	private JTextField campoDescripcion, campoLargo, campoAncho, campoAlto, campoPeso, campoValor;
 
 	private JCheckBox checkFragil;
 	
@@ -840,8 +830,7 @@ public class VentanaHacerEnvio extends JFrame{
 		    }
 
 		    trayecto trayecto = new trayecto(trayectoNombreOrigen, dDireccion.getText(), dCorreo.getText(), dTelefono.getText(),
-		                                     trayectoNombreDestino, hDireccion.getText(), hCorreo.getText(), hTelefono.getText());
-		    String trayectoId = trayecto.getTrayectoId();
+		            trayectoNombreDestino, hDireccion.getText(), hCorreo.getText(), hTelefono.getText());
 
 		    String embalaje = comboEmbalaje.getSelectedItem() != null ? comboEmbalaje.getSelectedItem().toString() : "Sin embalaje";
 		    String peso = campoPeso.getText().trim();
@@ -862,19 +851,20 @@ public class VentanaHacerEnvio extends JFrame{
 		    String precio = valor;
 
 		    Pago pago = new Pago(descripcion, numeroTarjeta, fechaCaducidad, CVV, remitenteDestinatario, factura, pagoId, precio);
-
 		    Recogida recogida = new Recogida(fechaDeRecogida, lugarDeRecogida, tipoDeEnvio);
 
 		    Envio envio = new Envio(trayecto, paquete, recogida, pago);
 
 		    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 		    try {
-		        BaseDatosConfiguracion.insertarEnvio(con, envio);
+		        BaseDatosConfiguracion.insertarPaquete(con, paquete); // Insertar el paquete primero
+		        BaseDatosConfiguracion.insertarEnvio(con, envio);     // Insertar el envío con el mismo idPaquete
 		        JOptionPane.showMessageDialog(null, "Envío registrado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 		    } finally {
 		        BaseDatosConfiguracion.closeBD(con);
 		    }
 		}
+
 
 
 
