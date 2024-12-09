@@ -3,8 +3,14 @@ package gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -17,12 +23,14 @@ import javax.swing.table.TableCellRenderer;
 
 import com.toedter.calendar.JDateChooser;
 
+import db.BaseDatosConfiguracion;
+
 
 public class VentanaFacturacion extends JFrame {
 
 	private DefaultTableModel model;
 	private ArrayList<Object[]> datosOriginales = new ArrayList<>(); //IA
-	private JTextField txtReferencia;
+	private JTextField txtReferencia,txtPrecio,txtDescripcion,txtFechaEnvio;
 	
     public VentanaFacturacion() {
 
@@ -68,6 +76,10 @@ public class VentanaFacturacion extends JFrame {
         panelIzquierdo.add(lblReferencia);
         panelIzquierdo.add(txtReferencia);
         
+       
+        
+
+        
         txtReferencia.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
@@ -92,6 +104,16 @@ public class VentanaFacturacion extends JFrame {
 			}
           
         });
+        
+        txtReferencia.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {  
+                    buscarDatosReferencia();  
+                }
+            }
+        });
+
 
         //precio
         JLabel lblPrecio = new JLabel("Precio:");
@@ -209,6 +231,8 @@ public class VentanaFacturacion extends JFrame {
                 hilo.execute(); 
             }
         });
+        
+        
         panelBoton.add(btnExportarPDF);
         panelTablaYBoton.add(panelBoton, BorderLayout.SOUTH);
         panelPrincipal.add(panelTablaYBoton, BorderLayout.SOUTH);
@@ -253,23 +277,58 @@ public class VentanaFacturacion extends JFrame {
     }
     
     private void filtrarPorReferencia() {
-    	
-    	String filtro = txtReferencia.getText().trim();
-    	
-    	model.setRowCount(0);
-    	 
-    	 if (filtro.isEmpty()) {
-             datosOriginales.forEach(model::addRow);
-             return;
-         }
+        String filtro = txtReferencia.getText().trim();
+        
+        model.setRowCount(0);
+         
+        if (filtro.isEmpty()) {
+            datosOriginales.forEach(model::addRow);
+            return;
+        }
 
-         datosOriginales.forEach(fila -> {
-             if (fila[0].toString().contains(filtro)) {
-                 model.addRow(fila);
-             }
-         });
-     
+        datosOriginales.forEach(fila -> {
+            if (fila[0].toString().contains(filtro)) {
+                model.addRow(fila);
+            }
+        });
     }
+
+    private void buscarDatosReferencia() {
+        String referencia = txtReferencia.getText().trim();
+        System.out.println("Referencia buscada: " + referencia); 
+
+        if (referencia.isEmpty()) {
+            return;
+        }
+
+        Connection c = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+        
+        String query = "SELECT p.n_referencia, p.embalaje, p.peso, p.largo, p.ancho, p.alto, p.valor, p.fragil, " +
+                       "pa.precio, pa.descripcion, pa.numero_tarjeta " +
+                       "FROM paquete p " +
+                       "JOIN envio e ON p.n_referencia = e.paquete_id " +
+                       "JOIN pago pa ON e.pago_id = pa.dni " +
+                       "WHERE p.n_referencia = ?";
+        
+        try (PreparedStatement stmt = c.prepareStatement(query)) {
+            stmt.setString(1, referencia);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                txtPrecio.setText(rs.getString("precio"));
+                txtDescripcion.setText(rs.getString("descripcion"));
+                txtFechaEnvio.setText(rs.getString("fecha_de_recogida")); 
+            } else {
+                JOptionPane.showMessageDialog(this, "No se ha encontrado la referencia", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al buscar la referencia", "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            BaseDatosConfiguracion.closeBD(c);  
+        }
+    }
+
     
     private static class CustomTableCellRenderer extends DefaultTableCellRenderer {
         @Override
@@ -309,5 +368,7 @@ public class VentanaFacturacion extends JFrame {
             return label;
         }
     }
+    
+    
 
 }
