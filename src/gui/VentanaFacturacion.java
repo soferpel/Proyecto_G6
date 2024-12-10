@@ -24,6 +24,7 @@ import javax.swing.table.TableCellRenderer;
 import com.toedter.calendar.JDateChooser;
 
 import db.BaseDatosConfiguracion;
+import domain.Usuario;
 
 
 public class VentanaFacturacion extends JFrame {
@@ -35,7 +36,7 @@ public class VentanaFacturacion extends JFrame {
 	private JRadioButton rbSi; 
 	private JRadioButton rbNo; 
 	
-    public VentanaFacturacion() {
+    public VentanaFacturacion(Usuario u) {
 
     	setTitle("Facturación");
         setSize(700, 500);
@@ -247,7 +248,7 @@ public class VentanaFacturacion extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal());
+				SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal(u));
 				dispose();
 			}
 		});

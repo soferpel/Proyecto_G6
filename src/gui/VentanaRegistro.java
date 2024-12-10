@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
@@ -37,6 +38,7 @@ import javax.swing.border.EmptyBorder;
 
 import db.BaseDatosConfiguracion;
 import domain.Dominio;
+import domain.Envio;
 import domain.Usuario;
 
 
@@ -289,7 +291,7 @@ public class VentanaRegistro extends JFrame{
                             Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(c, correo);
 
                             if (u == null) {  // Si no existe, agregarlo
-                                Usuario nuevoUsuario = new Usuario(nombre, apellido, telefono, correo, resp, segu, contra2);
+                                Usuario nuevoUsuario = new Usuario(nombre, apellido, telefono, correo, resp, segu, contra2, new ArrayList<Envio>());
                                 BaseDatosConfiguracion.insertarUsuario(c, nuevoUsuario);
                                 JOptionPane.showMessageDialog(null, "Registro realizado con éxito");
                                 SwingUtilities.invokeLater(() -> new VentanaInicioSesion());

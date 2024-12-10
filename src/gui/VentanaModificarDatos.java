@@ -61,7 +61,7 @@ private boolean esOjoAbiertoVen = false;
 
 
 
-public VentanaModificarDatos() {
+public VentanaModificarDatos(Usuario u) {
 
 	
 	pNorte = new JPanel(new GridLayout(1,2));
@@ -212,7 +212,7 @@ public VentanaModificarDatos() {
 	   
 	   @Override
 	   public void actionPerformed(ActionEvent e) {
-		   SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal());
+		   SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal(u));
 		   dispose();
 	   }
    	});
@@ -238,17 +238,17 @@ public VentanaModificarDatos() {
 	    }
 	    
 	    if (!checkTerminos.isSelected()) {
-	        JOptionPane.showMessageDialog(null, "Debes aceptar los términos y condiciones.", "Error", JOptionPane.ERROR_MESSAGE);
+	        JOptionPane.showMessageDialog(null, "Debes aceptar los tï¿½rminos y condiciones.", "Error", JOptionPane.ERROR_MESSAGE);
 	        return;
 	    }
 	    
 	    if (!correo.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
-	        JOptionPane.showMessageDialog(null, "Ingresa un correo válido.", "Error", JOptionPane.ERROR_MESSAGE);
+	        JOptionPane.showMessageDialog(null, "Ingresa un correo vï¿½lido.", "Error", JOptionPane.ERROR_MESSAGE);
 	        return;
 	    }
 
 	    if (!telefono.matches("\\d+")) {
-	        JOptionPane.showMessageDialog(null, "El teléfono debe contener sólo números.", "Error", JOptionPane.ERROR_MESSAGE);
+	        JOptionPane.showMessageDialog(null, "El telï¿½fono debe contener sï¿½lo nï¿½meros.", "Error", JOptionPane.ERROR_MESSAGE);
 	        return;
 	    }
 
@@ -278,7 +278,7 @@ public VentanaModificarDatos() {
 	        
 	        BaseDatosConfiguracion.actualizarUsuario(con, u);
 
-            JOptionPane.showMessageDialog(null, "Datos modificados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Datos modificados correctamente.", "ï¿½xito", JOptionPane.INFORMATION_MESSAGE);
         }
 
         BaseDatosConfiguracion.closeBD(con);
@@ -296,19 +296,19 @@ public VentanaModificarDatos() {
 	            return;
 	        }
 
-	        int result = JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar tu cuenta?", "Eliminar Cuenta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+	        int result = JOptionPane.showConfirmDialog(null, "ï¿½Seguro que quieres eliminar tu cuenta?", "Eliminar Cuenta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	        if (result == JOptionPane.OK_OPTION) {
 	            Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 	            try {
 	                Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
 	                if (u == null) {
-	                    JOptionPane.showMessageDialog(null, "No existe ningún usuario con ese correo.", "Error", JOptionPane.ERROR_MESSAGE);
+	                    JOptionPane.showMessageDialog(null, "No existe ningï¿½n usuario con ese correo.", "Error", JOptionPane.ERROR_MESSAGE);
 	                    return;
 	                }
 
 	               
 	                BaseDatosConfiguracion.deleteUsuario(con, correo);
-	                JOptionPane.showMessageDialog(null, "Cuenta eliminada con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+	                JOptionPane.showMessageDialog(null, "Cuenta eliminada con ï¿½xito.", "Informaciï¿½n", JOptionPane.INFORMATION_MESSAGE);
 	                dispose(); 
 	            } finally {
 	                BaseDatosConfiguracion.closeBD(con);

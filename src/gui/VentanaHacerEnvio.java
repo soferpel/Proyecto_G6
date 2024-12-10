@@ -45,7 +45,8 @@ import domain.Envio;
 import domain.Pago;
 import domain.Paquete;
 import domain.Recogida;
-import domain.trayecto;
+import domain.Usuario;
+import domain.Trayecto;
 
 
 public class VentanaHacerEnvio extends JFrame{
@@ -135,7 +136,7 @@ public class VentanaHacerEnvio extends JFrame{
 	private JScrollPane scrollTYC;
 	
 	
-	public VentanaHacerEnvio() {
+	public VentanaHacerEnvio(Usuario u) {
 		
 
 		
@@ -736,14 +737,14 @@ public class VentanaHacerEnvio extends JFrame{
 			guardarDatosPago();
 			guardarDatosPaquete();
 			guardarDatosTrayecto();
-			guardarDatosEnvio();
+			guardarDatosEnvio(u);
 			try {
 				guardarDatosRecogida();
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal());
+			SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal(u));
 			dispose();
 		}
 		     
@@ -760,7 +761,7 @@ public class VentanaHacerEnvio extends JFrame{
 		            return;
 		        }
 		        fechaDeRecogida = new SimpleDateFormat("yyyy-MM-dd").format(fecha);
-		        lugarDeRecogida = "A domicilio";
+		        lugarDeRecogida = hDireccion.getText();
 			    if (radEstandar.isSelected()) {
 			        tipoDeEnvio = "Estandar";
 			    } else if (radSuper.isSelected()) {
@@ -799,7 +800,7 @@ public class VentanaHacerEnvio extends JFrame{
 
 
 		
-		private void guardarDatosEnvio() {
+		private void guardarDatosEnvio(Usuario u) {
 		    String trayectoNombreOrigen = dNombre.getText().trim();
 		    String trayectoNombreDestino = hNombre.getText().trim();
 		    String paqueteId = generarReferenciaAleatoria();
@@ -815,7 +816,7 @@ public class VentanaHacerEnvio extends JFrame{
 		            return;
 		        }
 		        fechaDeRecogida = new java.sql.Date(fechaRecogida.getTime()).toString();
-		        lugarDeRecogida = "A domicilio";
+		        lugarDeRecogida = hDireccion.getText();
 		        tipoDeEnvio = "Domicilio";
 		    } else if (radPtoRecog.isSelected()) {
 		        lugarDeRecogida = (String) comboRecog.getSelectedItem();
@@ -829,7 +830,7 @@ public class VentanaHacerEnvio extends JFrame{
 		        return;
 		    }
 
-		    trayecto trayecto = new trayecto(trayectoNombreOrigen, dDireccion.getText(), dCorreo.getText(), dTelefono.getText(),
+		    Trayecto trayecto = new Trayecto(trayectoNombreOrigen, dDireccion.getText(), dCorreo.getText(), dTelefono.getText(),
 		            trayectoNombreDestino, hDireccion.getText(), hCorreo.getText(), hTelefono.getText());
 
 		    String embalaje = comboEmbalaje.getSelectedItem() != null ? comboEmbalaje.getSelectedItem().toString() : "Sin embalaje";
@@ -854,11 +855,11 @@ public class VentanaHacerEnvio extends JFrame{
 		    Recogida recogida = new Recogida(fechaDeRecogida, lugarDeRecogida, tipoDeEnvio);
 
 		    Envio envio = new Envio(trayecto, paquete, recogida, pago);
-
+		    u.addEnvio(envio);
 		    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 		    try {
 		        BaseDatosConfiguracion.insertarPaquete(con, paquete); // Insertar el paquete primero
-		        BaseDatosConfiguracion.insertarEnvio(con, envio);     // Insertar el envío con el mismo idPaquete
+		        BaseDatosConfiguracion.insertarEnvio(con, envio, u);     // Insertar el envío con el mismo idPaquete
 		        JOptionPane.showMessageDialog(null, "Envío registrado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 		    } finally {
 		        BaseDatosConfiguracion.closeBD(con);
@@ -887,7 +888,7 @@ public class VentanaHacerEnvio extends JFrame{
 		            return;
 		        }
 		    
-		    trayecto trayecto = new trayecto(nombreOrigen, direccionOrigen, correoOrigen, telefonoOrigen,
+		    Trayecto trayecto = new Trayecto(nombreOrigen, direccionOrigen, correoOrigen, telefonoOrigen,
                     nombreDestino, direccionDestino, correoDestino, telefonoDestino);
 			
 		    
@@ -1035,7 +1036,7 @@ public class VentanaHacerEnvio extends JFrame{
 					if (reloj == 300) {
 						int result = JOptionPane.showConfirmDialog(null, "Han pasado 5 minutos, Â¿desea continuar creando su pedido?", "Error", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 						if (result == JOptionPane.NO_OPTION) {
-							SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal());
+							SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal(u));
 							dispose();
 							hiloEjecutando = false;
 						}
@@ -1094,7 +1095,7 @@ public class VentanaHacerEnvio extends JFrame{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal());
+			SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal(u));
 			dispose();
 		}
 	});
