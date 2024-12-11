@@ -109,6 +109,7 @@ public class BaseDatosConfiguracion {
 	             + "   paquete_id VARCHAR(50),"
 	             + "   recogida_id VARCHAR(50),"
 	             + "   pago_id VARCHAR(20),"
+	             + "   usuario_id VARCHAR(100),"
 	             + "   PRIMARY KEY (trayecto_id),"
 	             + "   FOREIGN KEY (trayecto_id) REFERENCES trayecto(trayecto_id),"
 	             + "   FOREIGN KEY (paquete_id) REFERENCES paquete(n_referencia),"
