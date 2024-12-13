@@ -137,9 +137,7 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	
 	public VentanaHacerEnvio(Usuario u) {
-		
-
-		
+				
 	ImageIcon logo = new ImageIcon("resources/images/logoPngNegro.png");
 	JLabel labelImagenLogo = new JLabel(logo);
 	labelImagenLogo.setPreferredSize(new Dimension(350, logo.getIconHeight()));
@@ -224,11 +222,11 @@ public class VentanaHacerEnvio extends JFrame{
     JLabel lblHasta = new JLabel("HASTA:");
     JLabel lblHastaNombre = new JLabel("Nombre:");
     hNombre = new JTextField(10);
-    JLabel lblHastaDireccion = new JLabel("DirecciÃ³n:");
+    JLabel lblHastaDireccion = new JLabel("Dirección:");
     hDireccion = new JTextField(10);
     JLabel lblHastaCorreo = new JLabel("Correo:");
     hCorreo = new JTextField(10);
-    JLabel lblHastaTelefono = new JLabel("TelÃ©fono:");
+    JLabel lblHastaTelefono = new JLabel("Teléfono:");
     hTelefono = new JTextField(10);
 
     pHasta = new JPanel(new GridLayout(5, 2, 10, 10));
@@ -260,7 +258,7 @@ public class VentanaHacerEnvio extends JFrame{
 	txtAlto = new JLabel("Alto: ");
 	txtPeso = new JLabel("Peso: ");
 	txtValor = new JLabel("Valor del paquete: ");
-	txtInfo = new JLabel("El nÂº de referencia se asigna automÃ¡ticamente.");
+	txtInfo = new JLabel("El nº de referencia se asigna automáticamente.");
 	
 	
 	campoLargo = new JTextField(10);
@@ -270,7 +268,7 @@ public class VentanaHacerEnvio extends JFrame{
 	campoPeso = new JTextField(10);
 	campoDescripcion = new JTextField(10);
 	
-	checkFragil = new JCheckBox("Â¿FrÃ¡gil?");
+	checkFragil = new JCheckBox("¿Frágil?");
 	
 	comboEmbalaje = new JComboBox<String>();
 	comboEmbalaje.addItem("Necesita embalaje");
@@ -659,7 +657,7 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	
 	
-	setTitle("Hacer envÃ­o");
+	setTitle("Hacer envío");
 	setBounds(300, 200, 900, 425);
 	setVisible(true);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -715,7 +713,7 @@ public class VentanaHacerEnvio extends JFrame{
 		        	int option = JOptionPane.showOptionDialog(
 		        			null,
 		        			scrollTYC,
-		        			"TÃ©rminos y Condiciones",
+		        			"Términos y Condiciones",
 		        			JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Aceptar", "Rechazar"}, "Aceptar");
 
 		        	if (option == JOptionPane.OK_OPTION) {
@@ -733,7 +731,7 @@ public class VentanaHacerEnvio extends JFrame{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-	        boolean validado = true; // Variable para controlar el estado de validación
+	        boolean validado = true;
 
 	        validado = guardarDatosPago();
 	        if (!validado) {
@@ -891,7 +889,6 @@ public class VentanaHacerEnvio extends JFrame{
 		    u.addEnvio(envio);
 		    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 		    try {
-		        BaseDatosConfiguracion.insertarPaquete(con, paquete); // Insertar el paquete primero
 		        BaseDatosConfiguracion.insertarEnvio(con, envio, u);     // Insertar el envío con el mismo idPaquete
 		        JOptionPane.showMessageDialog(null, "Envío registrado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 		    } finally {
@@ -950,9 +947,19 @@ public class VentanaHacerEnvio extends JFrame{
 		    
 		    
 		    if (peso.isEmpty() || largo.isEmpty() || ancho.isEmpty() || alto.isEmpty() || valor.isEmpty()) {
+		    	
 		        JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
 		        return false;
+		    } else {
+				int altoPrecio = Integer.parseInt(alto);
+				int anchoPrecio = Integer.parseInt(ancho);
+				int largoPrecio = Integer.parseInt(largo);
+				
+				precioBase = (PrecioBaseAlto(altoPrecio) + PrecioBaseAncho(anchoPrecio) + PrecioBaseLargo(largoPrecio))/2;
+
 		    }
+		    
+		    
 			
 		    String referencia = generarReferenciaAleatoria();  
 		    Paquete paquete = new Paquete(referencia, embalaje, peso, largo, ancho, alto, valor, fragil);
@@ -1255,16 +1262,13 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	
 	
-	
-	
-	
 	radEstandar.addActionListener(new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
 				precioFinal = precioBase;
 				precioFinal += 2.99;
-				txtPrecioEnvio.setText(precioFinal + "â‚¬");
+				txtPrecioEnvio.setText(precioFinal + "€");
 				
 			} catch (NumberFormatException e2) {
 				txtPrecioEnvio.setText("Error");
@@ -1279,7 +1283,7 @@ public class VentanaHacerEnvio extends JFrame{
 				
 				precioFinal = precioBase;			    			    				    	
 				precioFinal += 3.99;
-				txtPrecioEnvio.setText(precioFinal + "â‚¬");
+				txtPrecioEnvio.setText(precioFinal + "€");
 				
 			} catch (NumberFormatException e2) {
 				txtPrecioEnvio.setText("Error");
@@ -1293,7 +1297,7 @@ public class VentanaHacerEnvio extends JFrame{
 			try {
 				precioFinal = precioBase;
 				precioFinal += 7.99;
-				txtPrecioEnvio.setText(precioFinal + "â‚¬");
+				txtPrecioEnvio.setText(precioFinal + "€");
 				
 			} catch (NumberFormatException e2) {
 				txtPrecioEnvio.setText("Error");}
@@ -1325,8 +1329,10 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	
 	}
-	
-    private void cambiarPestana(int incremento) {
+
+
+
+	private void cambiarPestana(int incremento) {
         int nuevoIndice = indiceActual + incremento;
         if (nuevoIndice >= 0 && nuevoIndice < tabEnvios.getTabCount()) {
             tabEnvios.setSelectedIndex(nuevoIndice);

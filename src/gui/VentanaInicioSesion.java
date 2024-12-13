@@ -84,7 +84,7 @@ public class VentanaInicioSesion extends JFrame{
         txtCorreo.setBounds(160, 30, 250, 25);
         panelDatos.add(txtCorreo);
 
-        JComboBox<String> dominioEmail = new JComboBox<>(new String[]{"@admin.es", "@gmail.com", "@hotmail.com", "@outlook.com", "@aol.com", "@icloud.com", "@yahoo.com"});
+        JComboBox<String> dominioEmail = new JComboBox<>(new String[]{"@gmail.com","@admin.es", "@hotmail.com", "@outlook.com", "@aol.com", "@icloud.com", "@yahoo.com"});
         dominioEmail.setBounds(420, 30, 120, 25);
         panelDatos.add(dominioEmail);
         
@@ -96,11 +96,11 @@ public class VentanaInicioSesion extends JFrame{
         	 if (value != null) {
                  String dominio = value.toString();
                  switch (dominio) {
+	                 case "@gmail.com":
+	                	 label.setBackground(Color.cyan);
+	                	 break;
                      case "@admin.es":
                          label.setBackground(Color.GREEN);
-                         break;
-                     case "@gmail.com":
-                         label.setBackground(Color.cyan);
                          break;
                      case "@hotmail.com":
                          label.setBackground(Color.yellow);

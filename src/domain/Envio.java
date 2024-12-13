@@ -1,5 +1,8 @@
 package domain;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Random;
 
 public class Envio {
 	
@@ -28,20 +31,20 @@ public class Envio {
 	}
 
 	 public String getEstado() {
-	    // Si el pago está completo, la recogida ha sido realizada y el trayecto está finalizado
-        if (pago != null && pago.getDescripcion().equals("Pagado") && 
-            recogida != null && !recogida.getFechaDeRecogida().isEmpty() && 
-            trayecto != null && trayecto.getNombreDestino() != null) {
-            return "Enviado";
-        } else if (pago != null && pago.getDescripcion().equals("Pendiente")) {
-            return "Pendiente de pago";
-        } else if (recogida != null && recogida.getFechaDeRecogida().isEmpty()) {
-            return "Pendiente de recogida";
-        } else if (trayecto != null && trayecto.getNombreDestino() == null) {
-            return "En tránsito";
-        } else {
-            return "Estado desconocido";
-        }
+		LocalDate fechaRecogida = LocalDate.parse(recogida.getFechaDeRecogida());
+	    LocalDate fechaActual = LocalDate.now();
+
+	    long diasTranscurridos = ChronoUnit.DAYS.between(fechaActual,fechaRecogida);
+
+	    if (diasTranscurridos >= 10) {
+	        return "Pendiente";
+	    } else if (diasTranscurridos >= 6 && diasTranscurridos <= 9) {
+	        return "En tránsito";
+	    } else if (diasTranscurridos >= 0 && diasTranscurridos <= 5) {
+	        return "Enviado";
+	    } else {
+	        return "Fecha inválida"; 
+	    }
     }
 
 	public Trayecto getTrayecto() {
@@ -82,4 +85,5 @@ public class Envio {
 				+ "]";
 	}
 	
+
 }

@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Date;
@@ -39,6 +40,9 @@ import db.BaseDatosConfiguracion;
 import domain.Envio;
 import domain.Paquete;
 import domain.Usuario;
+import gui.Aa.ButtonRenderer;
+import gui.Aa.CustomTableCellRenderer;
+import gui.Aa.EnvioTableModel;
 
 import javax.swing.AbstractCellEditor;
 
@@ -56,102 +60,64 @@ public class VentanaVerEnvios  extends JFrame {
 		setResizable(false);
 
 		
-		JTable tablaEnvios = new JTable(new EnvioTableModel(u.getListaEnvios())) {
-		
-			private static final long serialVersionUID = 1L;
+        JTable tablaEnvios = new JTable(new EnvioTableModel(u.getListaEnvios()));
+        tablaEnvios.setRowHeight(30);
+        tablaEnvios.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
 
-		@Override
-		public boolean isCellEditable(int row, int column) {
-			return column == 3;
-	        }
-	     };
-	        
-	    tablaEnvios.setRowHeight(30);
-	    tablaEnvios.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+        ButtonRenderer buttonRendererEditor = new ButtonRenderer((EnvioTableModel) tablaEnvios.getModel(), tablaEnvios, u);
+        tablaEnvios.getColumnModel().getColumn(6).setCellRenderer(buttonRendererEditor);
+        tablaEnvios.getColumnModel().getColumn(6).setCellEditor(buttonRendererEditor);
 
+	    tablaEnvios.setDefaultRenderer(Object.class, new CustomTableCellRenderer());
 	    
-	    tablaEnvios.setDefaultRenderer(Object.class, new RenderTabla(tablaEnvios));
-	    
-//	    ButtonRenderer buttonRendererEditor = new ButtonRenderer((EnvioTableModel) tablaEnvios.getModel(), tablaEnvios);
-//        tablaEnvios.getColumnModel().getColumn(6).setCellRenderer(buttonRendererEditor);
-//        tablaEnvios.getColumnModel().getColumn(6).setCellEditor(buttonRendererEditor);	        
+	    JScrollPane scrollPane = new JScrollPane(tablaEnvios);
 	    JPanel tablePanel = new JPanel(new BorderLayout());
 	    tablePanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15)); 
-	        
-	    JScrollPane scrollPane = new JScrollPane(tablaEnvios);
-			
 	    tablePanel.add(scrollPane, BorderLayout.CENTER);
 	    	   
+	    ImageIcon imageVolverO = new ImageIcon("resources/images/volver.png");
+	    ImageIcon imageVolverE = new ImageIcon(imageVolverO.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
+	    JButton btnVolver = new JButton(imageVolverE);
+        JPanel panelVolver = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        panelVolver.setBorder(new EmptyBorder(10, 10, 10, 10));
+        panelVolver.add(btnVolver);
 
-	    String[] opcionesFiltro = {"Enviado", "Pendiente", "En tránsito"};
+        
+        btnVolver.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal(u));
+				dispose();
+			}
+		});
+	    
+	    
+	    String[] opcionesFiltro = {"Todos", "Enviado", "Pendiente", "En tránsito"};
 	    JComboBox<String> filtroComboBox = new JComboBox<>(opcionesFiltro);
 	    filtroComboBox.setSelectedIndex(0); 
 	    filtroComboBox.setPreferredSize(new Dimension(150, 20));
 	    filtroComboBox.setFont(new Font("Arial", Font.PLAIN, 12));
 	    
-	    
-        
-	    /*filtroComboBox.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	        	String estadoSeleccionado = (String) filtroComboBox.getSelectedItem();
-	            DefaultTableModel modeloTabla = (DefaultTableModel) tablaEnvios.getModel();
-	            modeloTabla.setRowCount(0); 
-
-	            String usuarioID = getUsuarioID(); 
-				cargarEnviosDelUsuario(modeloTabla, con, usuarioID);
-
-	            tablaEnvios.revalidate();
-	            tablaEnvios.repaint();
-	        }
-	    });*/
-
-	    
-
-	    
-        
-        ImageIcon imageVolverO = new ImageIcon("resources/images/volver.png");
-        ImageIcon imageVolverE = new ImageIcon(
-        		imageVolverO.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH)
-        );
-        
-        JButton btnVolver = new JButton(imageVolverE);
-        
-        JPanel panelVolver = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        panelVolver.setBorder(new EmptyBorder(10, 10, 10, 10));
-        panelVolver.add(btnVolver);
-        
-        btnVolver.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				VentanaPantallaPrincipal pantallaPrincipal = new VentanaPantallaPrincipal(u);
-				pantallaPrincipal.setVisible(true);
-				dispose();
-				
-			}
-		});
-
+        filtroComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String estadoSeleccionado = (String) filtroComboBox.getSelectedItem();
+                EnvioTableModel modelo = (EnvioTableModel) tablaEnvios.getModel();
+                modelo.filtrarPorEstado(estadoSeleccionado);
+                tablaEnvios.repaint();
+            }
+        });
        
         
         JPanel panelSuperior = new JPanel(new BorderLayout());
         panelSuperior.add(panelVolver, BorderLayout.WEST);
         
-       
-
-		//ImageIcon imgModificar = new ImageIcon(getClass().getResource("/Images/modificar.png"));
-        //JButton btnModificar = new JButton("Modificar");
-		//ImageIcon imgEliminar = new ImageIcon(getClass().getResource("/Images/eliminar.png"));
-       // JButton btnEliminar = new JButton("Eliminar");
         
         ImageIcon logo = new ImageIcon("resources/images/logoPngNegro.png");
 		JLabel labelImagenLogo = new JLabel(logo);
 
-		
 
         JPanel panelDerecha = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
-       // panelDerecha.add(btnModificar);
-       // panelDerecha.add(btnEliminar);
         panelDerecha.add(labelImagenLogo);
         panelSuperior.add(panelDerecha, BorderLayout.EAST);
         
@@ -163,98 +129,124 @@ public class VentanaVerEnvios  extends JFrame {
         
         add(panelSuperior, BorderLayout.NORTH);
         add(tablePanel, BorderLayout.CENTER);
-        
-        
-
 		
 	}
 	
-    class RenderTabla implements TableCellRenderer {
-        private final JTable table;
-        private final ImageIcon iconoLibro;
+	//modelo de la tabla
+	class EnvioTableModel extends AbstractTableModel {
+        String[] nombreColumnas = {"Nº referencia", "Fecha", "Precio", "Descripción", "Estado", "Fecha prevista", "Editar"};
+        List<Envio> envios;
+        List<Envio> enviosFiltrados;
 
-        public RenderTabla(JTable table) {
-            this.table = table;
-            ImageIcon originalIcon  = new ImageIcon("resources/images/libro.jpg");
-            Image image = originalIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-            iconoLibro = new ImageIcon(image);
+        public EnvioTableModel(List<Envio> envios) {
+            this.envios = envios;
+            this.enviosFiltrados = envios;
         }
 
         @Override
+        public int getRowCount() {
+            return enviosFiltrados.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return nombreColumnas.length;
+        }
+
+        @Override
+        public String getColumnName(int column) {
+            return nombreColumnas[column];
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            Envio envio = enviosFiltrados.get(rowIndex);
+            switch (columnIndex) {
+                case 0:
+                    return envio.getPaquete().getnReferencia();
+                case 1:
+                    return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                case 2:
+                    return envio.getPago().getPrecio();
+                case 3:
+                    return envio.getPago().getDescripcion();
+                case 4:
+                    return envio.getEstado();
+                case 5:
+                    return envio.getRecogida().getFechaDeRecogida();
+                case 6:
+                    return "Editar";
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return columnIndex == 6;
+        }
+
+        public void filtrarPorEstado(String estado) {
+            if (estado.equals("Todos")) {
+                enviosFiltrados = envios;
+            } else {
+                enviosFiltrados = envios.stream()
+                        .filter(envio -> envio.getEstado().equals(estado))
+                        .toList();
+            }
+            fireTableDataChanged();
+        }
+    }
+
+    // Renderizador personalizado para la tabla
+    class CustomTableCellRenderer implements TableCellRenderer {
+        @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            JLabel label = new JLabel(value.toString());;
-            table.setBackground(Color.WHITE);
-
-           
-            label.setFont(new Font("Arial",  Font.PLAIN, 14));
-            
-            if (row % 2 == 0) {
-				label.setBackground(new Color(250, 249, 249));
-			} else {
-				label.setBackground(new Color(190, 227, 219));
-			}
-			
-            if(column == 1 || column == 2 || column == 5) {
-            	label.setHorizontalAlignment(SwingUtilities.CENTER);
-            }
-            
-            if (isSelected) {
-                label.setBackground(Color.LIGHT_GRAY);
-            }
-            
-            
-            
-            //que la fecha esté en el formato correcto (yyyy-mm-dd).
-            if (value instanceof Date) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                value = dateFormat.format((Date) value);
-            }
-            
-				
-			
-            
-            
-            if (column == 2) {
-                try {
-                    double precio = Double.parseDouble(value.toString());
-                    if (precio <= 50) {
-                        label.setBackground(Color.GREEN);
-                    } else if (precio <= 100) {
-                        label.setBackground(Color.ORANGE);
-                    } else {
-                        label.setBackground(Color.RED);
-                    }
-                } catch (NumberFormatException e) {
-                    label.setBackground(Color.WHITE); 
-                }
-                
-            }
-            
-            if(column == 3 && "Envio de libros".equals(value)) {
-            	label.setHorizontalAlignment(SwingConstants.CENTER);
-            	label.setText("");
-            	label.setIcon(iconoLibro);
-            }
-
+            JLabel label = new JLabel(value != null ? value.toString() : "");
             label.setOpaque(true);
+            label.setFont(new Font("Arial", Font.PLAIN, 14));
+            if (row % 2 == 0) {
+                label.setBackground(new Color(240, 240, 240));
+            } else {
+                label.setBackground(Color.WHITE);
+            }
+
+            if (isSelected) {
+                label.setBackground(new Color(184, 207, 229));
+            }
+
+            if (column == 2 && value instanceof Double) {
+                double precio = (Double) value;
+                if (precio <= 50) {
+                    label.setForeground(Color.GREEN);
+                } else if (precio <= 100) {
+                    label.setForeground(Color.ORANGE);
+                } else {
+                    label.setForeground(Color.RED);
+                }
+            } else {
+                label.setForeground(Color.BLACK);
+            }
+
             return label;
         }
     }
-    
-    class ButtonRenderer extends AbstractCellEditor implements TableCellRenderer, TableCellEditor {
 
+    // Renderizador y editor para la columna de botones
+    class ButtonRenderer extends AbstractCellEditor implements TableCellRenderer, TableCellEditor {
         private final JPanel panel;
         private final JButton btnModificar;
         private final JButton btnEliminar;
-        private final DefaultTableModel tablaModel;
+        private final EnvioTableModel tablaModel;
         private final JTable tablaEnvios;
+        private final Usuario usuario;
         private int row;
 
-        public ButtonRenderer(DefaultTableModel tablaModel, JTable tablaEnvios) {
+        public ButtonRenderer(EnvioTableModel tablaModel, JTable tablaEnvios, Usuario u) {
             this.tablaModel = tablaModel;
             this.tablaEnvios = tablaEnvios;
             panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
-            
+
             ImageIcon iconModificar = new ImageIcon("resources/images/modificar.png");
             ImageIcon iconEliminar = new ImageIcon("resources/images/eliminar.png");
             
@@ -263,31 +255,50 @@ public class VentanaVerEnvios  extends JFrame {
 
             btnModificar = new JButton(iconModificar);
             btnEliminar = new JButton(iconEliminar);
+			this.usuario = u;
 
-            btnModificar.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                   /* tablaEnvios.editCellAt(row, 0); // Habilita la edici�n de la fila completa
-                    tablaEnvios.setRowSelectionInterval(row, row); // Selecciona la fila actual
-                    stopCellEditing();*/
-                	tablaEnvios.editCellAt(row, 3);
-                    tablaEnvios.editCellAt(row, 0); 
-                    tablaEnvios.setRowSelectionInterval(row, row); 
+            btnModificar.addActionListener(e -> {
+                Envio envio = tablaModel.enviosFiltrados.get(row);
+                if (envio.getEstado().equals("Pendiente")) {
+                    SwingUtilities.invokeLater(() -> new VentanaHacerEnvio(this.usuario));
                     stopCellEditing();
-                }
+                    dispose();
+                } 
             });
 
-            btnEliminar.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    tablaModel.removeRow(row); 
-                    stopCellEditing();
+            btnEliminar.addActionListener(e -> {
+            	if (row >= 0 && row < tablaModel.enviosFiltrados.size()) {
+                    Envio envio = tablaModel.enviosFiltrados.get(row);
+
+                    try (Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db")) {
+                        if (con != null) {
+                            BaseDatosConfiguracion.eliminarEnvio(con, envio.getPaquete().getnReferencia());
+                            BaseDatosConfiguracion.borrarPaquete(con, envio.getPaquete().getnReferencia());
+                            BaseDatosConfiguracion.borrarRecogida(con, envio.getRecogida().getFechaDeRecogida());
+                            BaseDatosConfiguracion.borrarPago(con, envio.getPago().getDni());
+                            BaseDatosConfiguracion.borrarTrayecto(con, envio.getTrayecto().getDireccionOrigen(), envio.getTrayecto().getDireccionDestino());
+                            
+
+                            tablaModel.envios.remove(envio);
+                            tablaModel.enviosFiltrados.remove(envio);
+                            tablaEnvios.repaint();
+                            stopCellEditing();
+
+                            JOptionPane.showMessageDialog(null, "Envío eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "Error al eliminar el envío de la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+                        ex.printStackTrace();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "El índice no es válido. No se puede eliminar el envío.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             });
 
             panel.add(btnModificar);
             panel.add(btnEliminar);
-            
         }
 
         @Override
@@ -306,106 +317,6 @@ public class VentanaVerEnvios  extends JFrame {
             return null;
         }
     }
-    
-    //cargar la tabla
-    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
-    
-//    public void cargarEnviosDelUsuario(DefaultTableModel modeloTabla, Connection con, String usuarioId) {
-//
-//        modeloTabla.setRowCount(0);        
-//        
-//        String correo = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, usuarioId);
-//        if (correo == null) {
-//            System.out.println("No se encontró el correo asociado al usuario.");
-//            return;
-//        }
-//        
-//        List<Envio> envios = BaseDatosConfiguracion.obtenerEnviosPorUsuario(con, correo);
-//        
-//        if (envios.isEmpty()) {
-//            System.out.println("No hay envíos para este usuario.");
-//            return;
-//        }
-//        
-//        System.out.println("Envios: " + envios);  
-//        
-//        for (Envio envio : envios) {
-//    	    System.out.println("Referencia: " + envio.getPaquete().getnReferencia());
-//    	    System.out.println("Fecha de Recogida: " + envio.getRecogida().getFechaDeRecogida());
-//    	    System.out.println("Precio: " + envio.getPago().getPrecio());
-//    	    System.out.println("Descripción: " + envio.getPago().getDescripcion());
-//    	    System.out.println("Estado: " + envio.getEstado());
-//    	    System.out.println("Fecha Prevista: " + envio.getRecogida().getFechaDeRecogida());
-//
-//    	    
-//        	// {"Nº referencia", "Fecha", "Precio", "Descripción", "Estado", "Fecha prevista", "Editar"};
-//            modeloTabla.addRow(new Object[]{
-//                envio.getPaquete().getnReferencia(), 
-//                envio.getRecogida().getFechaDeRecogida(),
-//                envio.getPago().getPrecio(),
-//                envio.getPago().getDescripcion(),
-//                envio.getEstado(),
-//                envio.getRecogida().getFechaDeRecogida(),
-//                "" // Columna para el botón de editar
-//            });
-//        }
-//        
-//        
-//    }
-
-public class EnvioTableModel extends AbstractTableModel{
-	String[] nombreColumnas = {"Nº referencia", "Fecha", "Precio", "Descripción", "Estado", "Fecha prevista", "Editar"};
-	List<Envio> envios;
-	
-    // Constructor
-    public EnvioTableModel(List<Envio> envios) {
-        this.envios = envios;
-    }
-
-    @Override
-    public int getRowCount() {
-        return envios.size();  // Devuelve el número de filas (paquetes)
-    }
-
-    @Override
-    public int getColumnCount() {
-        return nombreColumnas.length;  // Devuelve el número de columnas
-    }
-
-    @Override
-    public String getColumnName(int column) {
-        return nombreColumnas[column];  // Devuelve el nombre de la columna
-    }
-
-    @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        Envio envio = envios.get(rowIndex);  // Obtiene el paquete en la fila indicada
-        if (columnIndex == 0) {  // Si es la primera columna (Referencia)
-            return envio.getPaquete().getnReferencia();  // Devuelve la referencia del paquete
-        }
-        if (columnIndex == 1) {
-			return new Date().toString();
-		}
-        if (columnIndex == 2) {
-			return envio.getPago().getPrecio();
-		}
-        if (columnIndex == 3) {
-			return envio.getPago().getDescripcion();
-		}
-        if (columnIndex == 4) {
-			return envio.getEstado();
-		}
-        if (columnIndex == 5) {
-			return envio.getRecogida().getFechaDeRecogida();
-		}
-        if (columnIndex == 6) {
-			return "botones"; // falta renderer
-		}
-        
-        return null;  // Si llegamos aquí, algo ha ido mal, devuelve null
-    }
-
-}
     
 }
 

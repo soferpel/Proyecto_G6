@@ -389,6 +389,14 @@ public class BaseDatosConfiguracion {
 	        }
 	    }
 	    
+	    public static void eliminarEnvio(Connection con, String paqueteId) throws SQLException {
+	        String sql = "DELETE FROM envio WHERE paquete_id = ?";
+	        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+	            stmt.setString(1, paqueteId);
+	            stmt.executeUpdate();
+	        }
+	    }
+	    
 	    
 	    
 	    /*public static List<Envio> obtenerTodosLosEnviosPorUsuario(Connection con) {
