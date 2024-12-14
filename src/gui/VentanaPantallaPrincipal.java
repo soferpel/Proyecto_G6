@@ -254,4 +254,3 @@ public class VentanaPantallaPrincipal extends JFrame{
      }
 	
 }
-

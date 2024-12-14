@@ -208,36 +208,30 @@ public class VentanaInicioSesion extends JFrame{
 		});	
 		
 		
-		bIniSesion.addActionListener((e) -> {
-		    String correo = txtCorreo.getText() + dominioEmail.getSelectedItem().toString();
-		    correo = correo.toLowerCase(); 
-		    String contrasenia = txtContra.getText();
-
-		    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
-		    Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
-		    BaseDatosConfiguracion.closeBD(con);
-
-		    if (u != null) {
-		        if (correo.endsWith("@admin.es")) {
-		            VentanaAdministracion ventanaAdmin = new VentanaAdministracion();
-		            ventanaAdmin.setVisible(true);
-		            this.dispose();
-		        } else {
-		            JOptionPane.showMessageDialog(null, "Bienvenido!", "SESIÓN INICIADA", JOptionPane.INFORMATION_MESSAGE);
-		            SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal(u));
-		            dispose();
-		        }
-		    } else {
-		        JOptionPane.showMessageDialog(null, "Para poder iniciar sesión tienes que estar registrado", "ERROR", JOptionPane.ERROR_MESSAGE);
-		        txtCorreo.setText("");
-		        txtContra.setText("");
-		        System.out.println("error");
-		    }
+		bIniSesion.addActionListener((e)->{
+			
+			String correo = txtCorreo.getText() + dominioEmail.getSelectedItem().toString();
+			correo.toLowerCase();
+            String contrasenia = txtContra.getText();
+            
+            Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+			Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
+			BaseDatosConfiguracion.closeBD(con);
+			
+			if(u != null) {
+				JOptionPane.showMessageDialog(null, "Bienvenido!","SESIÓN INICIADA",JOptionPane.INFORMATION_MESSAGE);
+				SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal(u));
+                dispose();
+			}else {
+				JOptionPane.showMessageDialog(null, "Para poder iniciar sesión tienes que estar registrado","ERROR",JOptionPane.ERROR_MESSAGE);
+				txtCorreo.setText("");
+				txtContra.setText("");
+				System.out.println("error");
+			}
+			
 		});
-
 		
 	}
 
 	
 }
-
