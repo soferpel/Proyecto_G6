@@ -212,12 +212,7 @@ public class VentanaPantallaPrincipal extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(() -> {
-					try {
-						new VentanaVerEnvios(u);
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					new VentanaVerEnvios(u);
 				});
 				dispose();
 				
