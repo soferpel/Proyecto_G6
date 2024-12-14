@@ -137,9 +137,7 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	
 	public VentanaHacerEnvio(Usuario u) {
-		
-
-		
+				
 	ImageIcon logo = new ImageIcon("resources/images/logoPngNegro.png");
 	JLabel labelImagenLogo = new JLabel(logo);
 	labelImagenLogo.setPreferredSize(new Dimension(350, logo.getIconHeight()));
@@ -224,11 +222,11 @@ public class VentanaHacerEnvio extends JFrame{
     JLabel lblHasta = new JLabel("HASTA:");
     JLabel lblHastaNombre = new JLabel("Nombre:");
     hNombre = new JTextField(10);
-    JLabel lblHastaDireccion = new JLabel("DirecciÃ³n:");
+    JLabel lblHastaDireccion = new JLabel("Dirección:");
     hDireccion = new JTextField(10);
     JLabel lblHastaCorreo = new JLabel("Correo:");
     hCorreo = new JTextField(10);
-    JLabel lblHastaTelefono = new JLabel("TelÃ©fono:");
+    JLabel lblHastaTelefono = new JLabel("Teléfono:");
     hTelefono = new JTextField(10);
 
     pHasta = new JPanel(new GridLayout(5, 2, 10, 10));
@@ -260,7 +258,7 @@ public class VentanaHacerEnvio extends JFrame{
 	txtAlto = new JLabel("Alto: ");
 	txtPeso = new JLabel("Peso: ");
 	txtValor = new JLabel("Valor del paquete: ");
-	txtInfo = new JLabel("El nÂº de referencia se asigna automÃ¡ticamente.");
+	txtInfo = new JLabel("El nº de referencia se asigna automáticamente.");
 	
 	
 	campoLargo = new JTextField(10);
@@ -270,7 +268,7 @@ public class VentanaHacerEnvio extends JFrame{
 	campoPeso = new JTextField(10);
 	campoDescripcion = new JTextField(10);
 	
-	checkFragil = new JCheckBox("Â¿FrÃ¡gil?");
+	checkFragil = new JCheckBox("¿Frágil?");
 	
 	comboEmbalaje = new JComboBox<String>();
 	comboEmbalaje.addItem("Necesita embalaje");
@@ -446,7 +444,7 @@ public class VentanaHacerEnvio extends JFrame{
     
 //TAB PAGO
     
-    txtNTarjeta = new JLabel("NÂº Tarjeta:");
+    txtNTarjeta = new JLabel("Nº Tarjeta:");
 	txtFCad = new JLabel("Fecha Caducidad:");
 	txtCVV = new JLabel("CVV:");
 	txtDNI = new JLabel("DNI:");
@@ -455,7 +453,7 @@ public class VentanaHacerEnvio extends JFrame{
 	campoCVV = new JTextField(5);
 	campoDNI = new JTextField(5);
 
-	checkFactura = new JCheckBox("Â¿Factura?");
+	checkFactura = new JCheckBox("¿Factura?");
 	
 	radTarjeta = new JRadioButton("Tarjeta");
 	radContra = new JRadioButton("Contrareembolso");
@@ -659,16 +657,16 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	
 	
-	setTitle("Hacer envÃ­o");
+	setTitle("Hacer envío");
 	setBounds(300, 200, 900, 425);
 	setVisible(true);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	setResizable(false);
 
 	 
-    textoTYC = new String("AceptaciÃ³n de TÃ©rminos y Condiciones de uso:\r\n"
+    textoTYC = new String("Aceptación de Términos y Condiciones de uso:\r\n"
 			+ "\r\n"
-			+ "Al utilizar nuestro sistema, el usuario acepta estos tÃ©rminos y condiciones y se compromete a cumplir con ellos. Estos tÃ©rminos pueden ser modificados en cualquier momento, y el usuario se compromete a revisarlos regularmente para estar al tanto de cualquier cambio.\r\n"
+			+ "Al utilizar nuestro sistema, el usuario acepta estos términos y condiciones y se compromete a cumplir con ellos. Estos tÃ©rminos pueden ser modificados en cualquier momento, y el usuario se compromete a revisarlos regularmente para estar al tanto de cualquier cambio.\r\n"
 			+ "\r\n"
 			+ "Los usuarios pueden necesitar registrarse para utilizar ciertas funciones del sistema. La informaciÃ³n proporcionada durante el registro debe ser precisa y completa.\r\n"
 			+ "Los usuarios son responsables de mantener la confidencialidad de sus credenciales de inicio de sesiÃ³n y notificar a Hermes de cualquier uso no autorizado de su cuenta.\r\n"
@@ -679,24 +677,24 @@ public class VentanaHacerEnvio extends JFrame{
 			+ "Los usuarios son responsables de la exactitud de la informaciÃ³n proporcionada al sistema, incluyendo datos de contacto y direcciones de envÃ­o.\r\n"
 			+ "Los usuarios son responsables de asegurarse de que los paquetes y envÃ­os cumplan con las restricciones y regulaciones aplicables.\r\n"
 			+ "\r\n"
-			+ "Los usuarios aceptan pagar las tarifas correspondientes a los servicios utilizados, segÃºn las tarifas publicadas por Hermes.\r\n"
-			+ "Los pagos se pueden realizar a travÃ©s de los mÃ©todos de pago aceptados por el sistema.\r\n"
+			+ "Los usuarios aceptan pagar las tarifas correspondientes a los servicios utilizados, según las tarifas publicadas por Hermes.\r\n"
+			+ "Los pagos se pueden realizar a través de los métodos de pago aceptados por el sistema.\r\n"
 			+ "\r\n"
 			+ "Hermes se compromete a proteger la privacidad y los datos de los usuarios de acuerdo con las leyes aplicables.\r\n"
 			+ "\r\n"
 			+ "Hermes no se harÃ¡ responsable de daÃ±os indirectos, consecuentes o incidentales.\r\n"
-			+ "La responsabilidad de Hermes se limita a los tÃ©rminos establecidos en acuerdos especÃ­ficos.\r\n"
+			+ "La responsabilidad de Hermes se limita a los tÃ©rminos establecidos en acuerdos especíicos.\r\n"
 			+ "\r\n"
-			+ "Las polÃ­ticas de cancelaciÃ³n y devoluciÃ³n se basan en las tarifas y polÃ­ticas especÃ­ficas de Hermes.\r\n"
+			+ "Las políticas de cancelación y devolución se basan en las tarifas y políticas específicas de Hermes.\r\n"
 			+ "Los usuarios deben revisar nuestras polÃ­ticas de cancelaciÃ³n y devoluciÃ³n antes de utilizar el sistema.\r\n"
 			+ "\r\n"
-			+ "Hermes se reserva el derecho de suspender o cancelar la cuenta de cualquier usuario que incumpla estos tÃ©rminos y condiciones.\r\n"
+			+ "Hermes se reserva el derecho de suspender o cancelar la cuenta de cualquier usuario que incumpla estos términos y condiciones.\r\n"
 			+ "\r\n"
-			+ "Estos tÃ©rminos y condiciones se rigen por las leyes del paÃ­s (en este caso EspaÃ±a) y cualquier disputa se resolverÃ¡ mediante arbitraje de conformidad con las reglas de Hermes o ante los tribunales competentes en EspaÃ±a.\r\n"
+			+ "Estos términos y condiciones se rigen por las leyes del paÃ­s (en este caso EspaÃ±a) y cualquier disputa se resolverÃ¡ mediante arbitraje de conformidad con las reglas de Hermes o ante los tribunales competentes en EspaÃ±a.\r\n"
 			+ "\r\n"
-			+ "Si tiene alguna pregunta o inquietud acerca de estos tÃ©rminos y condiciones, por favor contÃ¡ctenos a travÃ©s de support@hermes.es.\r\n"
+			+ "Si tiene alguna pregunta o inquietud acerca de estos términos y condiciones, por favor contáctenos a través de support@hermes.es.\r\n"
 			+ "\r\n"
-			+ "Al utilizar el Sistema de PaqueterÃ­a de Hermes, usted acepta y comprende estos tÃ©rminos y condiciones. Le recomendamos que imprima o descargue una copia de este documento para su referencia futura.");
+			+ "Al utilizar el Sistema de Paquetería de Hermes, usted acepta y comprende estos tÃ©rminos y condiciones. Le recomendamos que imprima o descargue una copia de este documento para su referencia futura.");
 	
 
 	
@@ -715,7 +713,7 @@ public class VentanaHacerEnvio extends JFrame{
 		        	int option = JOptionPane.showOptionDialog(
 		        			null,
 		        			scrollTYC,
-		        			"TÃ©rminos y Condiciones",
+		        			"Términos y Condiciones",
 		        			JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Aceptar", "Rechazar"}, "Aceptar");
 
 		        	if (option == JOptionPane.OK_OPTION) {
@@ -733,23 +731,50 @@ public class VentanaHacerEnvio extends JFrame{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			guardarDatosPago();
-			guardarDatosPaquete();
-			guardarDatosTrayecto();
-			guardarDatosEnvio(u);
-			try {
-				guardarDatosRecogida();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal(u));
-			dispose();
-		}
+	        boolean validado = true;
+
+	        validado = guardarDatosPago();
+	        if (!validado) {
+	            return; 
+	        }
+
+	        validado = guardarDatosPaquete();
+	        if (!validado) {
+	            return; 
+	        }
+
+	        validado = guardarDatosTrayecto();
+	        if (!validado) {
+	            return;
+	        }
+
+	        try {
+	            validado = guardarDatosRecogida();
+	        } catch (SQLException ex) {
+	            ex.printStackTrace();
+	            JOptionPane.showMessageDialog(null, "Error al guardar los datos de recogida: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+	            validado = false;
+	        }
+	        
+	        validado = guardarDatosEnvio(u);
+	        if (!validado) {
+	            return;
+	        }
+	        
+	        if (!validado) {
+	            return;
+	        }
+
+	        if (!validado) {
+	            return; 
+	        }
+
+	        SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal(u));
+	        dispose();
+	    }
 		     
 		
-		private void guardarDatosRecogida() throws SQLException {
+		private boolean guardarDatosRecogida() throws SQLException {
 		    java.util.Date fecha = dateChooser.getDate();
 		    String fechaDeRecogida = null;
 		    String lugarDeRecogida = null; 
@@ -758,7 +783,7 @@ public class VentanaHacerEnvio extends JFrame{
 		    if (radDomic.isSelected()) {
 		        if (fecha == null) {
 		            JOptionPane.showMessageDialog(null, "La fecha de recogida no ha sido seleccionada.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-		            return;
+		            return false;
 		        }
 		        fechaDeRecogida = new SimpleDateFormat("yyyy-MM-dd").format(fecha);
 		        lugarDeRecogida = hDireccion.getText();
@@ -773,7 +798,7 @@ public class VentanaHacerEnvio extends JFrame{
 		        lugarDeRecogida = (String) comboRecog.getSelectedItem();
 		        if (lugarDeRecogida == null || lugarDeRecogida.isEmpty()) {
 		            JOptionPane.showMessageDialog(null, "Por favor, selecciona un punto de recogida.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-		            return;
+		            return false;
 		        }
 				    if (radEstandar.isSelected()) {
 				        tipoDeEnvio = "Estandar";
@@ -784,7 +809,7 @@ public class VentanaHacerEnvio extends JFrame{
 				    }
 		    } else {
 		        JOptionPane.showMessageDialog(null, "Por favor, selecciona una opción de recogida.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-		        return;
+		        return false;
 		    }
 
 		    Recogida recogida = new Recogida(fechaDeRecogida, lugarDeRecogida, tipoDeEnvio);
@@ -792,15 +817,16 @@ public class VentanaHacerEnvio extends JFrame{
 		    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 		    try {
 		        BaseDatosConfiguracion.insertarRecogida(con, recogida);
-		        JOptionPane.showMessageDialog(null, "Recogida registrada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 		    } finally {
 		        BaseDatosConfiguracion.closeBD(con);
 		    }
+		    return true;
 		}
 
 
 		
-		private void guardarDatosEnvio(Usuario u) {
+		private boolean guardarDatosEnvio(Usuario u) {
+			Date fechaActual = new Date();
 		    String trayectoNombreOrigen = dNombre.getText().trim();
 		    String trayectoNombreDestino = hNombre.getText().trim();
 		    String paqueteId = generarReferenciaAleatoria();
@@ -813,23 +839,28 @@ public class VentanaHacerEnvio extends JFrame{
 		        Date fechaRecogida = dateChooser.getDate();
 		        if (fechaRecogida == null) {
 		            JOptionPane.showMessageDialog(null, "Por favor, selecciona una fecha de recogida.", "Error", JOptionPane.ERROR_MESSAGE);
-		            return;
-		        }
+		            return false;
+		        }     	
+		        
+		        if (!fechaRecogida.after(fechaActual)) {
+		            JOptionPane.showMessageDialog(null, "Seleccione una fecha de recogida válida", "Error", JOptionPane.ERROR_MESSAGE);
+		            return false;
+				} 
 		        fechaDeRecogida = new java.sql.Date(fechaRecogida.getTime()).toString();
 		        lugarDeRecogida = hDireccion.getText();
 		        tipoDeEnvio = "Domicilio";
 		    } else if (radPtoRecog.isSelected()) {
 		        lugarDeRecogida = (String) comboRecog.getSelectedItem();
 		        if (lugarDeRecogida == null || lugarDeRecogida.isEmpty()) {
-		            JOptionPane.showMessageDialog(null, "Por favor, selecciona un punto de recogida.", "Error", JOptionPane.ERROR_MESSAGE);
-		            return;
+		            JOptionPane.showMessageDialog(null, "Por favor, seleccione un punto de recogida.", "Error", JOptionPane.ERROR_MESSAGE);
+		            return false;
 		        }
 		        tipoDeEnvio = "Punto de recogida";
 		    } else {
-		        JOptionPane.showMessageDialog(null, "Por favor, selecciona una opción de recogida.", "Error", JOptionPane.ERROR_MESSAGE);
-		        return;
+		        JOptionPane.showMessageDialog(null, "Por favor, seleccione una opción de recogida.", "Error", JOptionPane.ERROR_MESSAGE);
+		        return false;
 		    }
-
+		    
 		    Trayecto trayecto = new Trayecto(trayectoNombreOrigen, dDireccion.getText(), dCorreo.getText(), dTelefono.getText(),
 		            trayectoNombreDestino, hDireccion.getText(), hCorreo.getText(), hTelefono.getText());
 
@@ -858,12 +889,13 @@ public class VentanaHacerEnvio extends JFrame{
 		    u.addEnvio(envio);
 		    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 		    try {
-		        BaseDatosConfiguracion.insertarPaquete(con, paquete); // Insertar el paquete primero
 		        BaseDatosConfiguracion.insertarEnvio(con, envio, u);     // Insertar el envío con el mismo idPaquete
 		        JOptionPane.showMessageDialog(null, "Envío registrado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 		    } finally {
 		        BaseDatosConfiguracion.closeBD(con);
 		    }
+		    
+		    return true;
 		}
 
 
@@ -871,7 +903,7 @@ public class VentanaHacerEnvio extends JFrame{
 
 		
 
-		private void guardarDatosTrayecto() {
+		private boolean guardarDatosTrayecto() {
 			// TODO Auto-generated method stub
 			String nombreOrigen = dNombre.getText().trim();
 		    String direccionOrigen = dDireccion.getText().trim();
@@ -885,7 +917,7 @@ public class VentanaHacerEnvio extends JFrame{
 		    if (nombreOrigen.isEmpty() || direccionOrigen.isEmpty() || correoOrigen.isEmpty() || telefonoOrigen.isEmpty() ||
 		            nombreDestino.isEmpty() || direccionDestino.isEmpty() || correoDestino.isEmpty() || telefonoDestino.isEmpty()) {
 		            JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
-		            return;
+		            return false;
 		        }
 		    
 		    Trayecto trayecto = new Trayecto(nombreOrigen, direccionOrigen, correoOrigen, telefonoOrigen,
@@ -899,10 +931,11 @@ public class VentanaHacerEnvio extends JFrame{
 		    	
 		    	  BaseDatosConfiguracion.closeBD(con);
 		    }
+		    return true;
 		}
 
 
-		private void guardarDatosPaquete() {
+		private boolean guardarDatosPaquete() {
 			// TODO Auto-generated method stub
 			String embalaje = comboEmbalaje.getSelectedItem().toString();  
 		    String peso = campoPeso.getText().trim();
@@ -914,9 +947,19 @@ public class VentanaHacerEnvio extends JFrame{
 		    
 		    
 		    if (peso.isEmpty() || largo.isEmpty() || ancho.isEmpty() || alto.isEmpty() || valor.isEmpty()) {
+		    	
 		        JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
-		        return;
+		        return false;
+		    } else {
+				int altoPrecio = Integer.parseInt(alto);
+				int anchoPrecio = Integer.parseInt(ancho);
+				int largoPrecio = Integer.parseInt(largo);
+				
+				precioBase = (PrecioBaseAlto(altoPrecio) + PrecioBaseAncho(anchoPrecio) + PrecioBaseLargo(largoPrecio))/2;
+
 		    }
+		    
+		    
 			
 		    String referencia = generarReferenciaAleatoria();  
 		    Paquete paquete = new Paquete(referencia, embalaje, peso, largo, ancho, alto, valor, fragil);
@@ -928,6 +971,8 @@ public class VentanaHacerEnvio extends JFrame{
 		        
 		        BaseDatosConfiguracion.closeBD(con);
 		    }
+		    
+		    return true;
 		}
 
 		public static String generarReferenciaAleatoria() {
@@ -936,7 +981,8 @@ public class VentanaHacerEnvio extends JFrame{
 		}
 
 		
-		private void guardarDatosPago() {
+		private boolean guardarDatosPago() {
+		    Date fechaActual = new Date();
 		    String descripcion = campoDescripcion.getText().trim();
 		    String remitenteDestinatario = dNombre.getText().trim() + " - " + hNombre.getText().trim();
 		    String factura = checkFactura.isSelected() ? "Sí" : "No";
@@ -946,67 +992,73 @@ public class VentanaHacerEnvio extends JFrame{
 		    String fechaCaducidad = null;
 		    String CVV = null;
 
-		    
 		    if (descripcion.isEmpty() || dni.isEmpty() || precio.isEmpty()) {
 		        JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
-		        return;
+		        return false; 
 		    }
 
-		   
 		    if (!precio.matches("\\d+(\\.\\d{1,2})?")) {
 		        JOptionPane.showMessageDialog(null, "El precio debe ser un número válido con hasta dos decimales.", "Error", JOptionPane.ERROR_MESSAGE);
-		        return;
+		        return false; 
 		    }
 
-		    
+		    if (!dni.matches("\\d{8}[A-Z]")) {
+		        JOptionPane.showMessageDialog(null, "El DNI introducido no es válido. Debe contener 8 dígitos y una letra.", "Error", JOptionPane.ERROR_MESSAGE);
+		        return false; 
+		    }
+
 		    if (radTarjeta.isSelected()) {
 		        numeroTarjeta = campoNTarjeta.getText().trim();
 		        Date fechaSeleccionada = datechooserTarj.getDate();
 		        CVV = campoCVV.getText().trim();
 
+		        if (!numeroTarjeta.matches("\\d{4}[- ]?\\d{4}[- ]?\\d{4}[- ]?\\d{4}")) {
+		            JOptionPane.showMessageDialog(null, "El número de tarjeta debe contener exactamente 16 dígitos.", "Error", JOptionPane.ERROR_MESSAGE);
+		            return false; 
+		        }
+
 		        if (numeroTarjeta.isEmpty() || fechaSeleccionada == null || CVV.isEmpty()) {
 		            JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos de la tarjeta.", "Error", JOptionPane.ERROR_MESSAGE);
-		            return;
+		            return false; 
+		        }
+
+		        if (!fechaSeleccionada.after(fechaActual)) {
+		            JOptionPane.showMessageDialog(null, "Seleccione una fecha de caducidad válida.", "Error", JOptionPane.ERROR_MESSAGE);
+		            return false; 
+		        }
+
+		        if (CVV.length() != 3 || !CVV.matches("\\d+")) {
+		            JOptionPane.showMessageDialog(null, "El CVV debe ser un número de 3 dígitos.", "Error", JOptionPane.ERROR_MESSAGE);
+		            return false; 
 		        }
 
 		        try {
 		            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		            fechaCaducidad = sdf.format(fechaSeleccionada);
-		            LocalDate.parse(fechaCaducidad, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		        } catch (DateTimeParseException ex) {
+		        } catch (Exception ex) {
 		            JOptionPane.showMessageDialog(null, "Formato de fecha inválido. Usa YYYY-MM-DD.", "Error", JOptionPane.ERROR_MESSAGE);
-		            return;
-		        }
-
-		        try {
-		            if (CVV.length() != 3 || !CVV.matches("\\d+")) {
-		                throw new NumberFormatException("El CVV debe ser un número de 3 dígitos.");
-		            }
-		        } catch (NumberFormatException ex) {
-		            JOptionPane.showMessageDialog(null, "El CVV debe ser un número de 3 dígitos.", "Error", JOptionPane.ERROR_MESSAGE);
-		            return;
+		            return false; 
 		        }
 		    }
 
-		    
-		    Pago pago = new Pago(descripcion, numeroTarjeta != null ? numeroTarjeta : "-", fechaCaducidad, CVV != null ? CVV : "-", remitenteDestinatario, factura, dni, precio);
+		    Pago pago = new Pago(descripcion,numeroTarjeta != null ? numeroTarjeta : "-",fechaCaducidad,CVV != null ? CVV : "-",remitenteDestinatario,factura,dni,precio);
 
+		    // Guardar en la base de datos
 		    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
-
 		    try {
-				if (radTarjeta.isSelected()) {
-					
-					pago = new Pago(descripcion, numeroTarjeta, fechaCaducidad, CVV, remitenteDestinatario, factura, dni, Double.toString(precioFinal));
-					BaseDatosConfiguracion.insertarPago(con, pago);
-				} else {
-					pago = new Pago(descripcion, remitenteDestinatario, factura, dni, Double.toString(precioFinal));
-					BaseDatosConfiguracion.insertarPago(con, pago);
-
-				}
+		        if (radTarjeta.isSelected()) {
+		            BaseDatosConfiguracion.insertarPago(con, pago);
+		        } else {
+		            pago = new Pago(descripcion, remitenteDestinatario, factura, dni, Double.toString(precioFinal));
+		            BaseDatosConfiguracion.insertarPago(con, pago);
+		        }
 		    } finally {
 		        BaseDatosConfiguracion.closeBD(con);
 		    }
+		    
+		    return true;
 		}
+
 
 	});
     
@@ -1210,16 +1262,13 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	
 	
-	
-	
-	
 	radEstandar.addActionListener(new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
 				precioFinal = precioBase;
 				precioFinal += 2.99;
-				txtPrecioEnvio.setText(precioFinal + "â‚¬");
+				txtPrecioEnvio.setText(precioFinal + "€");
 				
 			} catch (NumberFormatException e2) {
 				txtPrecioEnvio.setText("Error");
@@ -1234,7 +1283,7 @@ public class VentanaHacerEnvio extends JFrame{
 				
 				precioFinal = precioBase;			    			    				    	
 				precioFinal += 3.99;
-				txtPrecioEnvio.setText(precioFinal + "â‚¬");
+				txtPrecioEnvio.setText(precioFinal + "€");
 				
 			} catch (NumberFormatException e2) {
 				txtPrecioEnvio.setText("Error");
@@ -1248,7 +1297,7 @@ public class VentanaHacerEnvio extends JFrame{
 			try {
 				precioFinal = precioBase;
 				precioFinal += 7.99;
-				txtPrecioEnvio.setText(precioFinal + "â‚¬");
+				txtPrecioEnvio.setText(precioFinal + "€");
 				
 			} catch (NumberFormatException e2) {
 				txtPrecioEnvio.setText("Error");}
@@ -1280,8 +1329,10 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	
 	}
-	
-    private void cambiarPestana(int incremento) {
+
+
+
+	private void cambiarPestana(int incremento) {
         int nuevoIndice = indiceActual + incremento;
         if (nuevoIndice >= 0 && nuevoIndice < tabEnvios.getTabCount()) {
             tabEnvios.setSelectedIndex(nuevoIndice);

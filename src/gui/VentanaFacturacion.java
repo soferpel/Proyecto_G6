@@ -82,6 +82,31 @@ public class VentanaFacturacion extends JFrame {
         
 
         
+        txtReferencia.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				filtrarPorReferencia();
+				
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				filtrarPorReferencia();
+				
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				filtrarPorReferencia();
+				
+			}
+          
+        });
+        
         txtReferencia.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -122,7 +147,7 @@ public class VentanaFacturacion extends JFrame {
         panelDerecho.add(txtDescripcion);
 
         //fecha de envío
-        JLabel lblFechaEnvio = new JLabel("Lugar de Envío:");
+        JLabel lblFechaEnvio = new JLabel("Fecha Envío:");
          txtFechaEnvio = new JTextField(15);
         panelDerecho.add(lblFechaEnvio);
         panelDerecho.add(txtFechaEnvio);
@@ -134,14 +159,11 @@ public class VentanaFacturacion extends JFrame {
         txtPrecio.setEditable(false);
         txtDescripcion.setEditable(false);
         txtFechaEnvio.setEditable(false);
-        
-        rbSi.setEnabled(false);
-        rbNo.setEnabled(false);
 
         JPanel panelTablaYBoton = new JPanel(new BorderLayout()); 
         JPanel panelTabla = new JPanel();
         panelTabla.setLayout(new BoxLayout(panelTabla, BoxLayout.Y_AXIS));
-        String[] columnNames = {"Número de referencia", "Fecha", "Trayecto", "Tipo de envío"};
+        String[] columnNames = {"Número de referencia", "Fecha", "Precio", "Descripción", "Tipo de envío"};
         model = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -164,8 +186,8 @@ public class VentanaFacturacion extends JFrame {
         JTable table = new JTable(model);
         table.setDefaultRenderer(Object.class, new CustomTableCellRenderer());
         JComboBox<String> comboBoxEnvio = new JComboBox<>(new String[]{"Estándar", "Premium", "Superior"});
-        table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(comboBoxEnvio));
-        table.getColumnModel().getColumn(3).setCellRenderer(new CustomTableCellRenderer());
+        table.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(comboBoxEnvio));
+        table.getColumnModel().getColumn(4).setCellRenderer(new CustomTableCellRenderer());
         
         
         JScrollPane scrollPane = new JScrollPane(table);
@@ -234,59 +256,50 @@ public class VentanaFacturacion extends JFrame {
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {  
-                    int selectedRow = table.getSelectedRow();
-                    if (selectedRow != -1) {
-                        String referencia = (String) table.getValueAt(selectedRow, 0);
-                        txtReferencia.setText(referencia);  
-
-                        buscarDatosReferencia();
-                    }
-                }
+            	int selectedRow = table.getSelectedRow();
+                if (selectedRow != -1) {
+                	
+                    txtReferencia.setText(""); 
+            /*      txtFechaEnvio.setText("");
+                    txtPrecio.setText("");
+                    txtDescripcion.setText("");
+            */      
+                    String referencia = (String) table.getValueAt(selectedRow, 0); 
+            /*      String fecha = (String) table.getValueAt(selectedRow, 1); 
+                    String precio = (String) table.getValueAt(selectedRow, 2); 
+                    String descripcion = (String) table.getValueAt(selectedRow, 3); 
+           */  
+                    txtReferencia.setText(referencia); 
+                    /*txtFechaEnvio.setText(fecha);
+                    txtPrecio.setText(precio);
+                    txtDescripcion.setText(descripcion);
+           */}
             }
         });
-
         add(panelPrincipal);
         setVisible(true);
-
-        mostrarTodosLosEnvios();  
+        
         
                 
     }
     
-    private void mostrarTodosLosEnvios() {
-        Connection c = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
-
-        try {
-            String query = """
-                SELECT e.paquete_id, r.fecha_de_recogida ,e.trayecto_id, r.tipo_de_envio
-                FROM envio e
-                JOIN recogida r ON e.recogida_id = r.lugar_de_recogida;
-            """;
-
-            try (PreparedStatement stmt = c.prepareStatement(query)) {
-                ResultSet rs = stmt.executeQuery();
-
-                model.setRowCount(0);  
-
-                while (rs.next()) {
-                    String referencia = rs.getString("paquete_id");  
-                    String fecha = rs.getString("fecha_de_recogida");  
-                    String trayecto = rs.getString("trayecto_id");
-                    String tipoEnvio = rs.getString("tipo_de_envio"); 
-
-                    model.addRow(new Object[]{referencia, fecha, trayecto, tipoEnvio});
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al cargar los envíos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } finally {
-            BaseDatosConfiguracion.closeBD(c);
+    private void filtrarPorReferencia() {
+        String filtro = txtReferencia.getText().trim();
+        
+        model.setRowCount(0);
+         
+        if (filtro.isEmpty()) {
+            datosOriginales.forEach(model::addRow);
+            return;
         }
+
+        datosOriginales.forEach(fila -> {
+            if (fila[0].toString().contains(filtro)) {
+                model.addRow(fila);
+            }
+        });
     }
-
-
+    
 
     private void buscarDatosReferencia() {
         String referencia = txtReferencia.getText().trim();
@@ -322,18 +335,11 @@ public class VentanaFacturacion extends JFrame {
                     txtFechaEnvio.setText(recogidaId); 
 
                     if (cvv == null) {
-                        rbNo.setSelected(true);
+                        rbNo.setSelected(true);  
                     } else {
-                        rbSi.setSelected(true);
+                        rbSi.setSelected(true);  
                     }
                 } else {
-
-                	txtPrecio.setText("");
-                    txtDescripcion.setText("");
-                    txtFechaEnvio.setText("");
-                    rbSi.setSelected(false);
-                    rbNo.setSelected(false);
-
                     JOptionPane.showMessageDialog(this, "No se encontró la referencia.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -344,7 +350,7 @@ public class VentanaFacturacion extends JFrame {
             BaseDatosConfiguracion.closeBD(c);
         }
     }
-    
+
     
     private static class CustomTableCellRenderer extends DefaultTableCellRenderer {
         @Override

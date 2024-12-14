@@ -9,6 +9,7 @@ public enum Dominio {
 	AOL("@aol.com"),
 	APPLE("@icloud.com"),
 	YAHOO("@yahoo.com"),
+	ADMIN("@admin.es"),
 	PRUEBA("");
 	
     private String dominio;

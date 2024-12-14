@@ -1,5 +1,6 @@
 package main;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -15,7 +16,13 @@ import gui.VentanaInicioSesion;
 public class Main {
 	
 	public static void main(String[] args) throws SQLException {
+
+		File f = new File("resources/db");
+		if (!f.exists() ) {
+			f.mkdir();
+		}		
 		Connection con =BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+		
 		try {
 			BaseDatosConfiguracion.crearTablas(con);
 			//BaseDatosConfiguracion.insertarRegistroDePrueba(con);

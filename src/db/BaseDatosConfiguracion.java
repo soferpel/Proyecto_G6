@@ -1,4 +1,4 @@
-wpackage db;
+package db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -109,6 +109,7 @@ public class BaseDatosConfiguracion {
 	             + "   paquete_id VARCHAR(50),"
 	             + "   recogida_id VARCHAR(50),"
 	             + "   pago_id VARCHAR(20),"
+	             + "   usuario_id VARCHAR(100),"
 	             + "   PRIMARY KEY (trayecto_id),"
 	             + "   FOREIGN KEY (trayecto_id) REFERENCES trayecto(trayecto_id),"
 	             + "   FOREIGN KEY (paquete_id) REFERENCES paquete(n_referencia),"
@@ -385,6 +386,14 @@ public class BaseDatosConfiguracion {
 	        } catch (SQLException ex) {
 	            logger.warning("Error borrando el envio: " + ex.getMessage());
 	            ex.printStackTrace();
+	        }
+	    }
+	    
+	    public static void eliminarEnvio(Connection con, String paqueteId) throws SQLException {
+	        String sql = "DELETE FROM envio WHERE paquete_id = ?";
+	        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+	            stmt.setString(1, paqueteId);
+	            stmt.executeUpdate();
 	        }
 	    }
 	    

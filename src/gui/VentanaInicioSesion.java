@@ -84,7 +84,7 @@ public class VentanaInicioSesion extends JFrame{
         txtCorreo.setBounds(160, 30, 250, 25);
         panelDatos.add(txtCorreo);
 
-        JComboBox<String> dominioEmail = new JComboBox<>(new String[]{"@admin.es", "@gmail.com", "@hotmail.com", "@outlook.com", "@aol.com", "@icloud.com", "@yahoo.com"});
+        JComboBox<String> dominioEmail = new JComboBox<>(new String[]{"@gmail.com","@admin.es", "@hotmail.com", "@outlook.com", "@aol.com", "@icloud.com", "@yahoo.com"});
         dominioEmail.setBounds(420, 30, 120, 25);
         panelDatos.add(dominioEmail);
         
@@ -96,11 +96,11 @@ public class VentanaInicioSesion extends JFrame{
         	 if (value != null) {
                  String dominio = value.toString();
                  switch (dominio) {
+	                 case "@gmail.com":
+	                	 label.setBackground(Color.cyan);
+	                	 break;
                      case "@admin.es":
                          label.setBackground(Color.GREEN);
-                         break;
-                     case "@gmail.com":
-                         label.setBackground(Color.cyan);
                          break;
                      case "@hotmail.com":
                          label.setBackground(Color.yellow);
@@ -208,28 +208,33 @@ public class VentanaInicioSesion extends JFrame{
 		});	
 		
 		
-		bIniSesion.addActionListener((e)->{
-			
-			String correo = txtCorreo.getText() + dominioEmail.getSelectedItem().toString();
-			correo.toLowerCase();
-            String contrasenia = txtContra.getText();
-            
-            Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
-			Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
-			BaseDatosConfiguracion.closeBD(con);
-			
-			if(u != null) {
-				JOptionPane.showMessageDialog(null, "Bienvenido!","SESIÓN INICIADA",JOptionPane.INFORMATION_MESSAGE);
-				SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal(u));
-                dispose();
-			}else {
-				JOptionPane.showMessageDialog(null, "Para poder iniciar sesión tienes que estar registrado","ERROR",JOptionPane.ERROR_MESSAGE);
-				txtCorreo.setText("");
-				txtContra.setText("");
-				System.out.println("error");
-			}
-			
+		bIniSesion.addActionListener((e) -> {
+		    String correo = txtCorreo.getText() + dominioEmail.getSelectedItem().toString();
+		    correo = correo.toLowerCase(); 
+		    String contrasenia = txtContra.getText();
+
+		    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+		    Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
+		    BaseDatosConfiguracion.closeBD(con);
+
+		    if (u != null) {
+		        if (correo.endsWith("@admin.es")) {
+		            VentanaAdministracion ventanaAdmin = new VentanaAdministracion();
+		            ventanaAdmin.setVisible(true);
+		            this.dispose();
+		        } else {
+		            JOptionPane.showMessageDialog(null, "Bienvenido!", "SESIÓN INICIADA", JOptionPane.INFORMATION_MESSAGE);
+		            SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal(u));
+		            dispose();
+		        }
+		    } else {
+		        JOptionPane.showMessageDialog(null, "Para poder iniciar sesión tienes que estar registrado", "ERROR", JOptionPane.ERROR_MESSAGE);
+		        txtCorreo.setText("");
+		        txtContra.setText("");
+		        System.out.println("error");
+		    }
 		});
+
 		
 	}
 
