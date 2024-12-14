@@ -399,7 +399,7 @@ public class BaseDatosConfiguracion {
 	    }
 	    
 	    
-	    public static List<Envio> cargarEnviosPorUsuario(Connection con, String correo) throws SQLException {
+	  /* public static List<Envio> cargarEnviosPorUsuario(Connection con, String usuario_id) throws SQLException {
 	        String query = "SELECT p.n_referencia AS referencia, pa.precio, pa.descripcion, r.fecha_de_recogida, e.trayecto_id " +
 	                       "FROM envio e " +
 	                       "JOIN paquete p ON e.paquete_id = p.n_referencia " +
@@ -410,7 +410,7 @@ public class BaseDatosConfiguracion {
 	        List<Envio> envios = new ArrayList<>();
 
 	        try (PreparedStatement stmt = con.prepareStatement(query)) {
-	            stmt.setString(1, correo);
+	            stmt.setString(1, usuario_id);
 
 	            try (ResultSet rs = stmt.executeQuery()) {
 	                while (rs.next()) {
@@ -436,7 +436,50 @@ public class BaseDatosConfiguracion {
 	            }
 	            return envios;
 	        }
+	    }*/
+	    
+	   
+		
+	    
+	    public static List<Envio> obtenerEnviosClientes(Connection con) {
+	        String sql = "SELECT * FROM usuario";	       
+
+	        List<Envio> l = new ArrayList<>();
+	        try {
+	            Statement st = con.createStatement();
+	            ResultSet rs = st.executeQuery(sql);
+	            
+	            while (rs.next()) {
+	                String nr = rs.getString("n_referencia");
+	                String p = rs.getString("precio");
+	                String desc = rs.getString("descripcion");
+	                String es = rs.getString("estado");
+	                String fr = rs.getString("fecha_de_recogida");
+
+	                // Verifica los datos obtenidos
+	                System.out.println("n_referencia: " + nr + ", precio: " + p + ", descripcion: " + desc);
+
+	                Paquete paquete = new Paquete(nr);
+	                Recogida recogida = new Recogida(fr);
+	                Trayecto trayecto = new Trayecto("Origen", "Destino"); // Asegúrate de que estos datos sean correctos
+	                Pago pago = new Pago(desc, "Remitente/Destino", "Factura", "Dni", p);
+
+	                Envio envio = new Envio(trayecto, paquete, recogida, pago);
+	                l.add(envio);
+	            }
+	            
+	            rs.close();
+	            st.close();
+	        } catch (SQLException e) {
+	            logger.warning("Error obteniendo lista de clientes");
+	            e.printStackTrace();  // Imprime la excepción para ayudarte a depurar
+	        }
+	        return l;
 	    }
+
+	    
+	
+	             
 
 
 	    
@@ -885,7 +928,7 @@ public class BaseDatosConfiguracion {
 
 //Todos los envios para el ADMIN
 		
-		public static List<Envio> obtenerEnvios(Connection con) throws SQLException {
+		/*public static List<Envio> obtenerEnvios(Connection con) throws SQLException {
 		    List<Envio> envios = new ArrayList<>();
 		    String query = "SELECT p.n_referencia AS 'Nº referencia', " +
 		                   "r.fecha_de_recogida AS 'Fecha', " +
@@ -915,7 +958,7 @@ public class BaseDatosConfiguracion {
 		        }
 		    }
 		    return envios;
-		}
+		}*/
 
 
 	

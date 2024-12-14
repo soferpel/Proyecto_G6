@@ -21,7 +21,7 @@ public class Envio {
 
  
 
-	public Envio(String dO, String dD, String nRefe, String fRec, String dni, String precio) {
+	/*public Envio(String dO, String dD, String nRefe, String fRec, String dni, String precio) {
 		dO = trayecto.getDireccionOrigen();
 		dD = trayecto.getDireccionDestino();
 		nRefe = paquete.getnReferencia();
@@ -29,7 +29,8 @@ public class Envio {
 		dni = pago.getDni();
 		precio = pago.getPrecio();
 	}
-
+*/
+	
 	 public String getEstado() {
 		LocalDate fechaRecogida = LocalDate.parse(recogida.getFechaDeRecogida());
 	    LocalDate fechaActual = LocalDate.now();

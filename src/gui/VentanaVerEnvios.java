@@ -59,8 +59,19 @@ public class VentanaVerEnvios  extends JFrame {
 		setResizable(false);		 
 
 		Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
-        List<Envio> listaEnvios = BaseDatosConfiguracion.cargarEnviosPorUsuario(con, u.getCorreo()); 
+        List<Envio> listaEnvios = BaseDatosConfiguracion.obtenerEnviosClientes(con); 
 
+
+     // Bloque de depuración
+     System.out.println("Total de envíos: " + listaEnvios.size()); // Verifica la cantidad de envíos obtenidos
+     if (listaEnvios.isEmpty()) {
+         System.out.println("No se encontraron envíos.");
+     } else {
+         for (Envio envio : listaEnvios) {
+             System.out.println(envio.toString()); // Opcional: muestra información de cada envío
+         }
+     }
+        
         EnvioTableModel modeloTabla = new EnvioTableModel(listaEnvios);
 
         // Crea la tabla con el modelo
@@ -204,7 +215,7 @@ public class VentanaVerEnvios  extends JFrame {
         public List<Envio> cargarEnviosPorUsuario(String usuarioId) {
         	
             try ( Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db")) {
-                return BaseDatosConfiguracion.cargarEnviosPorUsuario(con, usuarioId); 
+                return BaseDatosConfiguracion.obtenerEnviosClientes(con); 
             } catch (SQLException e) {
                 e.printStackTrace();
                 return new ArrayList<>();  
