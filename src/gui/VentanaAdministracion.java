@@ -49,8 +49,8 @@ public class VentanaAdministracion extends JFrame {
 		
 	   
 	public VentanaAdministracion() {
-//
-		
+//	
+	System.out.println();	
 		pCentro = new JPanel(new GridLayout(2, 1));
 		pNorte = new JPanel();
 
