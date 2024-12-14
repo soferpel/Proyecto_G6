@@ -1157,13 +1157,13 @@ public class VentanaHacerEnvio extends JFrame{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			int pestañaActual = tabEnvios.getSelectedIndex();
+			int pestanaActual = tabEnvios.getSelectedIndex();
 			
 			cambiarPestana(1);
             btnAnterior.setEnabled(true);
             
             
-            if (pestañaActual == 2) {
+            if (pestanaActual == 2) {
             	String altoPrecio1 = campoAlto.getText();
         		String anchoPrecio1 = campoAncho.getText();
         		String largoPrecio1 = campoLargo.getText();
@@ -1177,7 +1177,7 @@ public class VentanaHacerEnvio extends JFrame{
 			} else {
 			}
             
-            if (pestañaActual == 3) {
+            if (pestanaActual == 3) {
 				btnSiguiente.setEnabled(false);
 				btnFinalizar.setEnabled(true);
 			} else {
@@ -1229,8 +1229,8 @@ public class VentanaHacerEnvio extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			cambiarPestana(-1);
 			btnSiguiente.setEnabled(true);
-			int pestañaActual = tabEnvios.getSelectedIndex();
-			if (pestañaActual ==0) {
+			int pestanaActual = tabEnvios.getSelectedIndex();
+			if (pestanaActual ==0) {
 				btnAnterior.setEnabled(false);
 			} else {
 				btnFinalizar.setEnabled(false);
