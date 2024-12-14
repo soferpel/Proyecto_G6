@@ -44,6 +44,7 @@ import db.BaseDatosConfiguracion;
 import domain.Envio;
 import domain.Pago;
 import domain.Paquete;
+import domain.Presupuesto;
 import domain.Recogida;
 import domain.Usuario;
 import domain.Trayecto;
@@ -62,6 +63,7 @@ public class VentanaHacerEnvio extends JFrame{
 	private Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 20); //IAG (herramienta: ChatGPT)
 	private double precioBase, precioFinal;
 	private int indiceActual = 0;
+	private Presupuesto presupuesto;
 	
 	private Thread hilo;
 	private boolean hiloEjecutando;
@@ -1062,6 +1064,10 @@ public class VentanaHacerEnvio extends JFrame{
 
 	});
     
+    
+    
+    
+    
    
     
     checkTerminos.addActionListener(e -> btnFinalizar.setEnabled(checkTerminos.isSelected()));
@@ -1142,6 +1148,9 @@ public class VentanaHacerEnvio extends JFrame{
 	agregarKeyBindingParaEnter(campoRevAlto);
 	agregarKeyBindingParaEnter(campoRevPeso);
 	
+	
+	
+	
 	//botones 
 	btnVolver.addActionListener(new ActionListener() {
 		
@@ -1157,13 +1166,13 @@ public class VentanaHacerEnvio extends JFrame{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			int pestañaActual = tabEnvios.getSelectedIndex();
+			int pestanaActual = tabEnvios.getSelectedIndex();
 			
 			cambiarPestana(1);
             btnAnterior.setEnabled(true);
             
             
-            if (pestañaActual == 2) {
+            if (pestanaActual == 2) {
             	String altoPrecio1 = campoAlto.getText();
         		String anchoPrecio1 = campoAncho.getText();
         		String largoPrecio1 = campoLargo.getText();
@@ -1177,7 +1186,7 @@ public class VentanaHacerEnvio extends JFrame{
 			} else {
 			}
             
-            if (pestañaActual == 3) {
+            if (pestanaActual == 3) {
 				btnSiguiente.setEnabled(false);
 				btnFinalizar.setEnabled(true);
 			} else {
@@ -1229,8 +1238,8 @@ public class VentanaHacerEnvio extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			cambiarPestana(-1);
 			btnSiguiente.setEnabled(true);
-			int pestañaActual = tabEnvios.getSelectedIndex();
-			if (pestañaActual ==0) {
+			int pestanaActual = tabEnvios.getSelectedIndex();
+			if (pestanaActual ==0) {
 				btnAnterior.setEnabled(false);
 			} else {
 				btnFinalizar.setEnabled(false);
@@ -1330,6 +1339,7 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	}
 
+	
 
 
 	private void cambiarPestana(int incremento) {
@@ -1382,4 +1392,30 @@ public class VentanaHacerEnvio extends JFrame{
             }
         });
     }
-}
+
+
+
+
+	public void setPresupuesto(Presupuesto presupuesto) {
+		// TODO Auto-generated method stub
+		this.presupuesto = presupuesto;
+		dDireccion.setText(presupuesto.getDireccionDesde());
+		hDireccion.setText(presupuesto.getDireccionHasta());
+		campoAlto.setText(presupuesto.getAlto());
+		campoAncho.setText(presupuesto.getAncho());
+		campoLargo.setText(presupuesto.getLargo());
+		campoPeso.setText(presupuesto.getPeso());
+		
+		
+	}
+
+
+
+	
+
+
+	
+
+
+
+	}
