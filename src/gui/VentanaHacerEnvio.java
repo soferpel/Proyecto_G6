@@ -44,6 +44,7 @@ import db.BaseDatosConfiguracion;
 import domain.Envio;
 import domain.Pago;
 import domain.Paquete;
+import domain.Presupuesto;
 import domain.Recogida;
 import domain.Usuario;
 import domain.Trayecto;
@@ -62,6 +63,7 @@ public class VentanaHacerEnvio extends JFrame{
 	private Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 20); //IAG (herramienta: ChatGPT)
 	private double precioBase, precioFinal;
 	private int indiceActual = 0;
+	private Presupuesto presupuesto;
 	
 	private Thread hilo;
 	private boolean hiloEjecutando;
@@ -1062,6 +1064,10 @@ public class VentanaHacerEnvio extends JFrame{
 
 	});
     
+    
+    
+    
+    
    
     
     checkTerminos.addActionListener(e -> btnFinalizar.setEnabled(checkTerminos.isSelected()));
@@ -1141,6 +1147,9 @@ public class VentanaHacerEnvio extends JFrame{
 	agregarKeyBindingParaEnter(campoRevAncho);
 	agregarKeyBindingParaEnter(campoRevAlto);
 	agregarKeyBindingParaEnter(campoRevPeso);
+	
+	
+	
 	
 	//botones 
 	btnVolver.addActionListener(new ActionListener() {
@@ -1330,6 +1339,7 @@ public class VentanaHacerEnvio extends JFrame{
 	
 	}
 
+	
 
 
 	private void cambiarPestana(int incremento) {
@@ -1382,4 +1392,30 @@ public class VentanaHacerEnvio extends JFrame{
             }
         });
     }
-}
+
+
+
+
+	public void setPresupuesto(Presupuesto presupuesto) {
+		// TODO Auto-generated method stub
+		this.presupuesto = presupuesto;
+		dDireccion.setText(presupuesto.getDireccionDesde());
+		hDireccion.setText(presupuesto.getDireccionHasta());
+		campoAlto.setText(presupuesto.getAlto());
+		campoAncho.setText(presupuesto.getAncho());
+		campoLargo.setText(presupuesto.getLargo());
+		campoPeso.setText(presupuesto.getPeso());
+		
+		
+	}
+
+
+
+	
+
+
+	
+
+
+
+	}
