@@ -35,10 +35,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import db.BaseDatosConfiguracion;
 import domain.Envio;
+import domain.Usuario;
 
 //
 public class VentanaAdministracion extends JFrame {
@@ -53,7 +55,7 @@ public class VentanaAdministracion extends JFrame {
 	private Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 20);
 		
 	   
-	public VentanaAdministracion() {
+	public VentanaAdministracion(List<Usuario> usuarios) {
 //	
 	
 		pCentro = new JPanel(new GridLayout(2, 1));
@@ -125,40 +127,72 @@ public class VentanaAdministracion extends JFrame {
         	}
         });
         
+		
+		 List<Envio> todosLosEnvios = usuarios.stream()
+	                .flatMap(usuario -> usuario.getListaEnvios().stream())
+	                .toList();
 	}
 	
-	
-	private void cargarEnviosEnTabla() {
-	    DefaultTableModel model = (DefaultTableModel) tablaEnvios.getModel();
-	    model.setRowCount(0); 
-	    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+	class EnvioTableModel extends AbstractTableModel {
+        String[] nombreColumnas = {"Nº referencia", "Fecha", "Precio", "Descripción", "Estado", "Fecha prevista"};
+        List<Envio> envios;
+        List<Envio> enviosFiltrados;
 
-	    try {
-	        List<Envio> envios = BaseDatosConfiguracion.obtenerEnvios(con);
-	        for (Envio envio : envios) {
-	            model.addRow(new Object[] {
-	                envio.getPaquete().getnReferencia(),
-	                envio.getPago().getFechaCaducidad(),
-	                envio.getPago().getPrecio(),
-	                envio.getPago().getDescripcion(),
-	                envio.getEstado(),
-	                envio.getRecogida().getFechaDeRecogida()
-	            });
-	        }
-	    } catch (SQLException ex) {
-	        ex.printStackTrace();
-	        JOptionPane.showMessageDialog(this, "Error al cargar los envíos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-	    } finally {
-	        BaseDatosConfiguracion.closeBD(con);
-	    }
-	}
+        public EnvioTableModel(List<Envio> envios) {
+            this.envios = envios;
+            this.enviosFiltrados = envios;
+        }
 
+        @Override
+        public int getRowCount() {
+            return enviosFiltrados.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return nombreColumnas.length;
+        }
+
+        @Override
+        public String getColumnName(int column) {
+            return nombreColumnas[column];
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            Envio envio = enviosFiltrados.get(rowIndex);
+            switch (columnIndex) {
+                case 0:
+                    return envio.getPaquete().getnReferencia();
+                case 1:
+                    return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                case 2:
+                    return envio.getPago().getPrecio();
+                case 3:
+                    return envio.getPago().getDescripcion();
+                case 4:
+                    return envio.getEstado();
+                case 5:
+                    return envio.getRecogida().getFechaDeRecogida();
+                default:
+                    return null;
+            }
+        }
+
+        public void filtrarPorEstado(String estado) {
+            if (estado.equals("Todos")) {
+                enviosFiltrados = envios;
+            } else {
+                enviosFiltrados = envios.stream()
+                        .filter(envio -> envio.getEstado().equals(estado))
+                        .toList();
+            }
+            fireTableDataChanged();
+        }
+    }
 
 
 		
-    public static void main(String[] args) {
-        VentanaAdministracion ventana = new VentanaAdministracion();
-        ventana.setVisible(true); 
-    }
+   
 }
 

@@ -396,48 +396,7 @@ public class BaseDatosConfiguracion {
 	            stmt.setString(1, paqueteId);
 	            stmt.executeUpdate();
 	        }
-	    }
-	    
-	    
-	  /* public static List<Envio> cargarEnviosPorUsuario(Connection con, String usuario_id) throws SQLException {
-	        String query = "SELECT p.n_referencia AS referencia, pa.precio, pa.descripcion, r.fecha_de_recogida, e.trayecto_id " +
-	                       "FROM envio e " +
-	                       "JOIN paquete p ON e.paquete_id = p.n_referencia " +
-	                       "JOIN pago pa ON e.pago_id = pa.dni " +
-	                       "JOIN recogida r ON e.recogida_id = r.fecha_de_recogida " +
-	                       "WHERE e.usuario_id = ?";
-
-	        List<Envio> envios = new ArrayList<>();
-
-	        try (PreparedStatement stmt = con.prepareStatement(query)) {
-	            stmt.setString(1, usuario_id);
-
-	            try (ResultSet rs = stmt.executeQuery()) {
-	                while (rs.next()) {
-	                    // Obtener los datos
-	                    String referencia = rs.getString("referencia");
-	                    System.out.println("Referencia: " + referencia); 
-	                    String precio = rs.getString("precio");
-	                    String descripcion = rs.getString("descripcion");
-	                    String fechaRecogida = rs.getString("fecha_de_recogida");
-
-	                    Paquete paquete = new Paquete(referencia); 
-	                    Pago pago = new Pago(descripcion, "", "", "", "", "", "", precio);
-	                    Recogida recogida = new Recogida(fechaRecogida); 
-	                    Trayecto trayecto = new Trayecto("Estado", fechaRecogida);  
- 
-	                    
-	                    Envio envio = new Envio(trayecto, paquete, recogida, pago);
-
-	                    envios.add(envio);
-	                }
-	            } catch (SQLException e) {
-	                e.printStackTrace();
-	            }
-	            return envios;
-	        }
-	    }*/
-	    
+	    }	    	  
 	   
 		
 	    
@@ -477,50 +436,7 @@ public class BaseDatosConfiguracion {
 	        return l;
 	    }
 
-	    
-	
-	             
-
-
-	    
-	    /*public static List<Envio> obtenerTodosLosEnviosPorUsuario(Connection con) {
-	        String sql = "SELECT * FROM envio";
-	        List<Envio> envios = new ArrayList<>();
-	        Envio envio = null;
-	        
-	        try {
-	        	PreparedStatement st = con.prepareStatement(sql);
-	            ResultSet rs = st.executeQuery();
-
-	            while (rs.next()) {
-	                
-	                String trayectoId = rs.getString("trayecto_id");
-	                trayecto t = obtenerTrayectoPorId(con, trayectoId);  
-	                envio.setTrayecto(t);
-	                //envio.setTrayecto(new trayecto(rs.getString("trayecto_id")));
-	                String paqueteId = rs.getString("paquete_id");
-	                Paquete p = obtenerPaquetePorId(con, paqueteId);  
-	                envio.setPaquete(p);
-	                
-	                String recogidaId = rs.getString("recogida_id");
-	                Recogida r = obtenerRecogidaPorId(con, recogidaId);  
-	                envio.setRecogida(r);
-	                
-	                String pagoId = rs.getString("pago_id");
-	                Pago pa = obtenerPagoPorId(con, pagoId);  
-	                envio.setPago(pa);
-	                envios.add(envio);
-	                
-	            }
-
-	            rs.close();
-	            st.close();
-	        } catch (SQLException e) {
-	            logger.warning("Error obteniendo envios: " + e.getMessage());
-	        }
-	        return envios;
-	    }
-	    */
+	    		          
 	    
 	    public static List<Envio> obtenerEnviosPorUsuario(Connection con, String correo) {
 	        String sql = "SELECT * FROM envio WHERE correo = ?";
