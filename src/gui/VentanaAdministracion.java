@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,6 +37,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import db.BaseDatosConfiguracion;
+import domain.Envio;
+
 //
 public class VentanaAdministracion extends JFrame {
 	
@@ -49,8 +54,8 @@ public class VentanaAdministracion extends JFrame {
 		
 	   
 	public VentanaAdministracion() {
-//
-		
+//	
+	
 		pCentro = new JPanel(new GridLayout(2, 1));
 		pNorte = new JPanel();
 
@@ -75,6 +80,7 @@ public class VentanaAdministracion extends JFrame {
 		modeloTabla = new DefaultTableModel(null, nombreColumnas);
 
 		tablaEnvios = new JTable(modeloTabla) {
+
 			
 		@Override
 		public boolean isCellEditable(int row, int column) {
@@ -110,8 +116,44 @@ public class VentanaAdministracion extends JFrame {
         setVisible(true);
 		setResizable(false);
 
+		btnVolver.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		SwingUtilities.invokeLater(() -> new VentanaInicioSesion());
+    			dispose();			
+
+        	}
+        });
         
 	}
+	
+	
+	private void cargarEnviosEnTabla() {
+	    DefaultTableModel model = (DefaultTableModel) tablaEnvios.getModel();
+	    model.setRowCount(0); 
+	    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+
+	    try {
+	        List<Envio> envios = BaseDatosConfiguracion.obtenerEnvios(con);
+	        for (Envio envio : envios) {
+	            model.addRow(new Object[] {
+	                envio.getPaquete().getnReferencia(),
+	                envio.getPago().getFechaCaducidad(),
+	                envio.getPago().getPrecio(),
+	                envio.getPago().getDescripcion(),
+	                envio.getEstado(),
+	                envio.getRecogida().getFechaDeRecogida()
+	            });
+	        }
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	        JOptionPane.showMessageDialog(this, "Error al cargar los envíos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+	    } finally {
+	        BaseDatosConfiguracion.closeBD(con);
+	    }
+	}
+
+
 
 		
     public static void main(String[] args) {

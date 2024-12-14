@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 import domain.Envio;
 import domain.Pago;
@@ -398,6 +399,46 @@ public class BaseDatosConfiguracion {
 	    }
 	    
 	    
+	    public static List<Envio> cargarEnviosPorUsuario(Connection con, String correo) throws SQLException {
+	        String query = "SELECT p.n_referencia AS referencia, pa.precio, pa.descripcion, r.fecha_de_recogida, e.trayecto_id " +
+	                       "FROM envio e " +
+	                       "JOIN paquete p ON e.paquete_id = p.n_referencia " +
+	                       "JOIN pago pa ON e.pago_id = pa.dni " +
+	                       "JOIN recogida r ON e.recogida_id = r.fecha_de_recogida " +
+	                       "WHERE e.usuario_id = ?";
+
+	        List<Envio> envios = new ArrayList<>();
+
+	        try (PreparedStatement stmt = con.prepareStatement(query)) {
+	            stmt.setString(1, correo);
+
+	            try (ResultSet rs = stmt.executeQuery()) {
+	                while (rs.next()) {
+	                    // Obtener los datos
+	                    String referencia = rs.getString("referencia");
+	                    System.out.println("Referencia: " + referencia); 
+	                    String precio = rs.getString("precio");
+	                    String descripcion = rs.getString("descripcion");
+	                    String fechaRecogida = rs.getString("fecha_de_recogida");
+
+	                    Paquete paquete = new Paquete(referencia); 
+	                    Pago pago = new Pago(descripcion, "", "", "", "", "", "", precio);
+	                    Recogida recogida = new Recogida(fechaRecogida); 
+	                    Trayecto trayecto = new Trayecto("Estado", fechaRecogida);  
+ 
+	                    
+	                    Envio envio = new Envio(trayecto, paquete, recogida, pago);
+
+	                    envios.add(envio);
+	                }
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	            return envios;
+	        }
+	    }
+
+
 	    
 	    /*public static List<Envio> obtenerTodosLosEnviosPorUsuario(Connection con) {
 	        String sql = "SELECT * FROM envio";
@@ -841,6 +882,44 @@ public class BaseDatosConfiguracion {
 		        logger.warning("Error eliminando el usuario: " + ex.getMessage());
 		    }
 		}
+
+//Todos los envios para el ADMIN
+		
+		public static List<Envio> obtenerEnvios(Connection con) throws SQLException {
+		    List<Envio> envios = new ArrayList<>();
+		    String query = "SELECT p.n_referencia AS 'Nº referencia', " +
+		                   "r.fecha_de_recogida AS 'Fecha', " +
+		                   "pa.precio AS 'Precio', " +
+		                   "pa.descripcion AS 'Descripción', " +
+		                   "e.estado_envio AS 'Estado', " +
+		                   "r.fecha_de_recogida AS 'Fecha prevista' " +
+		                   "FROM envio en " +
+		                   "JOIN paquete p ON en.paquete_id = p.n_referencia " +
+		                   "JOIN pago pa ON en.pago_id = pa.dni " +
+		                   "JOIN recogida r ON en.recogida_id = r.fecha_de_recogida";
+
+		    try (PreparedStatement pstmt = con.prepareStatement(query);
+		         ResultSet rs = pstmt.executeQuery()) {
+
+		        while (rs.next()) {
+		            String referencia = rs.getString("Nº referencia");
+		            String fecha = rs.getString("Fecha");
+		            String precio = rs.getString("Precio");
+		            String descripcion = rs.getString("Descripción");
+		            String estado = rs.getString("Estado");
+		            String fechaPrevista = rs.getString("Fecha prevista");
+
+		            // Crear un objeto Envio (o un objeto que almacene estos datos)
+		            Envio envio = new Envio(referencia, fecha, precio, descripcion, estado, fechaPrevista);
+		            envios.add(envio);
+		        }
+		    }
+		    return envios;
+		}
+
+
+	
+
 
 		
 

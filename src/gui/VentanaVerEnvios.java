@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -49,22 +50,27 @@ public class VentanaVerEnvios  extends JFrame {
 	private static final TableCellRenderer RenderTabla = null;
 
     
-	public VentanaVerEnvios(Usuario u) {
+	public VentanaVerEnvios(Usuario u) throws SQLException {
 		setTitle("Ver Envios");
 		setSize(900, 500);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		setResizable(false);
+		setResizable(false);		 
 
-		
-        JTable tablaEnvios = new JTable(new EnvioTableModel(u.getListaEnvios()));
+		Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+        List<Envio> listaEnvios = BaseDatosConfiguracion.cargarEnviosPorUsuario(con, u.getCorreo()); 
+
+        EnvioTableModel modeloTabla = new EnvioTableModel(listaEnvios);
+
+        // Crea la tabla con el modelo
+        JTable tablaEnvios = new JTable(modeloTabla);
         tablaEnvios.setRowHeight(30);
         tablaEnvios.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
 
         ButtonRenderer buttonRendererEditor = new ButtonRenderer((EnvioTableModel) tablaEnvios.getModel(), tablaEnvios, u);
-        tablaEnvios.getColumnModel().getColumn(6).setCellRenderer(buttonRendererEditor);
-        tablaEnvios.getColumnModel().getColumn(6).setCellEditor(buttonRendererEditor);
+        tablaEnvios.getColumnModel().getColumn(5).setCellRenderer(buttonRendererEditor);
+        tablaEnvios.getColumnModel().getColumn(5).setCellEditor(buttonRendererEditor);
 
 	    tablaEnvios.setDefaultRenderer(Object.class, new CustomTableCellRenderer());
 	    
@@ -132,7 +138,7 @@ public class VentanaVerEnvios  extends JFrame {
 	
 	//modelo de la tabla
 	class EnvioTableModel extends AbstractTableModel {
-        String[] nombreColumnas = {"Nº referencia", "Fecha", "Precio", "Descripción", "Estado", "Fecha prevista", "Editar"};
+        String[] nombreColumnas = {"Nº referencia", "Precio", "Descripción", "Estado", "Fecha prevista", "Editar"};
         List<Envio> envios;
         List<Envio> enviosFiltrados;
 
@@ -162,17 +168,17 @@ public class VentanaVerEnvios  extends JFrame {
             switch (columnIndex) {
                 case 0:
                     return envio.getPaquete().getnReferencia();
+                //case 1:
+                 //   return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
                 case 1:
-                    return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-                case 2:
                     return envio.getPago().getPrecio();
-                case 3:
+                case 2:
                     return envio.getPago().getDescripcion();
-                case 4:
+                case 3:
                     return envio.getEstado();
-                case 5:
+                case 4:
                     return envio.getRecogida().getFechaDeRecogida();
-                case 6:
+                case 5:
                     return "Editar";
                 default:
                     return null;
@@ -181,7 +187,7 @@ public class VentanaVerEnvios  extends JFrame {
 
         @Override
         public boolean isCellEditable(int rowIndex, int columnIndex) {
-            return columnIndex == 6;
+            return columnIndex == 5;
         }
 
         public void filtrarPorEstado(String estado) {
@@ -194,6 +200,17 @@ public class VentanaVerEnvios  extends JFrame {
             }
             fireTableDataChanged();
         }
+        
+        public List<Envio> cargarEnviosPorUsuario(String usuarioId) {
+        	
+            try ( Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db")) {
+                return BaseDatosConfiguracion.cargarEnviosPorUsuario(con, usuarioId); 
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return new ArrayList<>();  
+            }
+        }
+
     }
 
     // Renderizador personalizado para la tabla
