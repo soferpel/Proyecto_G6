@@ -218,10 +218,16 @@ public class VentanaInicioSesion extends JFrame{
 			Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
 			BaseDatosConfiguracion.closeBD(con);
 			
-			if(u != null) {
-				JOptionPane.showMessageDialog(null, "Bienvenido!","SESIÓN INICIADA",JOptionPane.INFORMATION_MESSAGE);
-				SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal(u));
-                dispose();
+			 if (u != null) {
+			        if (correo.endsWith("@admin.es")) {
+			            VentanaAdministracion ventanaAdmin = new VentanaAdministracion();
+			            ventanaAdmin.setVisible(true);
+			            this.dispose();
+			        } else {
+			            JOptionPane.showMessageDialog(null, "Bienvenido!", "SESIÓN INICIADA", JOptionPane.INFORMATION_MESSAGE);
+			            SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal(u));
+			            dispose();
+			        }
 			}else {
 				JOptionPane.showMessageDialog(null, "Para poder iniciar sesión tienes que estar registrado","ERROR",JOptionPane.ERROR_MESSAGE);
 				txtCorreo.setText("");
