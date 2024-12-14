@@ -164,12 +164,12 @@ public class VentanaInicioSesion extends JFrame{
         panelDatos.add(olvideContra);
         
         olvideContra.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	
-                new VentanaModificarDatos().setVisible(true);
-                dispose();
-            }
+           // @Override
+//            public void mouseClicked(MouseEvent e) {
+//            	
+//                new VentanaModificarDatos(u).setVisible(true);
+//                dispose();
+//            }
 
             @Override		//MANO
             public void mouseEntered(MouseEvent e) {
@@ -199,6 +199,7 @@ public class VentanaInicioSesion extends JFrame{
 
 		//EVENTOS
 		bRegistrarse.addActionListener(new ActionListener() {
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(() -> new VentanaRegistro());
@@ -219,7 +220,7 @@ public class VentanaInicioSesion extends JFrame{
 			
 			if(u != null) {
 				JOptionPane.showMessageDialog(null, "Bienvenido!","SESIÓN INICIADA",JOptionPane.INFORMATION_MESSAGE);
-				SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal());
+				SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal(u));
                 dispose();
 			}else {
 				JOptionPane.showMessageDialog(null, "Para poder iniciar sesión tienes que estar registrado","ERROR",JOptionPane.ERROR_MESSAGE);

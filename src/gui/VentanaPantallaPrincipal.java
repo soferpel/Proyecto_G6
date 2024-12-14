@@ -23,6 +23,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import db.BaseDatosConfiguracion;
+import domain.Envio;
+import domain.Usuario;
 
 
 public class VentanaPantallaPrincipal extends JFrame{
@@ -31,7 +33,7 @@ public class VentanaPantallaPrincipal extends JFrame{
 	private static String correoUsuario; 
 
 
-	  public VentanaPantallaPrincipal() {
+	  public VentanaPantallaPrincipal(Usuario u) {
 		setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -175,7 +177,7 @@ public class VentanaPantallaPrincipal extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(() -> new VentanaHacerEnvio());
+				SwingUtilities.invokeLater(() -> new VentanaHacerEnvio(u));
 				dispose();
 			}
 		});
@@ -184,7 +186,7 @@ public class VentanaPantallaPrincipal extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(() -> new VentanaVerEnvios());
+				SwingUtilities.invokeLater(() -> new VentanaVerEnvios(u));
 				dispose();
 				
 			}
@@ -195,7 +197,7 @@ public class VentanaPantallaPrincipal extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				SwingUtilities.invokeLater(() -> new VentanaFacturacion());
+				SwingUtilities.invokeLater(() -> new VentanaFacturacion(u));
 				dispose();
 				
 			}
@@ -206,7 +208,7 @@ public class VentanaPantallaPrincipal extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				SwingUtilities.invokeLater(() -> new VentanaHacerEnvio());
+				SwingUtilities.invokeLater(() -> new VentanaHacerEnvio(u));
 				dispose();
 				
 			}
@@ -216,7 +218,7 @@ public class VentanaPantallaPrincipal extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(() -> new VentanaModificarDatos());
+				SwingUtilities.invokeLater(() -> new VentanaModificarDatos(u));
 				dispose();
 			}
 		});

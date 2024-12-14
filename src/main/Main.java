@@ -31,7 +31,7 @@ public class Main {
 		BaseDatosConfiguracion.closeBD(con);
 		
 		
-		VentanaInicioSesion ventanaIni = new VentanaInicioSesion();
+		VentanaInicioSesion ventanaInicioSesion = new VentanaInicioSesion();
 		
 		
 	}

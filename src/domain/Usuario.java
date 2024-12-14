@@ -1,5 +1,9 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public class Usuario  {
 	private String nombre;
 	private String apellido;
@@ -8,9 +12,10 @@ public class Usuario  {
 	private String respuesta;
 	private String PreguntaSeg;
 	private String contrasenia;
+	private List<Envio> listaEnvios;
 	
 	public Usuario(String nombre, String apellido, String telefono, String correo, String respuesta,
-			String preguntaSeg, String contrasenia) {
+			String preguntaSeg, String contrasenia, List<Envio> listaEnvios) {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.telefono = telefono;
@@ -18,6 +23,18 @@ public class Usuario  {
 		this.respuesta = respuesta;
 		this.PreguntaSeg = preguntaSeg;
 		this.contrasenia = contrasenia;
+		this.listaEnvios = new ArrayList<Envio>();
+		for (Envio envio : listaEnvios) {
+			this.listaEnvios.add(envio);
+		}
+	}
+
+	public List<Envio> getListaEnvios() {
+		return listaEnvios;
+	}
+
+	public void addEnvio(Envio e) {
+		this.listaEnvios.add(e);
 	}
 
 	public String getNombre() {

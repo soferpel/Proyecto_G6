@@ -1,6 +1,6 @@
 package domain;
 
-public class trayecto {
+public class Trayecto {
 	
 	String nombreOrigen;
 	String direccionOrigen;
@@ -11,7 +11,7 @@ public class trayecto {
 	String correoDestino;
 	String telefonoDestino;
 	
-	public trayecto(String nombreOrigen, String direccionOrigen, String correoOrigen, String telefonoOrigen,
+	public Trayecto(String nombreOrigen, String direccionOrigen, String correoOrigen, String telefonoOrigen,
 			String nombreDestino, String direccionDestino, String correoDestino, String telefonoDestino) {
 		this.nombreOrigen = nombreOrigen;
 		this.direccionOrigen = direccionOrigen;
@@ -23,7 +23,7 @@ public class trayecto {
 		this.telefonoDestino = telefonoDestino;
 	}
 	
-	public trayecto(String direccionOrigen, String direccionDestino) {
+	public Trayecto(String direccionOrigen, String direccionDestino) {
 		this.direccionOrigen = direccionOrigen;
 		this.direccionDestino = direccionDestino;
 	}

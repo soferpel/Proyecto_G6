@@ -10,10 +10,13 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Random;
+=======
+import java.util.Date;
+>>>>>>> branch 'master' of https://github.com/soferpel/Proyecto_G6.git
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -31,12 +34,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import db.BaseDatosConfiguracion;
 import domain.Envio;
+import domain.Paquete;
 import domain.Usuario;
 
 import javax.swing.AbstractCellEditor;
@@ -46,7 +51,7 @@ public class VentanaVerEnvios  extends JFrame {
 	private static final TableCellRenderer RenderTabla = null;
 
     
-	public VentanaVerEnvios() {
+	public VentanaVerEnvios(Usuario u) {
 		setTitle("Ver Envios");
 		setSize(900, 500);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -55,10 +60,7 @@ public class VentanaVerEnvios  extends JFrame {
 		setResizable(false);
 
 		
-		String[] nombreColumnas = {"Nº referencia", "Fecha", "Precio", "Descripción", "Estado", "Fecha prevista", "Editar"};
-		DefaultTableModel tabla = new DefaultTableModel(null, nombreColumnas);
-
-		JTable tablaEnvios = new JTable(tabla) {
+		JTable tablaEnvios = new JTable(new EnvioTableModel(u.getListaEnvios())) {
 		
 			private static final long serialVersionUID = 1L;
 
@@ -74,9 +76,9 @@ public class VentanaVerEnvios  extends JFrame {
 	    
 	    tablaEnvios.setDefaultRenderer(Object.class, new RenderTabla(tablaEnvios));
 	    
-	    ButtonRenderer buttonRendererEditor = new ButtonRenderer(tabla, tablaEnvios);
-        tablaEnvios.getColumnModel().getColumn(6).setCellRenderer(buttonRendererEditor);
-        tablaEnvios.getColumnModel().getColumn(6).setCellEditor(buttonRendererEditor);	        
+//	    ButtonRenderer buttonRendererEditor = new ButtonRenderer((EnvioTableModel) tablaEnvios.getModel(), tablaEnvios);
+//        tablaEnvios.getColumnModel().getColumn(6).setCellRenderer(buttonRendererEditor);
+//        tablaEnvios.getColumnModel().getColumn(6).setCellEditor(buttonRendererEditor);	        
 	    JPanel tablePanel = new JPanel(new BorderLayout());
 	    tablePanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15)); 
 	        
@@ -90,6 +92,7 @@ public class VentanaVerEnvios  extends JFrame {
 	    filtroComboBox.setSelectedIndex(0); 
 	    filtroComboBox.setPreferredSize(new Dimension(150, 20));
 	    filtroComboBox.setFont(new Font("Arial", Font.PLAIN, 12));
+	    
 	    
         
 	    filtroComboBox.addActionListener(new ActionListener() {
@@ -126,7 +129,7 @@ public class VentanaVerEnvios  extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaPantallaPrincipal pantallaPrincipal = new VentanaPantallaPrincipal();
+				VentanaPantallaPrincipal pantallaPrincipal = new VentanaPantallaPrincipal(u);
 				pantallaPrincipal.setVisible(true);
 				dispose();
 				
@@ -170,15 +173,6 @@ public class VentanaVerEnvios  extends JFrame {
 		
 	}
 	
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new VentanaVerEnvios().setVisible(true);
-            }
-        });
-    }
-    
     class RenderTabla implements TableCellRenderer {
         private final JTable table;
         private final ImageIcon iconoLibro;
@@ -366,7 +360,59 @@ public class VentanaVerEnvios  extends JFrame {
         
     }
 
+public class EnvioTableModel extends AbstractTableModel{
+	String[] nombreColumnas = {"Nº referencia", "Fecha", "Precio", "Descripción", "Estado", "Fecha prevista", "Editar"};
+	List<Envio> envios;
+	
+    // Constructor
+    public EnvioTableModel(List<Envio> envios) {
+        this.envios = envios;
+    }
 
+    @Override
+    public int getRowCount() {
+        return envios.size();  // Devuelve el número de filas (paquetes)
+    }
+
+    @Override
+    public int getColumnCount() {
+        return nombreColumnas.length;  // Devuelve el número de columnas
+    }
+
+    @Override
+    public String getColumnName(int column) {
+        return nombreColumnas[column];  // Devuelve el nombre de la columna
+    }
+
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        Envio envio = envios.get(rowIndex);  // Obtiene el paquete en la fila indicada
+        if (columnIndex == 0) {  // Si es la primera columna (Referencia)
+            return envio.getPaquete().getnReferencia();  // Devuelve la referencia del paquete
+        }
+        if (columnIndex == 1) {
+			return new Date().toString();
+		}
+        if (columnIndex == 2) {
+			return envio.getPago().getPrecio();
+		}
+        if (columnIndex == 3) {
+			return envio.getPago().getDescripcion();
+		}
+        if (columnIndex == 4) {
+			return envio.getEstado();
+		}
+        if (columnIndex == 5) {
+			return envio.getRecogida().getFechaDeRecogida();
+		}
+        if (columnIndex == 6) {
+			return "botones"; // falta renderer
+		}
+        
+        return null;  // Si llegamos aquí, algo ha ido mal, devuelve null
+    }
+
+}
     
 }
 

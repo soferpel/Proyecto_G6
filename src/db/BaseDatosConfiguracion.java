@@ -1,4 +1,4 @@
-package db;
+wpackage db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -17,7 +18,7 @@ import domain.Pago;
 import domain.Paquete;
 import domain.Recogida;
 import domain.Usuario;
-import domain.trayecto;
+import domain.Trayecto;
 
 
 public class BaseDatosConfiguracion {
@@ -112,7 +113,8 @@ public class BaseDatosConfiguracion {
 	             + "   FOREIGN KEY (trayecto_id) REFERENCES trayecto(trayecto_id),"
 	             + "   FOREIGN KEY (paquete_id) REFERENCES paquete(n_referencia),"
 	             + "   FOREIGN KEY (recogida_id) REFERENCES recogida(fecha_de_recogida),"
-	             + "   FOREIGN KEY (pago_id) REFERENCES pago(dni)"
+	             + "   FOREIGN KEY (pago_id) REFERENCES pago(dni),"
+	             + "   FOREIGN KEY (usuario_id) REFERENCES usuario(correo)"
 	             + ");";
 
 
@@ -248,7 +250,7 @@ public class BaseDatosConfiguracion {
 
 //TRAYECTO
 	    
-	    public static void insertarTrayecto(Connection con, trayecto t) {
+	    public static void insertarTrayecto(Connection con, Trayecto t) {
 			String sql = "INSERT INTO trayecto(nombre_origen, direccion_origen, correo_origen, telefono_origen, nombre_destino, direccion_destino, correo_destino, telefono_destino) VALUES (?,?,?,?,?,?,?,?)";
 			
 			try {
@@ -293,7 +295,7 @@ public class BaseDatosConfiguracion {
 	    
 	    
 	    
-	    public static void actualizarTrayecto(Connection con, trayecto trayecto) {
+	    public static void actualizarTrayecto(Connection con, Trayecto trayecto) {
 	        String sql = "UPDATE trayecto SET direccion_origen = ?, correo_origen = ?, telefono_origen = ?, "
 	                   + "direccion_destino = ?, correo_destino = ?, telefono_destino = ? WHERE nombre_origen = ? AND nombre_destino = ?";
 	        try {
@@ -314,8 +316,8 @@ public class BaseDatosConfiguracion {
 	        }
 	    }
 	    
-	    public static trayecto obtenerTrayectoPorId(Connection con, String trayectoId) {
-	        trayecto t = null;
+	    public static Trayecto obtenerTrayectoPorId(Connection con, String trayectoId) {
+	        Trayecto t = null;
 	        String sql = "SELECT * FROM trayecto WHERE nombre_origen || ' - ' || nombre_destino = ?";
 	        try {
 	            PreparedStatement st = con.prepareStatement(sql);  
@@ -323,7 +325,7 @@ public class BaseDatosConfiguracion {
 	            ResultSet rs = st.executeQuery();
 	            
 	            if (rs.next()) {
-	                t = new trayecto(rs.getString("nombre_origen"), rs.getString("nombre_destino"));
+	                t = new Trayecto(rs.getString("nombre_origen"), rs.getString("nombre_destino"));
 	                
 	                System.out.println("Trayecto: " + t);
 	            } else {
@@ -341,8 +343,8 @@ public class BaseDatosConfiguracion {
 	    
 //ENVIO
 	    
-	    public static void insertarEnvio(Connection con, Envio e) {
-	        String sql = "INSERT INTO envio (trayecto_id, paquete_id, recogida_id, pago_id) VALUES (?, ?, ?, ?)";
+	    public static void insertarEnvio(Connection con, Envio e, Usuario u) {
+	        String sql = "INSERT INTO envio VALUES (?, ?, ?, ?, ?)";
 
 	        try {
 	            PreparedStatement st = con.prepareStatement(sql);
@@ -351,6 +353,7 @@ public class BaseDatosConfiguracion {
 	            st.setString(2, e.getPaquete().getnReferencia());  // 			MIRAR
 	            st.setString(3, e.getRecogida().getLugarDeRecogida());  
 	            st.setString(4, e.getPago().getDni()); 
+	            st.setString(5, u.getCorreo()); 
 
 	            
 	            st.executeUpdate();
@@ -440,7 +443,7 @@ public class BaseDatosConfiguracion {
 	            	
 	            	
 	                String trayectoId = rs.getString("trayecto_id");
-	                trayecto t = obtenerTrayectoPorId(con, trayectoId);  
+	                Trayecto t = obtenerTrayectoPorId(con, trayectoId);  
 
 	                String paqueteId = rs.getString("paquete_id");
 	                Paquete p = obtenerPaquetePorId(con, paqueteId);  
@@ -698,10 +701,62 @@ public class BaseDatosConfiguracion {
 		            String respuesta = rs.getString("respuesta");		           
 		            String pregunta_seg = rs.getString("pregunta_seg");
 		            String contrasenia = rs.getString("contrasenia");
-		            u = new Usuario(nombre, apellido, telefono, email, respuesta, pregunta_seg, contrasenia);
+		            u = new Usuario(nombre, apellido, telefono, email, respuesta, pregunta_seg, contrasenia, new ArrayList<Envio>());
+		        }
+		        
+			    sql = "SELECT * FROM envio e, paquete p, recogida r, pago pa WHERE usuario_id = ? AND e.paquete_id = p.n_referencia AND e.recogida_id = r.lugar_de_recogida AND e.pago_id = pa.dni";
+		        PreparedStatement st2 = con.prepareStatement(sql);
+		        st2.setString(1, correo);
+		        ResultSet rs2 = st2.executeQuery();
+		        
+		        while (rs2.next()) {
+		        	  // Obtener datos de 'envio'
+		            String usuarioId = rs2.getString("usuario_id");
+		            String paqueteId = rs2.getString("paquete_id");
+		            String recogidaId = rs2.getString("recogida_id");
+		            String pagoId = rs2.getString("pago_id");
+		            String trayectoId = rs2.getString("trayecto_id");  // "origen - destino"
+
+		            // Obtener datos de 'paquete'
+		            String nReferencia = rs2.getString("n_referencia");
+//		            String descripcionPaquete = rs2.getString("descripcion_paquete");
+		            String embalaje = rs2.getString("embalaje");
+		            String peso = rs2.getString("peso");
+		            String alto = rs2.getString("alto");
+		            String ancho = rs2.getString("ancho");
+		            String largo = rs2.getString("largo");
+		            Paquete p = new Paquete(nReferencia, embalaje, peso, largo, ancho, alto, ancho, largo);
+		            
+		            // Obtener datos de 'recogida'
+		            String fechaRecogida = rs2.getString("fecha_de_recogida");
+		            String lugarRecogida = rs2.getString("lugar_de_recogida");
+		            String tipoEnvio = rs2.getString("tipo_de_envio");
+		            Recogida r = new Recogida(fechaRecogida, lugarRecogida, tipoEnvio);
+		            
+		            // Obtener datos de 'pago'
+		            String pagoDni = rs2.getString("dni");
+		            String descripcion = rs2.getString("descripcion");
+		            String numeroTarjeta = rs2.getString("numero_tarjeta");
+		            String fechaCaducidad = rs2.getString("fecha_caducidad");
+		            String cvv = rs2.getString("cvv");
+		            String remitenteDest = rs2.getString("remitente_destinatario");
+		            String factura = rs2.getString("factura");
+		            String precio = rs2.getString("precio");
+		            Pago pa = new Pago(descripcion, numeroTarjeta, fechaCaducidad, cvv, remitenteDest, factura, pagoDni, precio);
+		            
+		            // Obtener origen y destino del trayecto
+		            String[] trayectos = trayectoId.split(" - ");
+		            String origen = trayectos[0];
+		            String destino = trayectos[1];
+		            Trayecto t = new Trayecto(origen, destino);
+		            
+		        	Envio e = new Envio(t, p, r, pa);
+		        	u.addEnvio(e);
 		        }
 		        rs.close();
 		        st.close();
+		        rs2.close();
+		        st2.close();
 		    } catch (SQLException e) {
 		        logger.warning("Error buscando usuario: " + e.getMessage());
 		    }
