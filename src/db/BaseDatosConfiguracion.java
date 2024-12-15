@@ -835,7 +835,7 @@ public class BaseDatosConfiguracion {
 		        if (filasAfectadas > 0) {
 		            logger.info("Usuario eliminado correctamente.");
 		        } else {
-		            logger.warning("No se encontr� un usuario con el correo especificado.");
+		            logger.warning("No se encontr  un usuario con el correo especificado.");
 		        }
 		    } catch (SQLException ex) {
 		        logger.warning("Error eliminando el usuario: " + ex.getMessage());
@@ -964,4 +964,42 @@ public class BaseDatosConfiguracion {
 	        }
 	    }*/
 	  
+		public static List<Envio> cargarEnviosPorUsuario(Connection con, String correo) throws SQLException {
+		    String query = "SELECT p.n_referencia AS referencia, pa.precio, pa.descripcion, r.fecha_de_recogida, e.trayecto_id " +
+		                   "FROM envio e " +
+		                   "JOIN paquete p ON e.paquete_id = p.n_referencia " +
+		                   "JOIN pago pa ON e.pago_id = pa.dni " +
+		                   "JOIN recogida r ON e.recogida_id = r.fecha_de_recogida " +
+		                   "WHERE e.usuario_id = ?";
+
+		    List<Envio> envios = new ArrayList<>();
+		    System.out.println("Ejecutando consulta para cargar envíos del usuario: " + correo);
+
+		    try (PreparedStatement stmt = con.prepareStatement(query)) {
+		        stmt.setString(1, correo);
+
+		        try (ResultSet rs = stmt.executeQuery()) {
+		            while (rs.next()) {
+		                String referencia = rs.getString("referencia");
+		                String precio = rs.getString("precio");
+		                String descripcion = rs.getString("descripcion");
+		                String fechaRecogida = rs.getString("fecha_de_recogida");
+
+		                Paquete paquete = new Paquete(referencia);
+		                Pago pago = new Pago(descripcion, "", "", "", "", "", "", precio);
+		                Recogida recogida = new Recogida(fechaRecogida);
+		                Trayecto trayecto = new Trayecto("Estado", fechaRecogida);
+
+		                Envio envio = new Envio(trayecto, paquete, recogida, pago);
+		                envios.add(envio);
+		            }
+		        }
+		    } catch (SQLException e) {
+		        System.err.println("Error ejecutando consulta: " + e.getMessage());
+		        e.printStackTrace();
+		    }
+		    System.out.println("Envíos cargados: " + envios.size());
+		    return envios;
+		}
+
 }
