@@ -179,7 +179,7 @@ public class VentanaRegistro extends JFrame{
 		aceptarTerminos.setHorizontalAlignment(SwingConstants.CENTER);
 		aceptarTerminos.setAlignmentX(Component.CENTER_ALIGNMENT);
         pSur.add(aceptarTerminos);
-		btnRegistro = new JButton("REGISTRRSE");
+		btnRegistro = new JButton("REGISTRARSE");
 		pSur.add(btnRegistro);
 		//aceptarTerminos.setBackground(Color.WHITE);
 		//pSur.setBackground(Color.WHITE);

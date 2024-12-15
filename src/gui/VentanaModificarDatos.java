@@ -83,7 +83,7 @@ public VentanaModificarDatos(Usuario u) {
 	txtCorreo = new JLabel("      Correo:");
 	txtNewCon = new JLabel("Nueva Contraseña:");
 	txtRes = new JLabel("Respuesta de la Pregunta de Seguridad:");
-	txtTelefono = new JLabel("    Telefono:");
+	txtTelefono = new JLabel("    Teléfono:");
 	txtVerifCon = new JLabel("  Repite contraseña:");
 	aceptarCond = new JLabel("<html><u>Aceptas terminos y condiciones de uso</u></html>");
 	
@@ -238,17 +238,17 @@ public VentanaModificarDatos(Usuario u) {
 	    }
 	    
 	    if (!checkTerminos.isSelected()) {
-	        JOptionPane.showMessageDialog(null, "Debes aceptar los t�rminos y condiciones.", "Error", JOptionPane.ERROR_MESSAGE);
+	        JOptionPane.showMessageDialog(null, "Debes aceptar los términos y condiciones.", "Error", JOptionPane.ERROR_MESSAGE);
 	        return;
 	    }
 	    
 	    if (!correo.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
-	        JOptionPane.showMessageDialog(null, "Ingresa un correo v�lido.", "Error", JOptionPane.ERROR_MESSAGE);
+	        JOptionPane.showMessageDialog(null, "Ingresa un correo válido.", "Error", JOptionPane.ERROR_MESSAGE);
 	        return;
 	    }
 
 	    if (!telefono.matches("\\d+")) {
-	        JOptionPane.showMessageDialog(null, "El tel�fono debe contener s�lo n�meros.", "Error", JOptionPane.ERROR_MESSAGE);
+	        JOptionPane.showMessageDialog(null, "El teléfono debe contener sólo números.", "Error", JOptionPane.ERROR_MESSAGE);
 	        return;
 	    }
 
@@ -278,7 +278,7 @@ public VentanaModificarDatos(Usuario u) {
 	        
 	        BaseDatosConfiguracion.actualizarUsuario(con, u);
 
-            JOptionPane.showMessageDialog(null, "Datos modificados correctamente.", "�xito", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Datos modificados correctamente.", "éxito", JOptionPane.INFORMATION_MESSAGE);
         }
 
         BaseDatosConfiguracion.closeBD(con);
@@ -302,13 +302,13 @@ public VentanaModificarDatos(Usuario u) {
 	            try {
 	                Usuario u = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correo);
 	                if (u == null) {
-	                    JOptionPane.showMessageDialog(null, "No existe ning�n usuario con ese correo.", "Error", JOptionPane.ERROR_MESSAGE);
+	                    JOptionPane.showMessageDialog(null, "No existe ningún usuario con ese correo.", "Error", JOptionPane.ERROR_MESSAGE);
 	                    return;
 	                }
 
 	               
 	                BaseDatosConfiguracion.deleteUsuario(con, correo);
-	                JOptionPane.showMessageDialog(null, "Cuenta eliminada con �xito.", "Informaci�n", JOptionPane.INFORMATION_MESSAGE);
+	                JOptionPane.showMessageDialog(null, "Cuenta eliminada con éxito.", "Informacién", JOptionPane.INFORMATION_MESSAGE);
 	                dispose(); 
 	            } finally {
 	                BaseDatosConfiguracion.closeBD(con);

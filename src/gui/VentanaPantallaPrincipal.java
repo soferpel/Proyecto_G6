@@ -43,14 +43,14 @@ public class VentanaPantallaPrincipal extends JFrame{
         
         // Panel Norte
         JPanel pNorte = new JPanel(new BorderLayout());
-        JLabel lblBienvenida = new JLabel("Â¡BIENVENID@!", SwingConstants.CENTER);
+        JLabel lblBienvenida = new JLabel("¡BIENVENID@!", SwingConstants.CENTER);
         Font fondo = new Font("Tahoma", Font.BOLD, 30);
         lblBienvenida.setFont(fondo);
         pNorte.add(lblBienvenida, BorderLayout.CENTER);
         
 
         JPanel pBotonesNorte = new JPanel();
-        JButton btnCerrarSesion = new JButton("CERRAR SESIÃ“N");
+        JButton btnCerrarSesion = new JButton("CERRAR SESIÓN");
         
         ImageIcon imgModif_usu = new ImageIcon("resources/images/modif_usu.png");
         JButton btnModificarDatos = new JButton(imgModif_usu);
@@ -79,11 +79,11 @@ public class VentanaPantallaPrincipal extends JFrame{
 
         // Panel FacturaciÃƒÂ³n
         JPanel pFacturacion = new JPanel(new BorderLayout(10, 10));
-        pFacturacion.setBorder(BorderFactory.createTitledBorder("FacturaciÃƒÂ³n"));
+        pFacturacion.setBorder(BorderFactory.createTitledBorder("Facturación"));
         ImageIcon iconFacturacion = new ImageIcon("resources/images/facturacion.png");
         Image scaledFacturacion = iconFacturacion.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         imgFacturacion = new JLabel(new ImageIcon(scaledFacturacion));
-        JButton btnFacturacion = new JButton("FACTURACIÃ“N");
+        JButton btnFacturacion = new JButton("FACTURACIÓN");
         btnFacturacion.setPreferredSize(new Dimension(150, 25));
         pFacturacion.add(imgFacturacion, BorderLayout.CENTER);
         pFacturacion.add(btnFacturacion, BorderLayout.SOUTH);
@@ -95,7 +95,7 @@ public class VentanaPantallaPrincipal extends JFrame{
         ImageIcon iconHacerEnvio = new ImageIcon("resources/images/hacer_envio.jpg");
         Image scaledHacerEnvio = iconHacerEnvio.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         imgHacerEnvio = new JLabel(new ImageIcon(scaledHacerEnvio));
-        JButton btnHacerEnvio = new JButton("HACER ENVÃ O");
+        JButton btnHacerEnvio = new JButton("HACER ENVÍO");
         btnHacerEnvio.setPreferredSize(new Dimension(150, 25));
         pHacerEnvio.add(imgHacerEnvio, BorderLayout.CENTER);
         pHacerEnvio.add(btnHacerEnvio, BorderLayout.SOUTH);
@@ -255,7 +255,7 @@ public class VentanaPantallaPrincipal extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
-				int result = JOptionPane.showConfirmDialog(null, "Ã‚Â¿Seguro que quieres cerrar sesiÃ³n?", "Cerrar sesiÃ³n", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				int result = JOptionPane.showConfirmDialog(null, "¿Seguro que quieres cerrar sesión?", "Cerrar sesión", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 				if(result == JOptionPane.OK_OPTION) {
 					String correo = VentanaPantallaPrincipal.getCorreoUsuario(); 
 					BaseDatosConfiguracion.deleteUsuario(con, correo);

@@ -159,7 +159,7 @@ public class VentanaHacerEnvio extends JFrame{
     btnAnterior.setEnabled(false);
     
     
-    txtCrearEnvio = new JLabel("CREAR ENVÃ O:");
+    txtCrearEnvio = new JLabel("CREAR ENVÍO:");
 	txtCrearEnvio.setFont(fontTextoTitulo);
 	
 	
@@ -1094,7 +1094,7 @@ public class VentanaHacerEnvio extends JFrame{
 						e.printStackTrace();
 					}
 					if (reloj == 300) {
-						int result = JOptionPane.showConfirmDialog(null, "Han pasado 5 minutos, Â¿desea continuar creando su pedido?", "Error", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+						int result = JOptionPane.showConfirmDialog(null, "Han pasado 5 minutos, ¿desea continuar creando su pedido?", "Error", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 						if (result == JOptionPane.NO_OPTION) {
 							SwingUtilities.invokeLater(() -> new VentanaPantallaPrincipal(u));
 							dispose();
