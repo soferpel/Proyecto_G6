@@ -50,38 +50,41 @@ public class VentanaVerEnvios  extends JFrame {
 	private static final TableCellRenderer RenderTabla = null;
 
     
-	public VentanaVerEnvios(Usuario u) throws SQLException {
+	public VentanaVerEnvios(Usuario u) {
 		setTitle("Ver Envios");
 		setSize(900, 500);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		setResizable(false);		 
-
-		Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
-        List<Envio> listaEnvios = BaseDatosConfiguracion.obtenerEnviosClientes(con); 
+		setResizable(false);
 
 
-     // Bloque de depuración
-     System.out.println("Total de envíos: " + listaEnvios.size()); // Verifica la cantidad de envíos obtenidos
-     if (listaEnvios.isEmpty()) {
-         System.out.println("No se encontraron envíos.");
-     } else {
-         for (Envio envio : listaEnvios) {
-             System.out.println(envio.toString()); // Opcional: muestra información de cada envío
-         }
-     }
-        
-        EnvioTableModel modeloTabla = new EnvioTableModel(listaEnvios);
+	    List<Envio> enviosDelUsuario = new ArrayList<>();
+	    try (Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db")) {
+	        if (con != null) {
+	            System.out.println("Conexión a la base de datos establecida.");
+	            enviosDelUsuario = BaseDatosConfiguracion.cargarEnviosPorUsuario(con, u.getCorreo());
+	            System.out.println("Número de envíos cargados: " + enviosDelUsuario.size());
+	        } else {
+	            JOptionPane.showMessageDialog(this, "No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+	        }
+	    } catch (SQLException ex) {
+	        JOptionPane.showMessageDialog(this, "Error al cargar los envíos del usuario.", "Error", JOptionPane.ERROR_MESSAGE);
+	        ex.printStackTrace();
+	    }
 
-        // Crea la tabla con el modelo
-        JTable tablaEnvios = new JTable(modeloTabla);
+	    if (enviosDelUsuario.isEmpty()) {
+	        System.out.println("No se encontraron envíos para el usuario: " + u.getCorreo());
+	    }
+
+		
+        JTable tablaEnvios = new JTable(new EnvioTableModel(u.getListaEnvios()));
         tablaEnvios.setRowHeight(30);
         tablaEnvios.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
 
         ButtonRenderer buttonRendererEditor = new ButtonRenderer((EnvioTableModel) tablaEnvios.getModel(), tablaEnvios, u);
-        tablaEnvios.getColumnModel().getColumn(5).setCellRenderer(buttonRendererEditor);
-        tablaEnvios.getColumnModel().getColumn(5).setCellEditor(buttonRendererEditor);
+        tablaEnvios.getColumnModel().getColumn(6).setCellRenderer(buttonRendererEditor);
+        tablaEnvios.getColumnModel().getColumn(6).setCellEditor(buttonRendererEditor);
 
 	    tablaEnvios.setDefaultRenderer(Object.class, new CustomTableCellRenderer());
 	    
@@ -149,7 +152,7 @@ public class VentanaVerEnvios  extends JFrame {
 	
 	//modelo de la tabla
 	class EnvioTableModel extends AbstractTableModel {
-        String[] nombreColumnas = {"Nº referencia", "Precio", "Descripción", "Estado", "Fecha prevista", "Editar"};
+        String[] nombreColumnas = {"Nº referencia", "Fecha", "Precio", "Descripción", "Estado", "Fecha prevista", "Editar"};
         List<Envio> envios;
         List<Envio> enviosFiltrados;
 
@@ -179,17 +182,17 @@ public class VentanaVerEnvios  extends JFrame {
             switch (columnIndex) {
                 case 0:
                     return envio.getPaquete().getnReferencia();
-                //case 1:
-                 //   return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
                 case 1:
-                    return envio.getPago().getPrecio();
+                    return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
                 case 2:
-                    return envio.getPago().getDescripcion();
+                    return envio.getPago().getPrecio();
                 case 3:
-                    return envio.getEstado();
+                    return envio.getPago().getDescripcion();
                 case 4:
-                    return envio.getRecogida().getFechaDeRecogida();
+                    return envio.getEstado();
                 case 5:
+                    return envio.getRecogida().getFechaDeRecogida();
+                case 6:
                     return "Editar";
                 default:
                     return null;
@@ -198,7 +201,7 @@ public class VentanaVerEnvios  extends JFrame {
 
         @Override
         public boolean isCellEditable(int rowIndex, int columnIndex) {
-            return columnIndex == 5;
+            return columnIndex == 6;
         }
 
         public void filtrarPorEstado(String estado) {
@@ -211,17 +214,6 @@ public class VentanaVerEnvios  extends JFrame {
             }
             fireTableDataChanged();
         }
-        
-        public List<Envio> cargarEnviosPorUsuario(String usuarioId) {
-        	
-            try ( Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db")) {
-                return BaseDatosConfiguracion.obtenerEnviosClientes(con); 
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return new ArrayList<>();  
-            }
-        }
-
     }
 
     // Renderizador personalizado para la tabla
