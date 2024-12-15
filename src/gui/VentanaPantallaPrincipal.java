@@ -71,7 +71,7 @@ public class VentanaPantallaPrincipal extends JFrame{
         ImageIcon iconVerEnvios = new ImageIcon("resources/images/ver_envios.png");
         Image scaledVerEnvios = iconVerEnvios.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         imgVerEnvios = new JLabel(new ImageIcon(scaledVerEnvios));
-        JButton btnVerEnvios = new JButton("VER ENVÃ�OS");
+        JButton btnVerEnvios = new JButton("VER ENVÃ OS");
         btnVerEnvios.setPreferredSize(new Dimension(150, 25));
         pVerEnvios.add(imgVerEnvios, BorderLayout.CENTER);
         pVerEnvios.add(btnVerEnvios, BorderLayout.SOUTH);
@@ -95,7 +95,7 @@ public class VentanaPantallaPrincipal extends JFrame{
         ImageIcon iconHacerEnvio = new ImageIcon("resources/images/hacer_envio.jpg");
         Image scaledHacerEnvio = iconHacerEnvio.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         imgHacerEnvio = new JLabel(new ImageIcon(scaledHacerEnvio));
-        JButton btnHacerEnvio = new JButton("HACER ENVÃ�O");
+        JButton btnHacerEnvio = new JButton("HACER ENVÃ O");
         btnHacerEnvio.setPreferredSize(new Dimension(150, 25));
         pHacerEnvio.add(imgHacerEnvio, BorderLayout.CENTER);
         pHacerEnvio.add(btnHacerEnvio, BorderLayout.SOUTH);
