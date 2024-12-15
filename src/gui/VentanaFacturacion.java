@@ -105,41 +105,7 @@ public class VentanaFacturacion extends JFrame {
 	        System.out.println("No se encontraron envíos para el usuario: " + u.getCorreo());
 	    }
 	    
-        txtReferencia.getDocument().addDocumentListener(new DocumentListener() {
-
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				filtrarPorReferencia();
-				
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				filtrarPorReferencia();
-				
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				filtrarPorReferencia();
-				
-			}
-          
-        });
         
-        txtReferencia.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {  
-                    buscarDatosReferencia();  
-                }
-            }
-        });
-
-
         //precio
         JLabel lblPrecio = new JLabel("Precio:");
          txtPrecio = new JTextField(15);
@@ -182,6 +148,7 @@ public class VentanaFacturacion extends JFrame {
         txtPrecio.setEditable(false);
         txtDescripcion.setEditable(false);
         txtFechaEnvio.setEditable(false);
+        txtReferencia.setEditable(false);
 
         JPanel panelTablaYBoton = new JPanel(new BorderLayout()); 
         JPanel panelTabla = new JPanel();
@@ -259,55 +226,36 @@ public class VentanaFacturacion extends JFrame {
 				dispose();
 			}
 		});
-        
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	int selectedRow = table.getSelectedRow();
+                int selectedRow = table.getSelectedRow(); 
                 if (selectedRow != -1) {
-                	
-                    txtReferencia.setText(""); 
-            /*      txtFechaEnvio.setText("");
-                    txtPrecio.setText("");
-                    txtDescripcion.setText("");
-            */      
                     String referencia = (String) table.getValueAt(selectedRow, 0); 
-            /*      String fecha = (String) table.getValueAt(selectedRow, 1); 
-                    String precio = (String) table.getValueAt(selectedRow, 2); 
+                    String fecha = (String) table.getValueAt(selectedRow, 1); 
+                    String precio = table.getValueAt(selectedRow, 2).toString(); 
                     String descripcion = (String) table.getValueAt(selectedRow, 3); 
-           */  
-                    txtReferencia.setText(referencia); 
-                    /*txtFechaEnvio.setText(fecha);
+                    String tipoEnvio = (String) table.getValueAt(selectedRow, 4);
+
+                    txtReferencia.setText(referencia);
+                    txtFechaEnvio.setText(fecha);
                     txtPrecio.setText(precio);
                     txtDescripcion.setText(descripcion);
-           */}
+                    rbSi.setSelected(true);
+                    
+                }
             }
         });
+
+       
         add(panelPrincipal);
         setVisible(true);
         
         
                 
     }
-    
-    private void filtrarPorReferencia() {
-        String filtro = txtReferencia.getText().trim();
         
-        model.setRowCount(0);
-         
-        if (filtro.isEmpty()) {
-            datosOriginales.forEach(model::addRow);
-            return;
-        }
-
-        datosOriginales.forEach(fila -> {
-            if (fila[0].toString().contains(filtro)) {
-                model.addRow(fila);
-            }
-        });
-    }
     
-
     private void buscarDatosReferencia() {
         String referencia = txtReferencia.getText().trim();
         System.out.println("Referencia buscada: " + referencia);
@@ -358,6 +306,7 @@ public class VentanaFacturacion extends JFrame {
         }
     }
 
+    
     //renderer
     private static class CustomTableCellRenderer extends DefaultTableCellRenderer {
         @Override
@@ -400,7 +349,7 @@ public class VentanaFacturacion extends JFrame {
     
     //modelo de la tabla
     class EnvioTableModel extends AbstractTableModel {
-        String[] nombreColumnas = {"Número de referencia", "Fecha de Recogida", "Precio", "Descripción", "Tipo de envío"};
+        String[] nombreColumnas = {"Número de referencia", "Fecha Enviado", "Precio", "Descripción", "Tipo de envío"};
         List<Envio> envios;
         List<Envio> enviosFiltrados;
 
