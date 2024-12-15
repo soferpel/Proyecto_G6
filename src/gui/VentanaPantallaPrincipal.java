@@ -71,7 +71,7 @@ public class VentanaPantallaPrincipal extends JFrame{
         ImageIcon iconVerEnvios = new ImageIcon("resources/images/ver_envios.png");
         Image scaledVerEnvios = iconVerEnvios.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         imgVerEnvios = new JLabel(new ImageIcon(scaledVerEnvios));
-        JButton btnVerEnvios = new JButton("VER ENVÃ OS");
+        JButton btnVerEnvios = new JButton("VER ENVÍOS");
         btnVerEnvios.setPreferredSize(new Dimension(150, 25));
         pVerEnvios.add(imgVerEnvios, BorderLayout.CENTER);
         pVerEnvios.add(btnVerEnvios, BorderLayout.SOUTH);
