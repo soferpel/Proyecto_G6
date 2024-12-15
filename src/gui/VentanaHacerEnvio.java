@@ -159,7 +159,7 @@ public class VentanaHacerEnvio extends JFrame{
     btnAnterior.setEnabled(false);
     
     
-    txtCrearEnvio = new JLabel("CREAR ENVÃ�O:");
+    txtCrearEnvio = new JLabel("CREAR ENVÃ O:");
 	txtCrearEnvio.setFont(fontTextoTitulo);
 	
 	
@@ -730,6 +730,12 @@ public class VentanaHacerEnvio extends JFrame{
 
     //btnFinalizar.addActionListener(e -> {
     btnFinalizar.addActionListener(new ActionListener() {
+    	
+		public static String generarReferenciaAleatoria() {
+		    int numeroAleatorio = (int) (Math.random() * 1000000000);  
+		    return "REF-" + String.format("%010d", numeroAleatorio);  
+		}
+		String referenciaUnica = generarReferenciaAleatoria();
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -831,7 +837,7 @@ public class VentanaHacerEnvio extends JFrame{
 			Date fechaActual = new Date();
 		    String trayectoNombreOrigen = dNombre.getText().trim();
 		    String trayectoNombreDestino = hNombre.getText().trim();
-		    String paqueteId = generarReferenciaAleatoria();
+		    String paqueteId = referenciaUnica;
 		    String pagoId = campoDNI.getText().trim();
 		    String fechaDeRecogida = "";
 		    String lugarDeRecogida = "";
@@ -963,8 +969,7 @@ public class VentanaHacerEnvio extends JFrame{
 		    
 		    
 			
-		    String referencia = generarReferenciaAleatoria();  
-		    Paquete paquete = new Paquete(referencia, embalaje, peso, largo, ancho, alto, valor, fragil);
+		    Paquete paquete = new Paquete(referenciaUnica, embalaje, peso, largo, ancho, alto, valor, fragil);
 		    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 		    
 		    try {
@@ -977,10 +982,7 @@ public class VentanaHacerEnvio extends JFrame{
 		    return true;
 		}
 
-		public static String generarReferenciaAleatoria() {
-		    int numeroAleatorio = (int) (Math.random() * 1000000000);  
-		    return "REF-" + String.format("%010d", numeroAleatorio);  
-		}
+
 
 		
 		private boolean guardarDatosPago() {
