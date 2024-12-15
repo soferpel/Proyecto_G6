@@ -220,8 +220,8 @@ public class VentanaInicioSesion extends JFrame{
 			
 			 if (u != null) {
 			        if (correo.endsWith("@admin.es")) {
-			            VentanaAdministracion ventanaAdmin = new VentanaAdministracion();
-			            ventanaAdmin.setVisible(true);
+//			            VentanaAdministracion ventanaAdmin = new VentanaAdministracion();
+//			            ventanaAdmin.setVisible(true);
 			            this.dispose();
 			        } else {
 			            JOptionPane.showMessageDialog(null, "Bienvenido!", "SESIÓN INICIADA", JOptionPane.INFORMATION_MESSAGE);

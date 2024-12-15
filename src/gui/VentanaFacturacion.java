@@ -11,12 +11,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -24,7 +28,9 @@ import javax.swing.table.TableCellRenderer;
 import com.toedter.calendar.JDateChooser;
 
 import db.BaseDatosConfiguracion;
+import domain.Envio;
 import domain.Usuario;
+import gui.VentanaVerEnvios.EnvioTableModel;
 
 
 public class VentanaFacturacion extends JFrame {
@@ -81,7 +87,24 @@ public class VentanaFacturacion extends JFrame {
         panelIzquierdo.add(txtReferencia);
         
 
-        
+	    List<Envio> enviosDelUsuario = new ArrayList<>();
+	    try (Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db")) {
+	        if (con != null) {
+	            System.out.println("Conexión a la base de datos establecida.");
+	            enviosDelUsuario = BaseDatosConfiguracion.cargarEnviosPorUsuario(con, u.getCorreo());
+	            System.out.println("Número de envíos cargados: " + enviosDelUsuario.size());
+	        } else {
+	            JOptionPane.showMessageDialog(this, "No se pudo conectar a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+	        }
+	    } catch (SQLException ex) {
+	        JOptionPane.showMessageDialog(this, "Error al cargar los envíos del usuario.", "Error", JOptionPane.ERROR_MESSAGE);
+	        ex.printStackTrace();
+	    }
+
+	    if (enviosDelUsuario.isEmpty()) {
+	        System.out.println("No se encontraron envíos para el usuario: " + u.getCorreo());
+	    }
+	    
         txtReferencia.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
@@ -163,27 +186,11 @@ public class VentanaFacturacion extends JFrame {
         JPanel panelTablaYBoton = new JPanel(new BorderLayout()); 
         JPanel panelTabla = new JPanel();
         panelTabla.setLayout(new BoxLayout(panelTabla, BoxLayout.Y_AXIS));
-        String[] columnNames = {"Número de referencia", "Fecha", "Precio", "Descripción", "Tipo de envío"};
-        model = new DefaultTableModel(columnNames, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; 
-            }
-        };
-        
-     /*   model.addRow(new Object[]{"001", "2024-11-09", "100.00", "Producto A", "Estándar"});
-        model.addRow(new Object[]{"002", "2024-11-19", "17.00", "Producto B", "Premium"});*/
 
-        for (int i = 0; i < model.getRowCount(); i++) { //IA
-            Object[] fila = new Object[model.getColumnCount()];
-            for (int j = 0; j < model.getColumnCount(); j++) {
-                fila[j] = model.getValueAt(i, j);
-            }
-            datosOriginales.add(fila);
-        }
 
         
-        JTable table = new JTable(model);
+        JTable table = new JTable(new EnvioTableModel(u.getListaEnvios()));
+        table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
         table.setDefaultRenderer(Object.class, new CustomTableCellRenderer());
         JComboBox<String> comboBoxEnvio = new JComboBox<>(new String[]{"Estándar", "Premium", "Superior"});
         table.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(comboBoxEnvio));
@@ -351,7 +358,7 @@ public class VentanaFacturacion extends JFrame {
         }
     }
 
-    
+    //renderer
     private static class CustomTableCellRenderer extends DefaultTableCellRenderer {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -389,6 +396,53 @@ public class VentanaFacturacion extends JFrame {
             
             return label;
         }
+    }
+    
+    //modelo de la tabla
+    class EnvioTableModel extends AbstractTableModel {
+        String[] nombreColumnas = {"Número de referencia", "Fecha de Recogida", "Precio", "Descripción", "Tipo de envío"};
+        List<Envio> envios;
+        List<Envio> enviosFiltrados;
+
+        public EnvioTableModel(List<Envio> envios) {
+            this.envios = envios;
+            this.enviosFiltrados = envios;
+        }
+
+        @Override
+        public int getRowCount() {
+            return enviosFiltrados.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return nombreColumnas.length;
+        }
+
+        @Override
+        public String getColumnName(int column) {
+            return nombreColumnas[column];
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            Envio envio = enviosFiltrados.get(rowIndex);
+            switch (columnIndex) {
+            case 0: 
+                return envio.getPaquete().getnReferencia();
+            case 1: 
+                return envio.getRecogida().getFechaDeRecogida();
+            case 2: 
+                return envio.getPago().getPrecio();
+            case 3: 
+                return envio.getPago().getDescripcion();
+            case 4: 
+                return envio.getRecogida().getTipoDeEnvio();
+            default:
+                return null;
+            }
+        }
+
     }
     
 
