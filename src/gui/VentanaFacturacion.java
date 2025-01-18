@@ -7,6 +7,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -193,7 +194,8 @@ public class VentanaFacturacion extends JFrame {
                     protected Void doInBackground() throws Exception {
                         for (int i = 0; i <= 100; i++) {
                             Thread.sleep(50); 
-                            publish(i);                         }
+                            publish(i);                         
+                            }
                         return null;
                     }
 
@@ -205,8 +207,38 @@ public class VentanaFacturacion extends JFrame {
                     @Override
                     protected void done() {
                         progressBar.setVisible(false);
-                        JOptionPane.showMessageDialog(null, "Factura exportada en PDF con Ã©xito");
-                    }
+                        try { //IA
+                            String rutaArchivo = "datos_factura.txt";
+                            FileWriter writer = new FileWriter(rutaArchivo);
+
+                            String fechaActual = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+                            writer.write("******************************************\n");
+                            writer.write("               FACTURA DE ENVÍO           \n");
+                            writer.write("******************************************\n");
+                            writer.write("Fecha de generación: " + fechaActual + "\n");
+                            writer.write("\n");
+
+                            writer.write("DETALLES DEL ENVÍO:\n");
+                            writer.write("------------------------------------------\n");
+                            writer.write("Número de referencia: " + txtReferencia.getText() + "\n");
+                            writer.write("Precio: " + txtPrecio.getText() + " €\n");
+                            writer.write("Descripción: " + txtDescripcion.getText() + "\n");
+                            writer.write("Fecha de envío: " + txtFechaEnvio.getText() + "\n");
+                            writer.write("¿Pagado?: " + (rbSi.isSelected() ? "Sí" : "No") + "\n");
+                            writer.write("------------------------------------------\n");
+                            writer.write("\n");
+
+                            writer.write("******************************************\n");
+                            writer.write("      Gracias por confiar en nosotros.    \n");
+                            writer.write("******************************************\n");
+
+                            writer.close();
+                            JOptionPane.showMessageDialog(null, "Datos exportados a " + rutaArchivo + " con éxito");
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(null, "Error al exportar los datos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                            ex.printStackTrace();
+                        }                    }
                 };
 
                 hilo.execute(); 
