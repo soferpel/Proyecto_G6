@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
@@ -220,8 +221,9 @@ public class VentanaInicioSesion extends JFrame{
 			
 			 if (u != null) {
 			        if (correo.endsWith("@admin.es")) {
-//			            VentanaAdministracion ventanaAdmin = new VentanaAdministracion();
-//			            ventanaAdmin.setVisible(true);
+			        	List<Usuario> usuarios = BaseDatosConfiguracion.obtenerUsuarios(con);
+			            VentanaAdministracion ventanaAdmin = new VentanaAdministracion(usuarios);
+			            ventanaAdmin.setVisible(true);
 			            this.dispose();
 			        } else {
 			            JOptionPane.showMessageDialog(null, "Bienvenido!", "SESIÓN INICIADA", JOptionPane.INFORMATION_MESSAGE);

@@ -77,7 +77,16 @@ public class VentanaAdministracion extends JFrame {
 		txtMisEnvios.setBorder(new EmptyBorder(10,125,0,0));
 		
 		
+		
 		/**CREACION JTABLE*/
+//	    Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
+//
+//	    List<Envio> todosLosEnvios = BaseDatosConfiguracion.obtenerEnviosClientes(con);
+//	    BaseDatosConfiguracion.closeBD(con);
+//
+//	    EnvioTableModel modelo = new EnvioTableModel(todosLosEnvios);
+//	    tablaEnvios = new JTable(modelo) {
+	    
 		String[] nombreColumnas = {"Nº referencia", "Fecha", "Precio", "Descripción", "Estado", "Fecha prevista"};
 		modeloTabla = new DefaultTableModel(null, nombreColumnas);
 
@@ -128,7 +137,7 @@ public class VentanaAdministracion extends JFrame {
         });
         
 		
-		 List<Envio> todosLosEnvios = usuarios.stream()
+		 List<Envio> todosLosEnvios1 = usuarios.stream()
 	                .flatMap(usuario -> usuario.getListaEnvios().stream())
 	                .toList();
 	}
