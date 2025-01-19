@@ -3,8 +3,6 @@ package gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileWriter;
@@ -19,24 +17,24 @@ import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-
-import com.toedter.calendar.JDateChooser;
 
 import db.BaseDatosConfiguracion;
 import domain.Envio;
 import domain.Usuario;
-import gui.VentanaVerEnvios.EnvioTableModel;
 
 
 public class VentanaFacturacion extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
 	private DefaultTableModel model;
+	@SuppressWarnings("unused")
 	private ArrayList<Object[]> datosOriginales = new ArrayList<>(); //IA
 	private JTextField txtReferencia,txtPrecio,txtDescripcion,txtFechaEnvio;
 	
@@ -214,18 +212,18 @@ public class VentanaFacturacion extends JFrame {
                             String fechaActual = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
                             writer.write("******************************************\n");
-                            writer.write("               FACTURA DE ENVÍO           \n");
+                            writer.write("               FACTURA DE ENVï¿½O           \n");
                             writer.write("******************************************\n");
-                            writer.write("Fecha de generación: " + fechaActual + "\n");
+                            writer.write("Fecha de generaciï¿½n: " + fechaActual + "\n");
                             writer.write("\n");
 
-                            writer.write("DETALLES DEL ENVÍO:\n");
+                            writer.write("DETALLES DEL ENVï¿½O:\n");
                             writer.write("------------------------------------------\n");
-                            writer.write("Número de referencia: " + txtReferencia.getText() + "\n");
-                            writer.write("Precio: " + txtPrecio.getText() + " €\n");
-                            writer.write("Descripción: " + txtDescripcion.getText() + "\n");
-                            writer.write("Fecha de envío: " + txtFechaEnvio.getText() + "\n");
-                            writer.write("¿Pagado?: " + (rbSi.isSelected() ? "Sí" : "No") + "\n");
+                            writer.write("Nï¿½mero de referencia: " + txtReferencia.getText() + "\n");
+                            writer.write("Precio: " + txtPrecio.getText() + " ï¿½\n");
+                            writer.write("Descripciï¿½n: " + txtDescripcion.getText() + "\n");
+                            writer.write("Fecha de envï¿½o: " + txtFechaEnvio.getText() + "\n");
+                            writer.write("ï¿½Pagado?: " + (rbSi.isSelected() ? "Sï¿½" : "No") + "\n");
                             writer.write("------------------------------------------\n");
                             writer.write("\n");
 
@@ -234,7 +232,7 @@ public class VentanaFacturacion extends JFrame {
                             writer.write("******************************************\n");
 
                             writer.close();
-                            JOptionPane.showMessageDialog(null, "Datos exportados a " + rutaArchivo + " con éxito");
+                            JOptionPane.showMessageDialog(null, "Datos exportados a " + rutaArchivo + " con ï¿½xito");
                         } catch (Exception ex) {
                             JOptionPane.showMessageDialog(null, "Error al exportar los datos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                             ex.printStackTrace();
@@ -259,7 +257,8 @@ public class VentanaFacturacion extends JFrame {
 			}
 		});
         table.addMouseListener(new MouseAdapter() {
-            @Override
+            @SuppressWarnings("unused")
+			@Override
             public void mouseClicked(MouseEvent e) {
                 int selectedRow = table.getSelectedRow(); 
                 if (selectedRow != -1) {
@@ -288,7 +287,8 @@ public class VentanaFacturacion extends JFrame {
     }
         
     
-    private void buscarDatosReferencia() {
+    @SuppressWarnings("unused")
+	private void buscarDatosReferencia() {
         String referencia = txtReferencia.getText().trim();
         System.out.println("Referencia buscada: " + referencia);
 
@@ -340,7 +340,8 @@ public class VentanaFacturacion extends JFrame {
 
     
     //renderer
-    private static class CustomTableCellRenderer extends DefaultTableCellRenderer {
+    @SuppressWarnings("serial")
+	private static class CustomTableCellRenderer extends DefaultTableCellRenderer {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -380,7 +381,8 @@ public class VentanaFacturacion extends JFrame {
     }
     
     //modelo de la tabla
-    class EnvioTableModel extends AbstractTableModel {
+    @SuppressWarnings("serial")
+	class EnvioTableModel extends AbstractTableModel {
         String[] nombreColumnas = {"NÃºmero de referencia", "Fecha Enviado", "Precio", "DescripciÃ³n", "Tipo de envÃ­o"};
         List<Envio> envios;
         List<Envio> enviosFiltrados;

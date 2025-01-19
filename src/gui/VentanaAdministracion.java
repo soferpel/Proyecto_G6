@@ -1,35 +1,18 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -38,14 +21,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
-import db.BaseDatosConfiguracion;
 import domain.Envio;
 import domain.Usuario;
 
 //
 public class VentanaAdministracion extends JFrame {
 	
+	private static final long serialVersionUID = 1L;
 	private JPanel pNorte, pCentro;
+	@SuppressWarnings("unused")
 	private JLabel txtMisEnvios, txtEnviosRealizados, txtRelleno;
 	private JButton btnVolver;
 	private DefaultTableModel modeloTabla;
@@ -55,6 +39,7 @@ public class VentanaAdministracion extends JFrame {
 	private Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 20);
 		
 	   
+	@SuppressWarnings({ "serial", "unused" })
 	public VentanaAdministracion(List<Usuario> usuarios) {
 //	
 	
@@ -142,6 +127,7 @@ public class VentanaAdministracion extends JFrame {
 	                .toList();
 	}
 	
+	@SuppressWarnings("serial")
 	class EnvioTableModel extends AbstractTableModel {
         String[] nombreColumnas = {"Nº referencia", "Fecha", "Precio", "Descripción", "Estado", "Fecha prevista"};
         List<Envio> envios;

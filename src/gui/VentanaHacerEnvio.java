@@ -14,9 +14,6 @@ import java.awt.Font;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Date;
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
@@ -63,6 +60,7 @@ public class VentanaHacerEnvio extends JFrame{
 	private Font fontTextoTitulo = new Font("Tahoma", Font.BOLD, 20); //IAG (herramienta: ChatGPT)
 	private double precioBase, precioFinal;
 	private int indiceActual = 0;
+	@SuppressWarnings("unused")
 	private Presupuesto presupuesto;
 	
 	private Thread hilo;
@@ -1388,7 +1386,12 @@ public class VentanaHacerEnvio extends JFrame{
     private static void agregarKeyBindingParaEnter(JTextField textField) {
         textField.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("ENTER"), "moverFoco");
         textField.getActionMap().put("moverFoco", new AbstractAction() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 textField.transferFocus(); 
             }

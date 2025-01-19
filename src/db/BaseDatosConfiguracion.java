@@ -7,12 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 
 import domain.Envio;
 import domain.Pago;
@@ -412,7 +409,8 @@ public class BaseDatosConfiguracion {
 	                String nr = rs.getString("n_referencia");
 	                String p = rs.getString("precio");
 	                String desc = rs.getString("descripcion");
-	                String es = rs.getString("estado");
+	                @SuppressWarnings("unused")
+					String es = rs.getString("estado");
 	                String fr = rs.getString("fecha_de_recogida");
 
 	                // Verifica los datos obtenidos
@@ -710,6 +708,7 @@ public class BaseDatosConfiguracion {
 	    }
 
 		
+		@SuppressWarnings("unused")
 		public static Usuario buscarUsuarioPorCorreo(Connection con, String correo) {
 		    String sql = "SELECT * FROM usuario WHERE correo = ?";
 		    Usuario u = null;

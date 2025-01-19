@@ -9,7 +9,6 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -24,13 +23,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import db.BaseDatosConfiguracion;
-import domain.Envio;
 import domain.Presupuesto;
 import domain.Usuario;
 
 
 public class VentanaPantallaPrincipal extends JFrame{
 	
+	private static final long serialVersionUID = 1L;
 	private JLabel imgVerEnvios, imgFacturacion, imgHacerEnvio;
 	private static String correoUsuario; 
 

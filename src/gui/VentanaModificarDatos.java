@@ -28,6 +28,7 @@ import javax.swing.border.EmptyBorder;
 import db.BaseDatosConfiguracion;
 import domain.Usuario; 
 
+@SuppressWarnings("serial")
 public class VentanaModificarDatos extends JFrame{
 	
 		
@@ -45,6 +46,7 @@ private JScrollPane scrollTYC;
 
 private JPasswordField campoCon, campoVerifCon;
 
+@SuppressWarnings("unused")
 private JButton btnElimCuen, btnModif, btnVolver, btnOjoCon, btnOjoConVen, mostrarContra;
 
 private JPanel pNorte, pSur, pCentro, pVenificaCon, pContrasenia, pNombre,
@@ -390,6 +392,7 @@ public VentanaModificarDatos(Usuario u) {
 	}
 
 
+	@SuppressWarnings("unused")
 	private void cargarDatosUsuario(String correoUsuario) {
         Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
         Usuario usuarioActual = BaseDatosConfiguracion.buscarUsuarioPorCorreo(con, correoUsuario);

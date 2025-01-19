@@ -6,7 +6,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -17,8 +16,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -28,18 +25,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import db.BaseDatosConfiguracion;
 import domain.Envio;
-import domain.Paquete;
 import domain.Usuario;
 
 
@@ -47,6 +40,11 @@ import javax.swing.AbstractCellEditor;
 
 public class VentanaVerEnvios  extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
 	private static final TableCellRenderer RenderTabla = null;
 
     
@@ -152,7 +150,11 @@ public class VentanaVerEnvios  extends JFrame {
 	
 	//modelo de la tabla
 	class EnvioTableModel extends AbstractTableModel {
-        String[] nombreColumnas = {"Nº referencia", "Fecha", "Precio", "Descripción", "Estado", "Fecha prevista", "Editar"};
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		String[] nombreColumnas = {"Nº referencia", "Fecha", "Precio", "Descripción", "Estado", "Fecha prevista", "Editar"};
         List<Envio> envios;
         List<Envio> enviosFiltrados;
 
@@ -251,12 +253,15 @@ public class VentanaVerEnvios  extends JFrame {
     }
 
     // Renderizador y editor para la columna de botones
-    class ButtonRenderer extends AbstractCellEditor implements TableCellRenderer, TableCellEditor {
+    @SuppressWarnings("serial")
+	class ButtonRenderer extends AbstractCellEditor implements TableCellRenderer, TableCellEditor {
         private final JPanel panel;
         private final JButton btnModificar;
         private final JButton btnEliminar;
-        private final EnvioTableModel tablaModel;
-        private final JTable tablaEnvios;
+        @SuppressWarnings("unused")
+		private final EnvioTableModel tablaModel;
+        @SuppressWarnings("unused")
+		private final JTable tablaEnvios;
         private final Usuario usuario;
         private int row;
 

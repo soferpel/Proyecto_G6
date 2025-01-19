@@ -7,16 +7,12 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
@@ -43,16 +39,19 @@ import domain.Envio;
 import domain.Usuario;
 
 
+@SuppressWarnings("serial")
 public class VentanaRegistro extends JFrame{
 	
 	private JPanel pCentro,pSur,pNorte;
 	private JLabel lblNom,lblApe, lblCorreo,lblTel,lblContra,lblRepeContra,lblSegu,lblResp;
 	private JTextField txtNom,txtApe,txttel,txtCorreo,txtContra,txtRepeContra,txtResp, txtSegu;
+	@SuppressWarnings("unused")
 	private JButton btnRegistro,btnMostrarContra,btnMostrarRepeContra,btnFlecha, mostrarContra, mostrarRepeContra;
 	private String textoTYC;
 	private JTextArea textTYC;
 	private JScrollPane scrollTYC;
 	
+	@SuppressWarnings("unused")
 	public VentanaRegistro () {
 		setTitle("Formulario de Registro");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

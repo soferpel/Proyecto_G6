@@ -3,9 +3,7 @@ package recursividad;
 import java.util.ArrayList;
 import java.util.List;
 
-import db.BaseDatosConfiguracion;
 import domain.Envio;
-import domain.Pago;
 import domain.Paquete;
 import domain.Recogida;
 import domain.Trayecto;

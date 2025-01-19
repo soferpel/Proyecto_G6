@@ -3,13 +3,9 @@ package main;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
-
-import javax.swing.SwingUtilities;
 
 import db.BaseDatosConfiguracion;
-import domain.Paquete;
-import gui.VentanaHacerEnvio;
+
 import gui.VentanaInicioSesion;
 
 
@@ -38,6 +34,7 @@ public class Main {
 		BaseDatosConfiguracion.closeBD(con);
 		
 		
+		@SuppressWarnings("unused")
 		VentanaInicioSesion ventanaInicioSesion = new VentanaInicioSesion();
 		
 		
