@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -117,18 +118,20 @@ public class VentanaRegistro extends JFrame{
         comboPreguntas.setBackground(Color.WHITE);
         
      // Flecha
-        ImageIcon iconoFlecha = new ImageIcon("resources/images/flecha.jpg");
-        Image imgFlecha = iconoFlecha.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        btnFlecha = new JButton(new ImageIcon(imgFlecha));
-        btnFlecha.setFocusPainted(false);
-        btnFlecha.setBorderPainted(false);
-        btnFlecha.setContentAreaFilled(false);
-        JPanel panelVolver = new JPanel(new GridLayout(1, 1));
-        panelVolver.setPreferredSize(new Dimension(50, 50));
-        panelVolver.setBorder(new EmptyBorder(0,0,0,0));//10, 10, 10, 10));
+        
+        
+        
+        
+        ImageIcon imageVolverO = new ImageIcon("resources/images/volver.png");
+        ImageIcon imageVolverE = new ImageIcon(imageVolverO.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
+        btnFlecha = new JButton(imageVolverE);
+        JPanel panelVolver = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        panelVolver.setBorder(new EmptyBorder(10, 10, 10, 10));
         panelVolver.add(btnFlecha);
+        
         pNorte.add(panelVolver, BorderLayout.WEST);
         
+             
         
         // Título
         JLabel lblTitulo = new JLabel("REGISTRO", JLabel.CENTER);
@@ -180,6 +183,7 @@ public class VentanaRegistro extends JFrame{
 		aceptarTerminos.setAlignmentX(Component.CENTER_ALIGNMENT);
         pSur.add(aceptarTerminos);
 		btnRegistro = new JButton("REGISTRARSE");
+		pSur.setBorder(new EmptyBorder(0, 0, 10, 0));
 		pSur.add(btnRegistro);
 		//aceptarTerminos.setBackground(Color.WHITE);
 		//pSur.setBackground(Color.WHITE);
