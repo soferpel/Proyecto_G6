@@ -692,7 +692,23 @@ public class BaseDatosConfiguracion {
 	    }
 
 //USUARIO	
-	    
+	    public static List<Usuario> obtenerUsuarios(Connection con) {
+	        String sql = "SELECT * FROM usuario";
+	        List<Usuario> usuarios = new ArrayList<>();
+	        try (PreparedStatement st = con.prepareStatement(sql);
+	             ResultSet rs = st.executeQuery()) {
+
+	            while (rs.next()) {
+	                String correo = rs.getString("correo");
+	                Usuario usuario = buscarUsuarioPorCorreo(con, correo);
+	                usuarios.add(usuario);
+	            }
+	        } catch (SQLException e) {
+	            logger.warning("Error obteniendo usuarios: " + e.getMessage());
+	        }
+	        return usuarios;
+	    }
+
 		
 		public static Usuario buscarUsuarioPorCorreo(Connection con, String correo) {
 		    String sql = "SELECT * FROM usuario WHERE correo = ?";
