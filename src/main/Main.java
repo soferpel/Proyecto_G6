@@ -13,6 +13,7 @@ public class Main {
 	
 	public static void main(String[] args) throws SQLException {
 
+		//IAG ChatGPT
 		File f = new File("resources/db");
 		if (!f.exists() ) {
 			f.mkdir();

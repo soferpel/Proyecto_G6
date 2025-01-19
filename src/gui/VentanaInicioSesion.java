@@ -87,6 +87,7 @@ public class VentanaInicioSesion extends JFrame{
         dominioEmail.setBounds(420, 30, 120, 25);
         panelDatos.add(dominioEmail);
         
+        //IAG
         ListCellRenderer renderCombo = new DefaultListCellRenderer() {
         	@Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -144,6 +145,7 @@ public class VentanaInicioSesion extends JFrame{
         mostrarContra.setBounds(420, 80, 50, 25);
         panelDatos.add(mostrarContra);
 
+        //FUENTE EXTERNA
         mostrarContra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -157,6 +159,7 @@ public class VentanaInicioSesion extends JFrame{
             }
         });
 
+        //IAGS
         JLabel olvideContra = new JLabel("<HTML><U>¿Has olvidado tu contraseña?</U></HTML>");
         olvideContra.setForeground(Color.BLUE);
         olvideContra.setBounds(200, 120, 210, 25);

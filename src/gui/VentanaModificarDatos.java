@@ -174,7 +174,7 @@ public VentanaModificarDatos(Usuario u) {
     add(pCentro, BorderLayout.CENTER);
     add(pSur, BorderLayout.SOUTH);
     
-    
+    //IAG
     textoTYC = new String("Aceptación de Términos y Condiciones de uso:\r\n"
 			+ "\r\n"
 			+ "Al utilizar nuestro sistema, el usuario acepta estos términos y condiciones y se compromete a cumplir con ellos. Estos términos pueden ser modificados en cualquier momento, y el usuario se compromete a revisarlos regularmente para estar al tanto de cualquier cambio.\r\n"
@@ -233,6 +233,7 @@ public VentanaModificarDatos(Usuario u) {
 	    String contra2 = campoVenificaCon1.getText().trim();
 	    String respuesta = campoRes.getText().trim();
 
+	    //IAG
 	    if (nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || telefono.isEmpty() || 
 	        contra.isEmpty() || contra2.isEmpty() || respuesta.isEmpty()) {
 	        JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -244,16 +245,17 @@ public VentanaModificarDatos(Usuario u) {
 	        return;
 	    }
 	    
+	    //IAG
 	    if (!correo.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
 	        JOptionPane.showMessageDialog(null, "Ingresa un correo válido.", "Error", JOptionPane.ERROR_MESSAGE);
 	        return;
 	    }
 
+	    //IAG
 	    if (!telefono.matches("\\d+")) {
 	        JOptionPane.showMessageDialog(null, "El teléfono debe contener sólo números.", "Error", JOptionPane.ERROR_MESSAGE);
 	        return;
 	    }
-
 
 	    if (!contra.equals(contra2)) {
 	        JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -298,7 +300,7 @@ public VentanaModificarDatos(Usuario u) {
 	            return;
 	        }
 
-	        int result = JOptionPane.showConfirmDialog(null, "�Seguro que quieres eliminar tu cuenta?", "Eliminar Cuenta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+	        int result = JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar tu cuenta?", "Eliminar Cuenta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	        if (result == JOptionPane.OK_OPTION) {
 	            Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 	            try {
@@ -375,7 +377,7 @@ public VentanaModificarDatos(Usuario u) {
 
 	}
 
-	
+	//FUENTE EXTERNA
 	private void alternaContrasena(JPanel panel, JPasswordField campo, JTextField campoTexto, JButton boton, boolean esAbierto, ImageIcon cerrado, ImageIcon abierto) {
 	    if (!esAbierto) {
 	        campoTexto.setText(new String(campo.getPassword()));

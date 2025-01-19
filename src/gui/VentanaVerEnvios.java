@@ -58,9 +58,10 @@ public class VentanaVerEnvios  extends JFrame {
 
 
 	    List<Envio> enviosDelUsuario = new ArrayList<>();
+	    
 	    try (Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db")) {
 	        if (con != null) {
-	            System.out.println("Conexión a la base de datos establecida.");
+	            System.out.println("Conexión a la base de datos OK.");
 	            enviosDelUsuario = BaseDatosConfiguracion.cargarEnviosPorUsuario(con, u.getCorreo());
 	            System.out.println("Número de envíos cargados: " + enviosDelUsuario.size());
 	        } else {
@@ -108,7 +109,7 @@ public class VentanaVerEnvios  extends JFrame {
 		});
 	    
 	    
-	    String[] opcionesFiltro = {"Todos", "Enviado", "Pendiente", "En tránsito"};
+	    String[] opcionesFiltro = {"Todos", "Enviado", "Pendiente", "En tránsito"}; //FUENTE-EXTERNA
 	    JComboBox<String> filtroComboBox = new JComboBox<>(opcionesFiltro);
 	    filtroComboBox.setSelectedIndex(0); 
 	    filtroComboBox.setPreferredSize(new Dimension(150, 20));
@@ -149,6 +150,7 @@ public class VentanaVerEnvios  extends JFrame {
 	}
 	
 	//modelo de la tabla
+	//FUENTE-EXTERNA
 	class EnvioTableModel extends AbstractTableModel {
         /**
 		 * 
@@ -214,6 +216,7 @@ public class VentanaVerEnvios  extends JFrame {
                         .filter(envio -> envio.getEstado().equals(estado))
                         .toList();
             }
+          //IAG (ChatGPT)
             fireTableDataChanged();
         }
     }
@@ -290,6 +293,7 @@ public class VentanaVerEnvios  extends JFrame {
             });
 
             btnEliminar.addActionListener(e -> {
+            	//FUENTE EXTERNA
             	if (row >= 0 && row < tablaModel.enviosFiltrados.size()) {
                     Envio envio = tablaModel.enviosFiltrados.get(row);
 

@@ -663,7 +663,7 @@ public class VentanaHacerEnvio extends JFrame{
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	setResizable(false);
 
-	 
+	//IAG
     textoTYC = new String("Aceptación de Términos y Condiciones de uso:\r\n"
 			+ "\r\n"
 			+ "Al utilizar nuestro sistema, el usuario acepta estos términos y condiciones y se compromete a cumplir con ellos. Estos tÃ©rminos pueden ser modificados en cualquier momento, y el usuario se compromete a revisarlos regularmente para estar al tanto de cualquier cambio.\r\n"
@@ -727,8 +727,9 @@ public class VentanaHacerEnvio extends JFrame{
     
 
     //btnFinalizar.addActionListener(e -> {
+    
     btnFinalizar.addActionListener(new ActionListener() {
-    	
+    	//IAG
 		public static String generarReferenciaAleatoria() {
 		    int numeroAleatorio = (int) (Math.random() * 1000000000);  
 		    return "REF-" + String.format("%010d", numeroAleatorio);  
@@ -781,6 +782,7 @@ public class VentanaHacerEnvio extends JFrame{
 		     
 		
 		private boolean guardarDatosRecogida() throws SQLException {
+			//IAG
 		    java.util.Date fecha = dateChooser.getDate();
 		    String fechaDeRecogida = null;
 		    String lugarDeRecogida = null; 
@@ -920,6 +922,7 @@ public class VentanaHacerEnvio extends JFrame{
 		    String correoDestino = hCorreo.getText().trim();
 		    String telefonoDestino = hTelefono.getText().trim();
 		    
+		    //IAG
 		    if (nombreOrigen.isEmpty() || direccionOrigen.isEmpty() || correoOrigen.isEmpty() || telefonoOrigen.isEmpty() ||
 		            nombreDestino.isEmpty() || direccionDestino.isEmpty() || correoDestino.isEmpty() || telefonoDestino.isEmpty()) {
 		            JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -999,16 +1002,19 @@ public class VentanaHacerEnvio extends JFrame{
 		        return false; 
 		    }
 
+		    //IAG
 		    if (!precio.matches("\\d+(\\.\\d{1,2})?")) {
 		        JOptionPane.showMessageDialog(null, "El precio debe ser un número válido con hasta dos decimales.", "Error", JOptionPane.ERROR_MESSAGE);
 		        return false; 
 		    }
 
+		    //IAG
 		    if (!dni.matches("\\d{8}[A-Z]")) {
 		        JOptionPane.showMessageDialog(null, "El DNI introducido no es válido. Debe contener 8 dígitos y una letra.", "Error", JOptionPane.ERROR_MESSAGE);
 		        return false; 
 		    }
 
+		    //FUENTE EXTERNA
 		    if (radTarjeta.isSelected()) {
 		        numeroTarjeta = campoNTarjeta.getText().trim();
 		        Date fechaSeleccionada = datechooserTarj.getDate();

@@ -110,6 +110,7 @@ public class VentanaRegistro extends JFrame{
 		txtSegu = new JTextField();
 		txtSegu.setBounds(150, 30, 250, 25);
 		
+		//FUENTE EXTERNA
 		String[] preguntas = {"¿Dia de nacimiento?", "¿Ciudad de nacimiento?", "¿Nombre del primer colegio?"};
         JComboBox<String> comboPreguntas = new JComboBox<>(preguntas);
         txtSegu.add(comboPreguntas);
@@ -117,10 +118,6 @@ public class VentanaRegistro extends JFrame{
         comboPreguntas.setBackground(Color.WHITE);
         
      // Flecha
-        
-        
-        
-        
         ImageIcon imageVolverO = new ImageIcon("resources/images/volver.png");
         ImageIcon imageVolverE = new ImageIcon(imageVolverO.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
         btnFlecha = new JButton(imageVolverE);
@@ -176,7 +173,7 @@ public class VentanaRegistro extends JFrame{
         txtResp.setPreferredSize(new Dimension(80, 20));
         txtSegu.setPreferredSize(new Dimension(80, 20));
 		
-		
+		//IAG (CHatGPT)
         JCheckBox aceptarTerminos = new JCheckBox("<html><span style='color:blue; text-decoration: underline;'>Acepto Términos y Condiciones de uso</span></html>");
 		aceptarTerminos.setHorizontalAlignment(SwingConstants.CENTER);
 		aceptarTerminos.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -193,6 +190,7 @@ public class VentanaRegistro extends JFrame{
         mostrarRepeContra = new JButton();
         mostrarContra = new JButton();
         
+        //FUENTE EXTERNA
         ImageIcon ojoVer = new ImageIcon("resources/images/ojoAbierto.png");
         ImageIcon ojoOcultar = new ImageIcon("resources/images/ojoCerrado.png");
 
@@ -217,6 +215,7 @@ public class VentanaRegistro extends JFrame{
         mostrarContra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	//IAG
                 if (((JPasswordField) txtContra).getEchoChar() == '*') {
                     ((JPasswordField) txtContra).setEchoChar((char) 0);
                     mostrarContra.setIcon(ojoOcultar);
@@ -231,6 +230,7 @@ public class VentanaRegistro extends JFrame{
         mostrarRepeContra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	//IAG
                 if (((JPasswordField) txtRepeContra).getEchoChar() == '*') {
                     ((JPasswordField) txtRepeContra).setEchoChar((char) 0); 
                     mostrarRepeContra.setIcon(ojoOcultar); 
@@ -257,6 +257,7 @@ public class VentanaRegistro extends JFrame{
        
         
         btnRegistro.addActionListener(e -> {
+        	//FUENTE EXTERNA
         	
         	if (!aceptarTerminos.isSelected()) {
 				JOptionPane.showMessageDialog(
@@ -277,6 +278,7 @@ public class VentanaRegistro extends JFrame{
             String segu = (String) comboPreguntas.getSelectedItem();
             
             // Comprobar si hay algún campo vacío
+            //FUENTE EXTERNA
             if (nombre.equals("") || apellido.equals("") || telefono.equals("") || correo.equals("") 
                     || resp.equals("") || contra.equals("") || contra2.equals("") || segu == null) {
                 JOptionPane.showMessageDialog(null, "Tienes que rellenar todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -320,7 +322,7 @@ public class VentanaRegistro extends JFrame{
         });
 
 
-        
+        //IAG
         textoTYC = new String("Aceptación de Términos y Condiciones de uso:\r\n"
     			+ "\r\n"
     			+ "Al utilizar nuestro sistema, el usuario acepta estos términos y condiciones y se compromete a cumplir con ellos. Estos términos pueden ser modificados en cualquier momento, y el usuario se compromete a revisarlos regularmente para estar al tanto de cualquier cambio.\r\n"
@@ -388,11 +390,12 @@ public class VentanaRegistro extends JFrame{
 	}
 
 	//Metodos para comprobar el Registro
+	//IAG
 	private boolean comprobarTlf() {
 		String patron = "[0-9]{9}";
 		return  Pattern.matches(patron, txttel.getText());		
 	}
-	
+	//IAG
 	private boolean comprobarEmail() {		
 		String patron = "[a-zA-Z0-9.]+@[a-zA-Z0-9.]+\\.[a-z]{2,}$";
 	    String correo = txtCorreo.getText();	    

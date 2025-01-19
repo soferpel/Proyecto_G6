@@ -86,6 +86,7 @@ public class VentanaFacturacion extends JFrame {
         panelIzquierdo.add(txtReferencia);
         
 
+        
 	    List<Envio> enviosDelUsuario = new ArrayList<>();
 	    try (Connection con = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db")) {
 	        if (con != null) {
@@ -136,7 +137,7 @@ public class VentanaFacturacion extends JFrame {
 
         //fecha de envío
         JLabel lblFechaEnvio = new JLabel("Fecha Envío:");
-         txtFechaEnvio = new JTextField(15);
+        txtFechaEnvio = new JTextField(15);
         panelDerecho.add(lblFechaEnvio);
         panelDerecho.add(txtFechaEnvio);
         
@@ -187,7 +188,7 @@ public class VentanaFacturacion extends JFrame {
             	progressBar.setVisible(true);
             	progressBar.setValue(0);
             	
-            	SwingWorker<Void, Integer> hilo = new SwingWorker<>() { //para hacerlo en un segundo plano IA
+            	SwingWorker<Void, Integer> hilo = new SwingWorker<>() { //para hacerlo en un segundo plano IAG
                     @Override
                     protected Void doInBackground() throws Exception {
                         for (int i = 0; i <= 100; i++) {
@@ -300,6 +301,7 @@ public class VentanaFacturacion extends JFrame {
         Connection c = BaseDatosConfiguracion.initBD("resources/db/Paqueteria.db");
 
         try {
+        	//IAG ChatGPT
             String query = """
                     SELECT pago.precio, pago.descripcion, pago.cvv, envio.recogida_id
                     FROM pago
@@ -381,6 +383,7 @@ public class VentanaFacturacion extends JFrame {
     }
     
     //modelo de la tabla
+    //FUENTE EXTERNA
     @SuppressWarnings("serial")
 	class EnvioTableModel extends AbstractTableModel {
         String[] nombreColumnas = {"Número de referencia", "Fecha Enviado", "Precio", "Descripción", "Tipo de envío"};

@@ -174,6 +174,7 @@ public class VentanaAdministracion extends JFrame {
             }
         }
 
+        //IAG ChatGPT
         public void filtrarPorEstado(String estado) {
             if (estado.equals("Todos")) {
                 enviosFiltrados = envios;
