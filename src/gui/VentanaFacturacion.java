@@ -212,18 +212,18 @@ public class VentanaFacturacion extends JFrame {
                             String fechaActual = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
                             writer.write("******************************************\n");
-                            writer.write("               FACTURA DE ENV�O           \n");
+                            writer.write("               FACTURA DE ENVÍO           \n");
                             writer.write("******************************************\n");
-                            writer.write("Fecha de generaci�n: " + fechaActual + "\n");
+                            writer.write("Fecha de generación: " + fechaActual + "\n");
                             writer.write("\n");
 
-                            writer.write("DETALLES DEL ENV�O:\n");
+                            writer.write("DETALLES DEL ENVÍO:\n");
                             writer.write("------------------------------------------\n");
-                            writer.write("N�mero de referencia: " + txtReferencia.getText() + "\n");
-                            writer.write("Precio: " + txtPrecio.getText() + " �\n");
-                            writer.write("Descripci�n: " + txtDescripcion.getText() + "\n");
-                            writer.write("Fecha de env�o: " + txtFechaEnvio.getText() + "\n");
-                            writer.write("�Pagado?: " + (rbSi.isSelected() ? "S�" : "No") + "\n");
+                            writer.write("Número de referencia: " + txtReferencia.getText() + "\n");
+                            writer.write("Precio: " + txtPrecio.getText() + "\n");
+                            writer.write("Descripción: " + txtDescripcion.getText() + "\n");
+                            writer.write("Fecha de envío: " + txtFechaEnvio.getText() + "\n");
+                            writer.write("¿Pagado?: " + (rbSi.isSelected() ? "Si" : "No") + "\n");
                             writer.write("------------------------------------------\n");
                             writer.write("\n");
 
